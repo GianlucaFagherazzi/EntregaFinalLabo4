@@ -1,5 +1,9 @@
 import { User } from '../models/index.models.js';
 
+const users = [
+  
+];
+
 export const UserService = {
   async getAll() {
     return await User.findAll({ include: ['Products', 'Accounts', 'Movements'] });
