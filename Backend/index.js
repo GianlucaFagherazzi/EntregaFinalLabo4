@@ -3,10 +3,7 @@ import { sequelize } from "./src/config/database.js";
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-
-// Importar rutas
-import userRouter from './src/routes/users.routes.js'
-import productRouter from './src/routes/products.routes.js'
+import routes from './src/routes/routes.js';
 
 const app = express();
 dotenv.config();
@@ -19,12 +16,8 @@ const HOST = process.env.HOST || 'http://localhost';
 app.use(cors());
 app.use(express.json());
 
-// Rutas
-app.use('/api/users', userRouter);
-app.use('/api/products', productRouter);
-app.use('/', (req, res) => {
-  res.send('Respuesta por defecto');
-});
+// Usar rutas centralizadas
+app.use('/api', routes);
 
 // Sincronizar la base de datos
 try {
