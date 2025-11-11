@@ -1,14 +1,17 @@
+// src/middlewares/validateSchema.js
+import { AppError } from '../utils/app.error.js';
+
 const validate = (schema) => {
     return (req, res, next) => {
-        const { error } = schema.validate(req['body']);
+        const { error } = schema.validate(req.body, { abortEarly: false })
+
         if (error) {
-            return res.status(400).json({
-                success: false,
-                error: error.details[0].message
-            });
+            const message = error.details.map((d) => d.message).join(', ')
+            return next(new AppError(`Datos inválidos: ${message}`, 400))
         }
+
         next();
     };
 };
 
-module.exports = { validate };
+export { validate };

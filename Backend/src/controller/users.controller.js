@@ -1,40 +1,30 @@
-import { UserService } from '../services/users.services.js';
+import { UserService } from '../services/users.services.js'
 
 export const UserController = {
-  async getAllUsers(req, res) {
+  async getAllUsers(req, res, next) {
     try {
       const users = await UserService.getAll()
-      res.json(users)
+      res.json({ success: true, data: users })
     } catch (error) {
-      res.status(500).json({ error: error.message })
+      next(error)
     }
   },
 
-  async createUser(req, res) {
+  async createUser(req, res, next) {
     try {
       const newUser = await UserService.create(req.body)
-      res.status(201).json({
-        success: true,
-        message: 'Usuario creado exitosamente',
-        newUser
-      })
+      res.status(201).json({ success: true, data: newUser })
     } catch (error) {
-      res.status(500).json({
-        success: false,
-        message: 'Error al crear el usuario',
-        error: error.errors[0].message
-      })
+      next(error)
     }
   },
 
-  async deleteUser(req, res) {
+  async deleteUser(req, res, next) {
     try {
-      const user = await UserService.findByPk(req.params.id)
-      if (!user) return res.status(404).json({ error: 'Usuario no encontrado' })
-      await user.destroy()
+      await UserService.delete(req.params.id)
       res.status(204).send()
     } catch (error) {
-      res.status(500).json({ error: error.message })
+      next(error)
     }
   }
 }
