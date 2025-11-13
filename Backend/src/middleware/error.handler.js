@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 export function errorHandler(err, req, res, next) {
   console.error(`[${new Date().toISOString()}]`, err)
 
@@ -9,3 +10,4 @@ export function errorHandler(err, req, res, next) {
     error: message
   })
 }
+/* eslint-enable no-unused-vars */

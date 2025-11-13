@@ -29,8 +29,8 @@ User.hasMany(Movement, { foreignKey: 'userId' });
 Movement.belongsTo(User, { foreignKey: 'userId' });
 
 // Una cuenta puede tener muchas tarjetas (1 a N)
-Account.hasMany(Tarjet, { foreignKey: 'tarjetId' });
-Tarjet.belongsTo(Account, { foreignKey: 'tarjetId' });
+Account.hasMany(Tarjet, { foreignKey: 'accountId' })
+Tarjet.belongsTo(Account, { foreignKey: 'accountId' });
 
 // Un producto pertenece a una categoría (1 a N)
 Category.hasMany(Product, { foreignKey: 'categoryId' });

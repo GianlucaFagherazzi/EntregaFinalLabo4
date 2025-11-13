@@ -7,7 +7,7 @@ const validate = (schema) => {
 
         if (error) {
             const message = error.details.map((d) => d.message).join(', ')
-            return next(new AppError(`Datos inválidos: ${message}`, 400))
+            return next(new AppError(`Datos inválidos: ${message}`, 400, error))
         }
 
         next();

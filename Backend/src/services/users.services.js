@@ -1,71 +1,96 @@
-import { or, where } from 'sequelize'
 import { User } from '../models/index.models.js'
 import { AppError } from '../utils/app.error.js'
 
 export const UserService = {
   async getAll() {
     try {
-      return await User.findAll({ include: ['Products', 'Accounts', 'Movements'] })
+      return await User.findAll({
+        include: ['Products', 'Accounts', 'Movements']
+      })
     } catch (error) {
-      throw new AppError('Error al obtener los usuarios', 500)
+      throw new AppError('Error al obtener los usuarios', 500, error)
     }
   },
 
   async getById(id) {
-    const user = await User.findByPk(id, { include: ['Products', 'Accounts', 'Movements'] })
-    if (!user) throw new AppError('Usuario no encontrado', 404)
-    return user
+    try {
+      const user = await User.findByPk(id, {
+        include: ['Products', 'Accounts', 'Movements']
+      })
+
+      if (!user) {
+        throw new AppError('Usuario no encontrado', 404)
+      }
+
+      return user
+    } catch (error) {
+      throw new AppError('Error al obtener el usuario', 500, error)
+    }
   },
 
   async create(data) {
-    const userByEmail = await User.findOne({ where: { email: data.email } })
-    if (userByEmail) throw new AppError('Ya existe un usuario con ese email', 409)
-
-    const userByDni = await User.findOne({ where: { dni: data.dni } })
-    if (userByDni) throw new AppError('Ya existe un usuario con ese DNI', 409)
-
     try {
+      const userByEmail = await User.findOne({ where: { email: data.email } })
+      if (userByEmail) {
+        throw new AppError('Ya existe un usuario con ese email', 409)
+      }
+
+      // Validación DNI único
+      const userByDni = await User.findOne({ where: { dni: data.dni } })
+      if (userByDni) {
+        throw new AppError('Ya existe un usuario con ese DNI', 409)
+      }
+
       return await User.create(data)
     } catch (error) {
-      throw new AppError('Error al crear el usuario. Verifica los datos enviados.', 400)
+      throw new AppError(
+        'Error al crear el usuario. Verifica los datos enviados.',
+        400,
+        error
+      )
     }
   },
 
   async update(id, data) {
-    const user = await User.findByPk(id)
-    if (!user) throw new AppError('Usuario no encontrado', 404)
-
-    // Ejemplo: no permitir duplicar emails al actualizar
-    if (data.email) {
-      const emailInUse = await User.findOne({ where: { email: data.email } })
-      if (emailInUse && emailInUse.id !== id) {
-        throw new AppError('El email ya está en uso por otro usuario', 409)
-      }
-    }
-
-    if (data.dni) {
-      const dniInUse = await User.findOne({ where: { dni: data.dni } })
-      if (dniInUse && dniInUse.id !== id) {
-        throw new AppError('El dni ya está en uso por otro usuario', 409)
-      }
-    }
-
     try {
+      const user = await User.findByPk(id)
+      if (!user) {
+        throw new AppError('Usuario no encontrado', 404)
+      }
+
+      // Validación email único
+      if (data.email) {
+        const emailInUse = await User.findOne({ where: { email: data.email } })
+        if (emailInUse && emailInUse.id !== id) {
+          throw new AppError('El email ya está en uso por otro usuario', 409)
+        }
+      }
+
+      // Validación dni único
+      if (data.dni) {
+        const dniInUse = await User.findOne({ where: { dni: data.dni } })
+        if (dniInUse && dniInUse.id !== id) {
+          throw new AppError('El dni ya está en uso por otro usuario', 409)
+        }
+      }
+
       return await user.update(data)
     } catch (error) {
-      throw new AppError('Error al actualizar el usuario', 400)
+      throw new AppError('Error al actualizar el usuario', 400, error)
     }
   },
 
   async delete(id) {
-    const user = await User.findByPk(id)
-    if (!user) throw new AppError('Usuario no encontrado', 404)
-
     try {
+      const user = await User.findByPk(id)
+      if (!user) {
+        throw new AppError('Usuario no encontrado', 404)
+      }
+
       await user.destroy()
       return true
     } catch (error) {
-      throw new AppError('Error al eliminar el usuario', 500)
+      throw new AppError('Error al eliminar el usuario', 500, error)
     }
   }
 }
