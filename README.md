@@ -12,9 +12,9 @@ Backend
 - Usuarios: 
 * Alguien sin usuario, puede crearse uno
 * Alguien sin usuario no puede comprar productos
-* Funcionalidad de inicio de sesión para cada usuario creado (Esto va a ser un middleware, va a funcionar con jwt) (POST)
-* * Un usuario puede ver sus datos (GET)
-* * * Puede ver sus cuentas, sus tarjetas, sus movimientos y sus productos (GET)
+* Funcionalidad de inicio de sesión para cada usuario creado (Esto va a ser un middleware, va a funcionar con jwt) (POST) (Listo)
+* * Un usuario puede ver sus datos (GET) (Listo)
+* * * Puede ver sus cuentas, sus tarjetas, sus movimientos y sus productos (Listo)
 
 - Datos personales
 * * El usuario logueado puede salir de la sesion (POST)
@@ -23,16 +23,16 @@ Backend
 * * * Los movimientos modifican los saldos de las tarjetas y el stock de productos (PUT)
 
 - Datos de cuentas
-* * Un usuario puede actualizar sus datos (PUT)
-* * Un usuario puede actualizar los datos de su cuenta (PUT)
-* * * Un usuario puede crear una tarjeta (POST)
-* * * Un usuario puede eliminar una tarjeta (DELETE)
+* * Un usuario puede actualizar sus datos (PUT) 
+* * Un usuario puede actualizar los datos de su cuenta (PUT) 
+* * * Un usuario puede crear una tarjeta (POST) 
+* * * Un usuario puede eliminar una tarjeta (DELETE) 
 
-- Datos de productos
-* * Un usuario puede crear sus productos (POST)
-* * Un usuario puede modificar sus productos (PUT)
-* * * (Posiblemente cuando se modifique un producto, se registre un movimiento (PUT))
-* * Un usuario puede borrar sus productos (DELETE)
+- Datos de productos 
+* * Un usuario puede crear sus productos (POST) 
+* * Un usuario puede modificar sus productos (PUT) 
+* * * (Posiblemente cuando se modifique un producto, se registre un movimiento (PUT)) 
+* * Un usuario puede borrar sus productos (DELETE) 
 
 * * Un usuario puede borrar su cuenta (DELETE)
 * * * Cuando borre su cuenta, tienen que borrarse su cuenta bancaria, su tarjeta y sus movimientos
@@ -45,18 +45,11 @@ Backend
 - Subir la base de datos a Railway.app
 
 
-**Migraciones**
-Crear las migraciones
-- npx sequelize-cli db:migrate 
-Deshace la ultima migración
-- npx sequelize-cli db:migrate:undo
-Deshace todas las migraciones creadas
-- npx sequelize-cli db:migrate:undo:all
+**Comandos**
+Ejecutar la api
+- npm run dev
 
-**Seeders**
-Ejecuta todos los seeders
-- npx sequelize-cli db:seed:all
-Revierte todos los seeders
-- npx sequelize-cli db:seed:undo:all
-Ejecuta un seeder en específico
-- npx sequelize-cli db:seed:undo --seed nombreSeeder.js
+
+***Migraciones y seeders***
+Resetear la base de datos e inicializarla con los seeders
+- npm run reset

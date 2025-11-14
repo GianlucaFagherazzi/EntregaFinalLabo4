@@ -7,6 +7,7 @@ import { authMiddleware } from '../middleware/auth.middleware.js'
 const router = express.Router()
 
 router.get('/', authMiddleware, UserController.getAllUsers)
+router.get('/:id', authMiddleware, UserController.getUserById)
 router.post('/', validate(userSchema.create), UserController.createUser)
 router.post('/login', UserController.loginUser)
 router.delete('/:id', UserController.deleteUser)

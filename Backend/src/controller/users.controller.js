@@ -10,6 +10,15 @@ export const UserController = {
     }
   },
 
+  async getUserById(req, res, next) {
+    try {
+      const user = await UserService.getById(req.params.id)
+      res.json({ success: true, data: user })
+    } catch (error) {
+      next(error)
+    }
+  },
+
   async createUser(req, res, next) {
     try {
       const newUser = await UserService.create(req.body)
