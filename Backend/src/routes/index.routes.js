@@ -1,11 +1,19 @@
 import express from 'express'
-import userRouter from './users.routes.js'
+import accountRouter from './accounts.routes.js'
+import categoryRouter from './category.routes.js'
+import movementRouter from './movements.routes.js'
 import productRouter from './products.routes.js'
+import tarjetRouter from './tarjets.routes.js'
+import userRouter from './users.routes.js'
 
 const router = express.Router()
 
 // Registrar todas las rutas principales
-router.use('/users', userRouter)
+router.use('/accounts', accountRouter)
+router.use('/categories', categoryRouter)
+router.use('/movements', movementRouter)
 router.use('/products', productRouter)
+router.use('/tarjets', tarjetRouter)
+router.use('/users', userRouter)
 
 export default router
