@@ -16,32 +16,31 @@ const Category = CategorysModels(sequelize, DataTypes);
 const Tarjet = tarjetsModels(sequelize, DataTypes);
 
 // Relaciones
-// Un usuario tiene muchos productos (1 a N)
-User.hasMany(Product, { foreignKey: 'userId' });
+// User
+User.hasMany(Product, { foreignKey: 'userId', as: 'Products' });
 Product.belongsTo(User, { foreignKey: 'userId' });
 
-// Un usuario tiene muchas cuentas (1 a N)
-User.hasMany(Account, { foreignKey: 'userId' });
+User.hasMany(Account, { foreignKey: 'userId', as: 'Accounts' });
 Account.belongsTo(User, { foreignKey: 'userId' });
 
-// Un usuario puede generar muchos movimientos (1 a N)
-User.hasMany(Movement, { foreignKey: 'userId' });
+User.hasMany(Movement, { foreignKey: 'userId', as: 'Movements' });
 Movement.belongsTo(User, { foreignKey: 'userId' });
 
-// Una cuenta puede tener muchas tarjetas (1 a N)
-Account.hasMany(Tarjet, { foreignKey: 'accountId' })
-Tarjet.belongsTo(Account, { foreignKey: 'accountId' });
-
-// Un producto pertenece a una categoría (1 a N)
-Category.hasMany(Product, { foreignKey: 'categoryId' });
+// Category
+Category.hasMany(Product, { foreignKey: 'categoryId', as: 'Products' });
 Product.belongsTo(Category, { foreignKey: 'categoryId' });
 
-// Un producto puede tener muchos movimientos (1 a N)
-Product.hasMany(Movement, { foreignKey: 'productId' });
+// Account -> Tarjets
+Account.hasMany(Tarjet, { foreignKey: 'accountId', as: 'Tarjets' });
+Tarjet.belongsTo(Account, { foreignKey: 'accountId' });
+
+// Products -> Movements
+Product.hasMany(Movement, { foreignKey: 'productId', as: 'Movements' });
 Movement.belongsTo(Product, { foreignKey: 'productId' });
 
-// Una tarjeta puede tener muchos movimientos (1 a N)
-Tarjet.hasMany(Movement, { foreignKey: 'tarjetId' });
+// Tarjet -> Movements
+Tarjet.hasMany(Movement, { foreignKey: 'tarjetId', as: 'Movements' });
 Movement.belongsTo(Tarjet, { foreignKey: 'tarjetId' });
+
 
 export { sequelize, User, Product, Movement, Account, Tarjet, Category };

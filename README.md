@@ -43,3 +43,20 @@ Backend
 - Averiguar si meter TEST unitarios al proyecto.
 - Subir el proyecto a Render para la api
 - Subir la base de datos a Railway.app
+
+
+**Migraciones**
+Crear las migraciones
+- npx sequelize-cli db:migrate 
+Deshace la ultima migración
+- npx sequelize-cli db:migrate:undo
+Deshace todas las migraciones creadas
+- npx sequelize-cli db:migrate:undo:all
+
+**Seeders**
+Ejecuta todos los seeders
+- npx sequelize-cli db:seed:all
+Revierte todos los seeders
+- npx sequelize-cli db:seed:undo:all
+Ejecuta un seeder en específico
+- npx sequelize-cli db:seed:undo --seed nombreSeeder.js
