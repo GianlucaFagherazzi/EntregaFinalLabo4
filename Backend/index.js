@@ -18,21 +18,24 @@ const HOST = process.env.HOST || 'http://localhost';
 // Middlewares
 app.use(cors());
 app.use(express.json());
+
 // Usar rutas centralizadas
 app.use('/api', routes);
+app.use('/', (req, res) => { res.send(' Api funcionando, revisar a que ruta estás entrando'); }); // Respuesta por defecto en caso de que entren a una ruta no definida
 app.use(errorHandler);
 
 // Sincronizar la base de datos
 try {
   await sequelize.authenticate()
   console.log('Conexión a la base de datos establecida con éxito.')
-  await sequelize.sync(/*{ alter: true }*/)
-  // await sequelize.sync({ force:true})
+  await sequelize.sync(/*{ alter: true }*/) // Alter:true para actualizar tablas sin perder datos
+  // await sequelize.sync({ force:true}) // Force:true Elimina y recrea las tablas
   console.log('Tablas sincronizadas correctamente.')
 } catch (error) {
   console.error('Error al conectar con la base de datos:', error)
 }
 
+// Iniciar el servidor
 app.listen(PORT, () => {
   console.log(`Servidor escuchando en ${"" + HOST + ":" + PORT + ""}`);
 });
