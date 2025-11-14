@@ -1,6 +1,6 @@
 import { TarjetService } from '../services/tarjets.services.js';
 
-export const tarjetController = {
+export const TarjetController = {
   async getAll(req, res) {
     try {
       const tarjets = await TarjetService.getAll()
