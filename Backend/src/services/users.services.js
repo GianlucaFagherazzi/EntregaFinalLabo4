@@ -1,4 +1,4 @@
-import { User } from '../models/index.models.js'
+import { User, Product, Account, Movement, Category } from '../models/index.models.js'
 import { AppError } from '../utils/app.error.js'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
@@ -8,7 +8,11 @@ export const UserService = {
   async getAll() {
     try {
       return await User.findAll({
-        include: ['Products', 'Accounts', 'Movements']
+        include: [
+          { model: Product, as: 'Products' },
+          { model: Account, as: 'Accounts' },
+          { model: Movement, as: 'Movements' }
+        ]
       })
 
     } catch (error) {
@@ -17,11 +21,14 @@ export const UserService = {
     }
   },
 
-
   async getById(id) {
     try {
       const user = await User.findByPk(id, {
-        include: ['Products', 'Accounts', 'Movements']
+        include: [
+          { model: Product, as: 'Products' },
+          { model: Account, as: 'Accounts' },
+          { model: Movement, as: 'Movements' }
+        ]
       })
 
       if (!user) {
