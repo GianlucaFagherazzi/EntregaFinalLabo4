@@ -1,3 +1,4 @@
+// Configuracion necesaria para que sequelizerc pueda leer las variables de entorno y usarlas para las migraciones y seeders
 require('dotenv').config();
 
 module.exports = {

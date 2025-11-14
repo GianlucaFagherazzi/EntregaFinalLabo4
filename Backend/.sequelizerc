@@ -1,3 +1,4 @@
+// Configuracion de las rutas para sequelize-cli, encargado de las migraciones y seeders
 const path = require("path");
 
 module.exports = {

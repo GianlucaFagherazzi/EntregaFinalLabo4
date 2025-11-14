@@ -15,6 +15,7 @@ const HOST = process.env.HOST || 'http://localhost';
 // Middlewares
 app.use(cors());
 app.use(express.json());
+
 // Usar rutas centralizadas
 app.use('/api', routes);
 app.use(errorHandler);
@@ -30,6 +31,7 @@ try {
   console.error('Error al conectar con la base de datos:', error)
 }
 
+// Iniciar el servidor
 app.listen(PORT, () => {
   console.log(`Servidor escuchando en ${"" + HOST + ":" + PORT + ""}`);
 });

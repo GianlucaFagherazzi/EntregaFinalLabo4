@@ -1,3 +1,4 @@
+// Configuracion general de la base de datos con sequelize
 import { Sequelize } from 'sequelize'
 
 import dotenv from 'dotenv' 

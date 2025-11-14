@@ -1,4 +1,4 @@
-// src/middlewares/validateSchema.js
+// Middleware para validar los datos de entrada usando un esquema de Joi
 import { AppError } from '../utils/app.error.js';
 
 const validate = (schema) => {

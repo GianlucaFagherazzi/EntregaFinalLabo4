@@ -1,3 +1,4 @@
+// Esquema de validacion para usuarios usando Joi
 import Joi from 'joi';
 
 const userSchema = {

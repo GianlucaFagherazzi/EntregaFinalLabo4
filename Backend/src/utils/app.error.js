@@ -1,3 +1,4 @@
+//Clase usada para crear un error personalizado en la aplicacion
 export class AppError extends Error {
   constructor(message, statusCode = 500, originalError = null) {
     super(message)
