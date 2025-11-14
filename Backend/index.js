@@ -18,6 +18,7 @@ app.use(express.json());
 
 // Usar rutas centralizadas
 app.use('/api', routes);
+app.use('/', (req, res) => { res.send('API is running'); });
 app.use(errorHandler);
 
 // Sincronizar la base de datos

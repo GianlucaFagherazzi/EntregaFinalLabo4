@@ -1,5 +1,7 @@
 import { User } from '../models/index.models.js'
 import { AppError } from '../utils/app.error.js'
+import bcrypt from 'bcryptjs'
+import jwt from 'jsonwebtoken'
 
 export const UserService = {
 
@@ -46,6 +48,10 @@ export const UserService = {
       if (userByDni) {
         throw new AppError('Ya existe un usuario con ese DNI', 409)
       }
+
+      // HASH de la contraseña
+      const hashedPassword = await bcrypt.hash(data.password, 10)
+      data.password = hashedPassword
 
       return await User.create(data)
 
@@ -99,6 +105,35 @@ export const UserService = {
     } catch (error) {
       if (error instanceof AppError) throw error
       throw new AppError('Error al eliminar el usuario', 500, error)
+    }
+  },
+
+  async login(data) {
+    try {
+      // Buscar al usuario por email
+      const user = await User.findOne({ where: { email: data.email } })
+      if (!user) {
+        throw new AppError('Usuario no encontrado', 404)
+      }
+
+      // Comparar contraseñas
+      console.log(data.password, user.password);
+      const isValid = await bcrypt.compare(data.password, user.password)
+      if (!isValid) {
+        throw new AppError('Contraseña incorrecta', 401)
+      }
+
+      // Generar token JWT
+      const token = jwt.sign(
+        { id: user.id, email: user.email },
+        process.env.JWT_SECRET,
+        { expiresIn: process.env.JWT_EXPIRES_IN }
+      )
+
+      return { user, token }
+    } catch (error) {
+      if (error instanceof AppError) throw error
+      throw new AppError('Error al iniciar sesión', 500, error)
     }
   }
 }

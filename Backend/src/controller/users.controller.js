@@ -26,5 +26,16 @@ export const UserController = {
     } catch (error) {
       next(error)
     }
+  },
+
+  async loginUser(req, res, next) {
+  try {
+    const result = await UserService.login(req.body)
+    console.log(result);
+    res.status(201).json({ success: true, data: result })
+  } catch (error) {
+    next(error)
   }
+}
+
 }

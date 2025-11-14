@@ -8,9 +8,4 @@ const router = express.Router()
 router.use('/users', userRouter)
 router.use('/products', productRouter)
 
-// Ruta por defecto
-router.use('/', (req, res) => {
-  res.send('Respuesta por defecto')
-})
-
 export default router
