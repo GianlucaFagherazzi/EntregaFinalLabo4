@@ -16,32 +16,31 @@ const Category = CategorysModels(sequelize, DataTypes);
 const Tarjet = tarjetsModels(sequelize, DataTypes);
 
 // Relaciones
-// Un usuario tiene muchos productos (1 a N)
-User.hasMany(Product, { foreignKey: 'userId' });
-Product.belongsTo(User, { foreignKey: 'userId' });
+// User
+User.hasMany(Product, { foreignKey: 'userId', as: 'Products' });
+Product.belongsTo(User, { foreignKey: 'userId', as: 'User' });
 
-// Un usuario tiene muchas cuentas (1 a N)
-User.hasMany(Account, { foreignKey: 'userId' });
-Account.belongsTo(User, { foreignKey: 'userId' });
+User.hasMany(Account, { foreignKey: 'userId', as: 'Accounts' });
+Account.belongsTo(User, { foreignKey: 'userId', as: 'User' });
 
-// Un usuario puede generar muchos movimientos (1 a N)
-User.hasMany(Movement, { foreignKey: 'userId' });
-Movement.belongsTo(User, { foreignKey: 'userId' });
+User.hasMany(Movement, { foreignKey: 'userId', as: 'Movements' });
+Movement.belongsTo(User, { foreignKey: 'userId', as: 'User' });
 
-// Una cuenta puede tener muchas tarjetas (1 a N)
-Account.hasMany(Tarjet, { foreignKey: 'tarjetId' });
-Tarjet.belongsTo(Account, { foreignKey: 'tarjetId' });
+// Category
+Category.hasMany(Product, { foreignKey: 'categoryId', as: 'Products' });
+Product.belongsTo(Category, { foreignKey: 'categoryId', as : 'Category' });
 
-// Un producto pertenece a una categoría (1 a N)
-Category.hasMany(Product, { foreignKey: 'categoryId' });
-Product.belongsTo(Category, { foreignKey: 'categoryId' });
+// Account -> Tarjets
+Account.hasMany(Tarjet, { foreignKey: 'accountId', as: 'Tarjets' });
+Tarjet.belongsTo(Account, { foreignKey: 'accountId', as: 'Account' });
 
-// Un producto puede tener muchos movimientos (1 a N)
-Product.hasMany(Movement, { foreignKey: 'productId' });
-Movement.belongsTo(Product, { foreignKey: 'productId' });
+// Products -> Movements
+Product.hasMany(Movement, { foreignKey: 'productId', as: 'Movements' });
+Movement.belongsTo(Product, { foreignKey: 'productId', as: 'Product' });
 
-// Una tarjeta puede tener muchos movimientos (1 a N)
-Tarjet.hasMany(Movement, { foreignKey: 'tarjetId' });
-Movement.belongsTo(Tarjet, { foreignKey: 'tarjetId' });
+// Tarjet -> Movements
+Tarjet.hasMany(Movement, { foreignKey: 'tarjetId', as: 'Movements' });
+Movement.belongsTo(Tarjet, { foreignKey: 'tarjetId', as: 'Tarjet' });
+
 
 export { sequelize, User, Product, Movement, Account, Tarjet, Category };

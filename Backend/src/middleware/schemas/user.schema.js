@@ -1,3 +1,4 @@
+// Esquema de validacion para usuarios usando Joi
 import Joi from 'joi';
 
 const userSchema = {
@@ -10,6 +11,11 @@ const userSchema = {
         email: Joi.string().email().required(),
         password: Joi.string().min(8).required()
     }),
+
+    login: Joi.object({
+        email: Joi.string().email().required(),
+        password: Joi.string().required()
+    })
 }
 
 export { userSchema };

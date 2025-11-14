@@ -10,6 +10,15 @@ export const UserController = {
     }
   },
 
+  async getUserById(req, res, next) {
+    try {
+      const user = await UserService.getById(req.params.id)
+      res.json({ success: true, data: user })
+    } catch (error) {
+      next(error)
+    }
+  },
+
   async createUser(req, res, next) {
     try {
       const newUser = await UserService.create(req.body)
@@ -26,5 +35,16 @@ export const UserController = {
     } catch (error) {
       next(error)
     }
+  },
+
+  async loginUser(req, res, next) {
+  try {
+    const result = await UserService.login(req.body)
+    console.log(result);
+    res.status(201).json({ success: true, data: result })
+  } catch (error) {
+    next(error)
   }
+}
+
 }
