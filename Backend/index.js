@@ -7,6 +7,9 @@ import routes from './src/routes/index.routes.js';
 
 const app = express();
 dotenv.config();
+console.log("DB_USER:", process.env.DB_USER);
+console.log("DB_PASS:", process.env.DB_PASS);
+console.log("DB_NAME:", process.env.DB_NAME);
 
 // Configuraciones del servidor
 const PORT = process.env.PORT || 3001;

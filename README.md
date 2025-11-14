@@ -13,4 +13,4 @@ Frontend
 Comandos: 
 - Backend
     - npm run dev: ejecuta la apk
-    - 
+    - node index.js: ejecuta la apk en modo desarrollador.
