@@ -4,7 +4,7 @@ export default {
   async up(queryInterface) {
     await queryInterface.bulkInsert('movements', [
       {
-        id: 1,
+      
         date: new Date(),
         type: 'PURCHASE',
         quantity: 1,

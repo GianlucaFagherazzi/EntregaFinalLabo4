@@ -3,8 +3,8 @@
 export default {
   async up(queryInterface) {
     await queryInterface.bulkInsert('category', [
-      { id: 1, name: 'Tecnología' },
-      { id: 2, name: 'Electrodomésticos' }
+      { name: 'Tecnología' },
+      {name: 'Electrodomésticos' }
     ]);
   },
 

@@ -9,7 +9,9 @@ export const UserService = {
     try {
       return await User.findAll({
         include: [
-          { model: Product, as: 'Products' },
+          { model: Product, as: 'Products',
+            include: [{ model: Category, as: 'Category' }]
+           },
           { model: Account, as: 'Accounts' },
           { model: Movement, as: 'Movements' }
         ]

@@ -8,7 +8,6 @@ export default {
     const hashedPassword = await bcrypt.hash('12345678', 10);
     await queryInterface.bulkInsert('users', [
       {
-        id: 1,
         name: 'Gianluca',
         surname: 'Fagherazzi',
         email: 'gian@example.com',
