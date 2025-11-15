@@ -6,7 +6,7 @@ const movementSchema = {
     date: Joi.date().optional(), // Si no viene, Sequelize usa NOW
 
     type: Joi.string()
-      .valid('PURCHASE', 'SELL', 'ADJUST')
+      .valid('PURCHASE')
       .required(),
 
     quantity: Joi.number()

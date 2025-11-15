@@ -148,6 +148,5 @@ export const ProductService = {
       throw new AppError('Error al eliminar el producto definitivamente', 500, error)
     }
   }
-
 }
 
