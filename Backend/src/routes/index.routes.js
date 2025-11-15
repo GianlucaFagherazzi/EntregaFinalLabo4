@@ -7,5 +7,9 @@ const router = express.Router()
 // Registrar todas las rutas principales
 router.use('/users', userRouter)
 router.use('/products', productRouter)
+// router.use('/accounts', )
+// router.use('/categories', )
+// router.use('/movements', )
+// router.use('/tarjets',)
 
 export default router

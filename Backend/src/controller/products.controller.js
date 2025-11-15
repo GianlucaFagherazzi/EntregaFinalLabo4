@@ -1,49 +1,62 @@
 import { ProductService } from '../services/products.services.js';
 
 export const ProductController = {
-  async getAll(req, res) {
+  async getAll(req, res, next) {
     try {
       const products = await ProductService.getAll()
-      res.json(products)
-    } catch (err) {
-      res.status(500).json({ error: err.message })
+      res.json({ success: true, data: products })
+    } catch (error) {
+      next(error)
     }
   },
 
-  async getById(req, res) {
+  async getById(req, res, next) {
     try {
-      const product = await ProductService.getById(req.params.id)
-      if (!product) return res.status(404).json({ error: 'Producto no encontrado' })
-      res.json(product)
-    } catch (err) {
-      res.status(500).json({ error: err.message })
+      const product = await ProductService.getById(Number(req.params.id))
+      res.json({ success: true, data: product })
+    } catch (error) {
+      next(error)
     }
   },
 
-  async create(req, res) {
+  async create(req, res, next) {
     try {
       const newProduct = await ProductService.create(req.body)
-      res.status(201).json(newProduct)
-    } catch (err) {
-      res.status(500).json({ error: err.message })
+      res.status(201).json({ success: true, data: newProduct })
+    } catch (error) {
+      next(error)
     }
   },
 
-  async update(req, res) {
+  async update(req, res, next) {
     try {
-      const updated = await ProductService.update(req.params.id, req.body)
-      res.json(updated)
-    } catch (err) {
-      res.status(500).json({ error: err.message })
+      const result = await ProductService.update(Number(req.params.id), req.body)
+
+      if (result.noChanges) {
+        return res.status(200).json({ success: true, message: "No se realizaron cambios porque los datos son iguales", data: result.product })
+      }
+
+      res.json({ success: true, data: result })
+    } catch (error) {
+      next(error)
     }
   },
 
-  async delete(req, res) {
-    try {
-      await ProductService.delete(req.params.id)
-      res.status(204).send()
-    } catch (err) {
-      res.status(500).json({ error: err.message })
-    }
+  async delete(req, res, next) {
+  try {
+    await ProductService.softDelete(Number(req.params.id))
+    res.json({ success: true, message: 'Producto desactivado' })
+  } catch (error) {
+    next(error)
   }
+},
+
+async deletePermanent(req, res, next) {
+  try {
+    await ProductService.hardDelete(Number(req.params.id))
+    res.json({ success: true, message: 'Producto eliminado permanentemente' })
+  } catch (error) {
+    next(error)
+  }
+}
 }

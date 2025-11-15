@@ -12,7 +12,7 @@ export const UserController = {
 
   async getUserById(req, res, next) {
     try {
-      const user = await UserService.getById(req.params.id)
+      const user = await UserService.getById(Number(req.params.id))
       res.json({ success: true, data: user })
     } catch (error) {
       next(error)
@@ -30,21 +30,30 @@ export const UserController = {
 
   async deleteUser(req, res, next) {
     try {
-      await UserService.delete(req.params.id)
-      res.status(204).send()
+      await UserService.delete(Number(req.params.id))
+      res.status(200).json({ success: true, message: 'Usuario borrado con éxito' })
     } catch (error) {
       next(error)
     }
   },
 
   async loginUser(req, res, next) {
-  try {
-    const result = await UserService.login(req.body)
-    console.log(result);
-    res.status(201).json({ success: true, data: result })
-  } catch (error) {
-    next(error)
-  }
-}
+    try {
+      const result = await UserService.login(req.body)
+      res.status(201).json({ success: true, data: result })
+    } catch (error) {
+      next(error)
+    }
+  },
 
-}
+  async updateUser(req, res, next) {
+      try {
+        const updatedUser = await UserService.update(Number(req.params.id), req.body)
+        res.json({ success: true, data: updatedUser })
+      } catch (error) {
+        next(error)
+      }
+
+    }
+
+  }

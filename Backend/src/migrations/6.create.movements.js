@@ -8,6 +8,10 @@ export default {
             type: { type: Sequelize.ENUM('PURCHASE', 'SELL', 'ADJUST'), allowNull: false },
             quantity: { type: Sequelize.INTEGER, allowNull: false },
             amount: { type: Sequelize.DOUBLE, allowNull: false },
+
+            performedByName: { type: Sequelize.STRING, allowNull: false },
+            performedByDni: { type: Sequelize.STRING, allowNull: false },
+            performedWithTarjetNumber: { type: Sequelize.BIGINT, allowNull: true },
             
             userId: { type: Sequelize.INTEGER, allowNull: false, references: { model: 'users', key: 'id' }, onDelete: 'CASCADE' },
             productId: { type: Sequelize.INTEGER, allowNull: false, references: { model: 'products', key: 'id' }, onDelete: 'CASCADE' },

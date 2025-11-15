@@ -2,16 +2,19 @@ import { User, Product, Account, Movement, Category } from '../models/index.mode
 import { AppError } from '../utils/app.error.js'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
+import { Op } from 'sequelize';
+
 
 export const UserService = {
-
   async getAll() {
     try {
+      // Traer todos los usuarios con sus productos, cuentas y movimientos
       return await User.findAll({
         include: [
-          { model: Product, as: 'Products',
+          {
+            model: Product, as: 'Products',
             include: [{ model: Category, as: 'Category' }]
-           },
+          },
           { model: Account, as: 'Accounts' },
           { model: Movement, as: 'Movements' }
         ]
@@ -24,6 +27,7 @@ export const UserService = {
   },
 
   async getById(id) {
+    // Traer un usuario por ID con sus productos, cuentas y movimientos
     try {
       const user = await User.findByPk(id, {
         include: [
@@ -33,6 +37,7 @@ export const UserService = {
         ]
       })
 
+      // Si no se encontró el usuario, tira error
       if (!user) {
         throw new AppError('Usuario no encontrado', 404)
       }
@@ -45,22 +50,24 @@ export const UserService = {
     }
   },
 
-
   async create(data) {
     try {
-      const userByEmail = await User.findOne({ where: { email: data.email } })
-      if (userByEmail) {
-        throw new AppError('Ya existe un usuario con ese email', 409)
-      }
+      const existingUser = await User.findOne({
+        where: {
+          [Op.or]: [{ email: data.email }, { dni: data.dni }]
+        }
+      });
 
-      const userByDni = await User.findOne({ where: { dni: data.dni } })
-      if (userByDni) {
-        throw new AppError('Ya existe un usuario con ese DNI', 409)
+      if (existingUser) {
+        if (existingUser.email === data.email)
+          throw new AppError("Ya existe un usuario con ese email", 409);
+
+        if (existingUser.dni === data.dni)
+          throw new AppError("Ya existe un usuario con ese DNI", 409);
       }
 
       // HASH de la contraseña
-      const hashedPassword = await bcrypt.hash(data.password, 10)
-      data.password = hashedPassword
+      data.password = await bcrypt.hash(data.password, 10)
 
       return await User.create(data)
 
@@ -70,26 +77,35 @@ export const UserService = {
     }
   },
 
-
   async update(id, data) {
     try {
-      const user = await User.findByPk(id)
+      const user = await User.findByPk(id);
       if (!user) {
-        throw new AppError('Usuario no encontrado', 404)
+        throw new AppError("Usuario no encontrado", 404);
       }
+      // Validar email o dni duplicados
+      if (data.email || data.dni) {
+        const existingUser = await User.findOne({
+          where: {
+            [Op.or]: [
+              data.email ? { email: data.email } : {},
+              data.dni ? { dni: data.dni } : {}
+            ],
+            id: { [Op.ne]: id } // evitar que choque con él mismo
+          }
+        });
 
-      if (data.email) {
-        const emailInUse = await User.findOne({ where: { email: data.email } })
-        if (emailInUse && emailInUse.id !== id) {
-          throw new AppError('El email ya está en uso por otro usuario', 409)
+        if (existingUser) {
+          if (existingUser.email === data.email)
+            throw new AppError("Ya existe un usuario con ese email", 409);
+
+          if (existingUser.dni === data.dni)
+            throw new AppError("Ya existe un usuario con ese DNI", 409);
         }
       }
 
-      if (data.dni) {
-        const dniInUse = await User.findOne({ where: { dni: data.dni } })
-        if (dniInUse && dniInUse.id !== id) {
-          throw new AppError('El dni ya está en uso por otro usuario', 409)
-        }
+      if (data.password) {
+        data.password = await bcrypt.hash(data.password, 10);
       }
 
       return await user.update(data)
@@ -99,7 +115,6 @@ export const UserService = {
       throw new AppError('Error al actualizar el usuario', 400, error)
     }
   },
-
 
   async delete(id) {
     try {

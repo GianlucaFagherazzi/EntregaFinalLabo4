@@ -16,31 +16,26 @@ const Category = CategorysModels(sequelize, DataTypes);
 const Tarjet = tarjetsModels(sequelize, DataTypes);
 
 // Relaciones
-// User
-User.hasMany(Product, { foreignKey: 'userId', as: 'Products' });
-Product.belongsTo(User, { foreignKey: 'userId', as: 'User' });
+User.hasMany(Product, { foreignKey: 'userId', as: 'Products', onDelete: 'CASCADE' });
+Product.belongsTo(User, { foreignKey: 'userId', as: 'User', onDelete: 'CASCADE' });
 
-User.hasMany(Account, { foreignKey: 'userId', as: 'Accounts' });
-Account.belongsTo(User, { foreignKey: 'userId', as: 'User' });
+User.hasMany(Account, { foreignKey: 'userId', as: 'Accounts', onDelete: 'CASCADE' });
+Account.belongsTo(User, { foreignKey: 'userId', as: 'User', onDelete: 'CASCADE' });
 
-User.hasMany(Movement, { foreignKey: 'userId', as: 'Movements' });
-Movement.belongsTo(User, { foreignKey: 'userId', as: 'User' });
+User.hasMany(Movement, { foreignKey: 'userId', as: 'Movements', onDelete: 'SET NULL' });
+Movement.belongsTo(User, { foreignKey: 'userId', as: 'User', onDelete: 'SET NULL' });
 
-// Category
-Category.hasMany(Product, { foreignKey: 'categoryId', as: 'Products' });
-Product.belongsTo(Category, { foreignKey: 'categoryId', as : 'Category' });
+Category.hasMany(Product, { foreignKey: 'categoryId', as: 'Products', onDelete: 'SET NULL' });
+Product.belongsTo(Category, { foreignKey: 'categoryId', as: 'Category', onDelete: 'SET NULL' });
 
-// Account -> Tarjets
-Account.hasMany(Tarjet, { foreignKey: 'accountId', as: 'Tarjets' });
-Tarjet.belongsTo(Account, { foreignKey: 'accountId', as: 'Account' });
+Account.hasMany(Tarjet, { foreignKey: 'accountId', as: 'Tarjets', onDelete: 'CASCADE' });
+Tarjet.belongsTo(Account, { foreignKey: 'accountId', as: 'Account', onDelete: 'CASCADE' });
 
-// Products -> Movements
-Product.hasMany(Movement, { foreignKey: 'productId', as: 'Movements' });
-Movement.belongsTo(Product, { foreignKey: 'productId', as: 'Product' });
+Product.hasMany(Movement, { foreignKey: 'productId', as: 'Movements', onDelete: 'SET NULL' });
+Movement.belongsTo(Product, { foreignKey: 'productId', as: 'Product', onDelete: 'SET NULL' });
 
-// Tarjet -> Movements
-Tarjet.hasMany(Movement, { foreignKey: 'tarjetId', as: 'Movements' });
-Movement.belongsTo(Tarjet, { foreignKey: 'tarjetId', as: 'Tarjet' });
+Tarjet.hasMany(Movement, { foreignKey: 'tarjetId', as: 'Movements', onDelete: 'SET NULL' });
+Movement.belongsTo(Tarjet, { foreignKey: 'tarjetId', as: 'Tarjet', onDelete: 'SET NULL' });
 
 
 export { sequelize, User, Product, Movement, Account, Tarjet, Category };

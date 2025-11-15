@@ -6,9 +6,14 @@ export default (sequelize, DataTypes) => {
     quantity: { type: DataTypes.INTEGER, allowNull: false },
     amount: { type: DataTypes.DOUBLE, allowNull: false },
 
-    productId: { type: DataTypes.INTEGER, allowNull: false },
-    userId: { type: DataTypes.INTEGER, allowNull: false },
-    tarjetId: { type: DataTypes.INTEGER, allowNull: false }
+    performedByName: { type: DataTypes.STRING, allowNull: false },
+    performedByDni: { type: DataTypes.STRING, allowNull: false },
+
+    performedWithTarjetNumber: { type: DataTypes.STRING, allowNull: true },
+
+    productId: { type: DataTypes.INTEGER, allowNull: true },
+    userId: { type: DataTypes.INTEGER, allowNull: true },
+    tarjetId: { type: DataTypes.INTEGER, allowNull: true }
   }, {
     tableName: 'movements',
     timestamps: false
