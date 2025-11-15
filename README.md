@@ -40,6 +40,10 @@ Backend
 
 
 
+Comandos: 
+- Backend
+    - npm run dev: ejecuta la apk
+    - node index.js: ejecuta la apk en modo desarrollador.
 - Averiguar si meter TEST unitarios al proyecto.
 - Subir el proyecto a Render para la api
 - Subir la base de datos a Railway.app
