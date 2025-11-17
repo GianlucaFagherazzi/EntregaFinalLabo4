@@ -1,7 +1,7 @@
 // Configuracion general de la base de datos con sequelize
 import { Sequelize } from 'sequelize'
-
 import dotenv from 'dotenv' 
+
 dotenv.config()
 
 export const sequelize = new Sequelize(
