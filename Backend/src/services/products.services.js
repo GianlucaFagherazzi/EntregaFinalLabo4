@@ -1,6 +1,6 @@
 import { Product, Category, User } from '../models/index.models.js'
 import { AppError } from '../utils/app.error.js'
-import { Op } from 'sequelize'
+import { Op, where } from 'sequelize'
 
 // Helpers reutilizables
 async function validateCategory(categoryId) {
@@ -10,11 +10,20 @@ async function validateCategory(categoryId) {
 
 async function validateUser(userId) {
   const user = await User.findByPk(userId)
-  if (!user) throw new AppError('El usuario especificado no existe', 404)
+
+  if (!user) {
+    throw new AppError('El usuario especificado no existe', 404)
+  }
+
+  if (!user.isActive) {
+    throw new AppError('El usuario está inactivo', 400)
+  }
+
+  return user
 }
 
 async function validateProductNameUnique(name, userId, excludeId = null) {
-  const where = { name, userId }
+  const where = { name: name.trim(), userId, isActive: true }
 
   if (excludeId) {
     where.id = { [Op.ne]: excludeId }
@@ -31,6 +40,7 @@ export const ProductService = {
   async getAll() {
     try {
       return await Product.findAll({
+        where: { isActive: true },
         include: [
           { model: Category, as: 'Category' },
           {
@@ -47,7 +57,8 @@ export const ProductService = {
 
   async getById(id) {
     try {
-      const product = await Product.findByPk(id, {
+      const product = await Product.findByPk({
+        where: { id, isActive: true },
         include: [
           { model: Category, as: 'Category' },
           {
@@ -58,32 +69,34 @@ export const ProductService = {
         ]
       })
 
-      if (!product) throw new AppError('Producto no encontrado', 404)
+      if (!product) throw new AppError('Producto no encontrado', 404);
 
       return product
     } catch (error) {
-      throw new AppError('Error al obtener el producto', 500, error)
+      throw new AppError('Error al obtener el producto', 500, error);
     }
   },
 
   async create(data) {
     try {
-      await validateUser(data.userId)
-      await validateCategory(data.categoryId)
-      await validateProductNameUnique(data.name, data.userId)
+      await validateUser(data.userId);
+      if (data.categoryId) await validateCategory(data.categoryId);
+      await validateProductNameUnique(data.name.trim(), data.userId);
 
-      return await Product.create(data)
+      data.name = data.name.trim();
+
+      return await Product.create(data);
 
     } catch (error) {
       if (error instanceof AppError) throw error
-      throw new AppError('Error al crear el producto', 400, error)
+      throw new AppError('Error al crear el producto', 400, error);
     }
   },
 
   async update(id, data) {
     try {
-      const product = await Product.findByPk(id)
-      if (!product) throw new AppError('Producto no encontrado', 404)
+      const product = await Product.findByPk({where: {id, isActive: true}});
+      if (!product) throw new AppError('Producto no encontrado', 404);
 
       // Detectar si hubo cambios en el artículo
       const current = product.toJSON()
@@ -123,30 +136,17 @@ export const ProductService = {
 
   async softDelete(id) {
     try {
-      const product = await Product.findByPk(id)
+      const product = await Product.findOne({ where: { id, isActive: true } });
       if (!product) throw new AppError('Producto no encontrado', 404)
 
       await product.update({ isActive: false })
-      return true
+      return { message: 'Producto desactivado correctamente', productId: id };
 
     } catch (error) {
       if (error instanceof AppError) throw error
       throw new AppError('Error al desactivar el producto', 500, error)
     }
   },
-
-  async hardDelete(id) {
-    try {
-      const product = await Product.findByPk(id)
-      if (!product) throw new AppError('Producto no encontrado', 404)
-
-      await product.destroy()
-      return true
-
-    } catch (error) {
-      if (error instanceof AppError) throw error
-      throw new AppError('Error al eliminar el producto definitivamente', 500, error)
-    }
-  }
+  
 }
 

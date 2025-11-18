@@ -1,53 +1,88 @@
-import { sequelize, User, Product, Tarjet } from '../models/index.models.js'
+import { Movement, Product} from '../models/index.models.js';
+import { AppError } from '../utils/app.error.js';
+import { MovementUserService } from './movementUser.service.js';
+import { SnapshotService } from './snapshot.service.js';
+
+// Helper: validar producto
+async function validateProduct(productId) {
+  const product = await Product.findByPk(productId);
+  if (!product || !product.isActive) throw new AppError('Producto no existe o está inactivo', 404);
+  return product;
+}
 
 export const MovementService = {
-  async create({ userId, productId, tarjetId, quantity }) {
+  async getAll() {
+    try {
+      return await Movement.findAll({
+        include: [
+          { model: Product, as: 'Product' },
+          { model: SnapshotService.model, as: 'Snapshot' }, // snapshot incluido
+          { model: MovementUserService.model, as: 'MovementUsers' } // movementUsers incluidos
+        ]
+      });
+    } catch (error) {
+      throw new AppError('Error al obtener los movimientos', 500, error);
+    }
+  },
 
-    return await sequelize.transaction(async (t) => {
+  async getById(id) {
+    try {
+      const movement = await Movement.findByPk(id, {
+        include: [
+          { model: Product, as: 'Product' },
+          { model: SnapshotService.model, as: 'Snapshot' },
+          { model: MovementUserService.model, as: 'MovementUsers' }
+        ]
+      });
+      if (!movement) throw new AppError('Movimiento no encontrado', 404);
+      return movement;
+    } catch (error) {
+      throw new AppError('Error al obtener el movimiento', 500, error);
+    }
+  },
 
-      const user = await User.findByPk(userId)
-      if (!user) throw new AppError('Usuario no encontrado', 404)
+  async create(data) {
+    try {
+      const product = await validateProduct(data.productId);
 
-      const product = await Product.findByPk(productId)
-      if (!product) throw new AppError('Producto no encontrado', 404)
+      const totalAmount = data.quantity * product.price;
 
-      if (product.stock < quantity) {
-        throw new AppError('Stock insuficiente', 400)
-      }
-
-      const totalAmount = product.price * quantity
-
-      const tarjet = await Tarjet.findByPk(tarjetId)
-      if (!tarjet) throw new AppError('Tarjeta no encontrada', 404)
-
-      if (tarjet.balance < totalAmount) {
-        throw new AppError('Saldo insuficiente', 400)
-      }
-
-      // Actualizar stock
-      await product.update(
-        { stock: product.stock - quantity },
-        { transaction: t }
-      )
-
-      // Actualizar saldo
-      await tarjet.update(
-        { balance: tarjet.balance - totalAmount },
-        { transaction: t }
-      )
-
-      // Registrar movimiento
       const movement = await Movement.create({
-        date: new Date(),
-        type: 'PURCHASE',
-        quantity,         
-        amount: totalAmount,
-        productId,
-        userId,
-        tarjetId
-      }, { transaction: t })
+        productId: data.productId,
+        quantity: data.quantity,
+        totalAmount,
+        date: data.date || new Date()
+      });
 
-      return movement
-    })
-  }
-}
+      // Delegar creación de movementUsers
+      for (const mu of data.movementUsers || []) {
+        await MovementUserService.create({
+          movementId: movement.id,
+          userId: mu.userId,
+          accountId: mu.accountId,
+          tarjetId: mu.tarjetId,
+          rol: mu.rol
+        });
+      }
+
+      // Delegar creación de snapshot
+      if (data.snapshot) {
+        await SnapshotService.create({
+          movementId: movement.id,
+          buyerName: data.snapshot.buyerName,
+          sellerName: data.snapshot.sellerName,
+          productName: product.name,
+          numberTarjet: data.snapshot.numberTarjet,
+          quantity: data.quantity,
+          amount: totalAmount,
+          date: data.date || new Date()
+        });
+      }
+
+      return await this.getById(movement.id);
+    } catch (error) {
+      if (error instanceof AppError) throw error;
+      throw new AppError('Error al crear el movimiento', 400, error);
+    }
+  },
+};
