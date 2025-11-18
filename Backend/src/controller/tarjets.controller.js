@@ -1,49 +1,48 @@
-import { TarjetService } from '../services/tarjets.services.js';
+import { TarjetService } from '../services/tarjet.service.js';
 
 export const TarjetController = {
-  async getAll(req, res) {
+  async getAll(req, res, next) {
     try {
-      const tarjets = await TarjetService.getAll()
-      res.json(tarjets)
+      const tarjets = await TarjetService.getAll();
+      res.json({ success: true, data: tarjets });
     } catch (err) {
-      res.status(500).json({ error: err.message })
+      next(err);
     }
   },
 
-  async getById(req, res) {
+  async getById(req, res, next) {
     try {
-      const tarjet = await TarjetService.getById(req.params.id)
-      if (!tarjet) return res.status(404).json({ error: 'tarjeta no encontrada' })
-      res.json(tarjet)
+      const tarjet = await TarjetService.getById(Number(req.params.id));
+      res.json({ success: true, data: tarjet });
     } catch (err) {
-      res.status(500).json({ error: err.message })
+      next(err);
     }
   },
 
-  async create(req, res) {
+  async create(req, res, next) {
     try {
-      const newtarjet = await TarjetService.create(req.body)
-      res.status(201).json(newtarjet)
+      const newTarjet = await TarjetService.create(req.body);
+      res.status(201).json({ success: true, data: newTarjet });
     } catch (err) {
-      res.status(500).json({ error: err.message })
+      next(err);
     }
   },
 
-  async update(req, res) {
+  async update(req, res, next) {
     try {
-      const updated = await TarjetService.update(req.params.id, req.body)
-      res.json(updated)
+      const updated = await TarjetService.update(Number(req.params.id), req.body);
+      res.json({ success: true, data: updated });
     } catch (err) {
-      res.status(500).json({ error: err.message })
+      next(err);
     }
   },
 
-  async delete(req, res) {
+  async softDelete(req, res, next) {
     try {
-      await TarjetService.delete(req.params.id)
-      res.status(204).send()
+      await TarjetService.softDelete(Number(req.params.id));
+      res.json({ success: true, message: 'Tarjeta desactivada' });
     } catch (err) {
-      res.status(500).json({ error: err.message })
+      next(err);
     }
   }
-}
+};

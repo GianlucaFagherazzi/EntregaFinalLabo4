@@ -1,49 +1,48 @@
-import { CategoryService } from '../services/categorys.services.js';
+import { CategoryService } from '../services/category.service.js';
 
 export const CategoryController = {
-  async getAll(req, res) {
+  async getAll(req, res, next) {
     try {
-      const categorys = await CategoryService.getAll()
-      res.json(categorys)
+      const categories = await CategoryService.getAll();
+      res.json({ success: true, data: categories });
     } catch (err) {
-      res.status(500).json({ error: err.message })
+      next(err);
     }
   },
 
-  async getById(req, res) {
+  async getById(req, res, next) {
     try {
-      const category = await CategoryService.getById(req.params.id)
-      if (!category) return res.status(404).json({ error: 'categoryo no encontrado' })
-      res.json(category)
+      const category = await CategoryService.getById(Number(req.params.id));
+      res.json({ success: true, data: category });
     } catch (err) {
-      res.status(500).json({ error: err.message })
+      next(err);
     }
   },
 
-  async create(req, res) {
+  async create(req, res, next) {
     try {
-      const newcategory = await CategoryService.create(req.body)
-      res.status(201).json(newcategory)
+      const newCategory = await CategoryService.create(req.body);
+      res.status(201).json({ success: true, data: newCategory });
     } catch (err) {
-      res.status(500).json({ error: err.message })
+      next(err);
     }
   },
 
-  async update(req, res) {
+  async update(req, res, next) {
     try {
-      const updated = await CategoryService.update(req.params.id, req.body)
-      res.json(updated)
+      const updated = await CategoryService.update(Number(req.params.id), req.body);
+      res.json({ success: true, data: updated });
     } catch (err) {
-      res.status(500).json({ error: err.message })
+      next(err);
     }
   },
 
-  async delete(req, res) {
+  async delete(req, res, next) {
     try {
-      await CategoryService.delete(req.params.id)
-      res.status(204).send()
+      await CategoryService.delete(Number(req.params.id));
+      res.json({ success: true, message: 'Categoría eliminada' });
     } catch (err) {
-      res.status(500).json({ error: err.message })
+      next(err);
     }
   }
-}
+};

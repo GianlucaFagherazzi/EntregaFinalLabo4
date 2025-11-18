@@ -28,12 +28,21 @@ export const UserController = {
     }
   },
 
-  async deleteUser(req, res, next) {
+  async updateUser(req, res, next) {
     try {
-      await UserService.delete(Number(req.params.id))
-      res.status(200).json({ success: true, message: 'Usuario borrado con éxito' })
+      const updatedUser = await UserService.update(Number(req.params.id), req.body)
+      res.json({ success: true, data: updatedUser })
     } catch (error) {
       next(error)
+    }
+  },
+
+  async softDeleteUser(req, res, next) {
+    try {
+      const result = await UserService.softDelete(Number(req.params.id));
+      res.status(200).json({ success: true, data: result });
+    } catch (error) {
+      next(error);
     }
   },
 
@@ -45,15 +54,5 @@ export const UserController = {
       next(error)
     }
   },
+}
 
-  async updateUser(req, res, next) {
-      try {
-        const updatedUser = await UserService.update(Number(req.params.id), req.body)
-        res.json({ success: true, data: updatedUser })
-      } catch (error) {
-        next(error)
-      }
-
-    }
-
-  }
