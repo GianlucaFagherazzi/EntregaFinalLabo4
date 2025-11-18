@@ -1,7 +1,7 @@
 import { UserService } from '../services/users.services.js'
 
 export const UserController = {
-  async getAllUsers(req, res, next) {
+  async getAll(req, res, next) {
     try {
       const users = await UserService.getAll()
       res.json({ success: true, data: users })
@@ -10,7 +10,7 @@ export const UserController = {
     }
   },
 
-  async getUserById(req, res, next) {
+  async getById(req, res, next) {
     try {
       const user = await UserService.getById(Number(req.params.id))
       res.json({ success: true, data: user })
@@ -19,7 +19,7 @@ export const UserController = {
     }
   },
 
-  async createUser(req, res, next) {
+  async create(req, res, next) {
     try {
       const newUser = await UserService.create(req.body)
       res.status(201).json({ success: true, data: newUser })
@@ -28,7 +28,7 @@ export const UserController = {
     }
   },
 
-  async updateUser(req, res, next) {
+  async update(req, res, next) {
     try {
       const updatedUser = await UserService.update(Number(req.params.id), req.body)
       res.json({ success: true, data: updatedUser })
@@ -37,7 +37,7 @@ export const UserController = {
     }
   },
 
-  async softDeleteUser(req, res, next) {
+  async softDelete(req, res, next) {
     try {
       const result = await UserService.softDelete(Number(req.params.id));
       res.status(200).json({ success: true, data: result });
@@ -46,7 +46,7 @@ export const UserController = {
     }
   },
 
-  async loginUser(req, res, next) {
+  async login(req, res, next) {
     try {
       const result = await UserService.login(req.body)
       res.status(201).json({ success: true, data: result })
