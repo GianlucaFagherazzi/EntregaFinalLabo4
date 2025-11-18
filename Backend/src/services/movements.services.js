@@ -1,7 +1,7 @@
 import { Movement, Product} from '../models/index.models.js';
 import { AppError } from '../utils/app.error.js';
-import { MovementUserService } from './movementUser.service.js';
-import { SnapshotService } from './snapshot.service.js';
+import { MovementUserService } from './movementUser.services.js';
+import { SnapshotService } from './snapshot.services.js';
 
 // Helper: validar producto
 async function validateProduct(productId) {

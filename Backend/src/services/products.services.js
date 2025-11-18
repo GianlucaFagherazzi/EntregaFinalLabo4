@@ -57,8 +57,8 @@ export const ProductService = {
 
   async getById(id) {
     try {
-      const product = await Product.findByPk({
-        where: { id, isActive: true },
+      const product = await Product.findByPk(id, {
+        where: { isActive: true },
         include: [
           { model: Category, as: 'Category' },
           {

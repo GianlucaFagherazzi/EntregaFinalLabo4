@@ -1,4 +1,4 @@
-import { CategoryService } from '../services/category.service.js';
+import { CategoryService } from '../services/categories.services.js';
 
 export const CategoryController = {
   async getAll(req, res, next) {

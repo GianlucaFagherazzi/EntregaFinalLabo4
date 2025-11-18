@@ -1,4 +1,4 @@
-import { TarjetService } from '../services/tarjet.service.js';
+import { TarjetService } from '../services/tarjets.services.js';
 
 export const TarjetController = {
   async getAll(req, res, next) {

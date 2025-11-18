@@ -1,4 +1,4 @@
-import { MovementUserService } from '../services/movementUser.service.js';
+import { MovementUserService } from '../services/movementUser.services.js';
 
 export const MovementUserController = {
   async getAll(req, res, next) {

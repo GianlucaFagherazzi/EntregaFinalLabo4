@@ -1,4 +1,3 @@
-import { where } from 'sequelize'
 import { Tarjet, Account, Movement } from '../models/index.models.js'
 import { AppError } from '../utils/app.error.js'
 import { Op } from 'sequelize'

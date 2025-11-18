@@ -1,4 +1,4 @@
-import { SnapshotService } from '../services/snapshot.service.js';
+import { SnapshotService } from '../services/snapshot.services.js';
 
 export const SnapshotController = {
   async getAll(req, res, next) {
