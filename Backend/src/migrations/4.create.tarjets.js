@@ -6,8 +6,9 @@ export default {
       id: { type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true },
       number: { type: Sequelize.BIGINT, allowNull: false },
       balance: { type: Sequelize.DOUBLE, allowNull: false },
-
-      accountId: { type: Sequelize.INTEGER, references: { model: 'accounts', key: 'id' }, onDelete: 'CASCADE' }
+      accountId: { type: Sequelize.INTEGER, allowNull: false, references: { model: 'accounts', key: 'id' }},
+      isActive: { type: Sequelize.BOOLEAN, defaultValue: true }
+      
     });
   },
 

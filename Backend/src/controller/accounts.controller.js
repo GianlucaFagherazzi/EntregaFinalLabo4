@@ -1,49 +1,48 @@
 import { AccountService } from '../services/accounts.services.js';
 
 export const AccountController = {
-  async getAll(req, res) {
+  async getAll(req, res, next) {
     try {
-      const accounts = await AccountService.getAll()
-      res.json(accounts)
+      const accounts = await AccountService.getAll();
+      res.json({ success: true, data: accounts });
     } catch (err) {
-      res.status(500).json({ error: err.message })
+      next(err);
     }
   },
 
-  async getById(req, res) {
+  async getById(req, res, next) {
     try {
-      const account = await AccountService.getById(req.params.id)
-      if (!account) return res.status(404).json({ error: 'Cuenta no encontrada' })
-      res.json(account)
+      const account = await AccountService.getById(Number(req.params.id));
+      res.json({ success: true, data: account });
     } catch (err) {
-      res.status(500).json({ error: err.message })
+      next(err);
     }
   },
 
-  async create(req, res) {
+  async create(req, res, next) {
     try {
-      const newAccount = await AccountService.create(req.body)
-      res.status(201).json(newAccount)
+      const newAccount = await AccountService.create(req.body);
+      res.status(201).json({ success: true, data: newAccount });
     } catch (err) {
-      res.status(500).json({ error: err.message })
+      next(err);
     }
   },
 
-  async update(req, res) {
+  async update(req, res, next) {
     try {
-      const updated = await AccountService.update(req.params.id, req.body)
-      res.json(updated)
+      const updated = await AccountService.update(Number(req.params.id), req.body);
+      res.json({ success: true, data: updated });
     } catch (err) {
-      res.status(500).json({ error: err.message })
+      next(err);
     }
   },
 
-  async delete(req, res) {
+  async softDelete(req, res, next) {
     try {
-      await AccountService.delete(req.params.id)
-      res.status(204).send()
+      await AccountService.softDelete(Number(req.params.id));
+      res.json({ success: true, message: 'Cuenta desactivada' });
     } catch (err) {
-      res.status(500).json({ error: err.message })
+      next(err);
     }
   }
-}
+};

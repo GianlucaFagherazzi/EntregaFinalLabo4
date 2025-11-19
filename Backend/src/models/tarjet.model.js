@@ -3,8 +3,8 @@ export default (sequelize, DataTypes) => {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     number: { type: DataTypes.BIGINT, allowNull: false },
     balance: { type: DataTypes.DOUBLE, allowNull: false },
-    
-    accountId: { type: DataTypes.INTEGER, allowNull: false }
+    accountId: { type: DataTypes.INTEGER, allowNull: false },
+    isActive: { type: DataTypes.BOOLEAN, defaultValue: true }
   }, {
     tableName: 'tarjets',
     timestamps: false

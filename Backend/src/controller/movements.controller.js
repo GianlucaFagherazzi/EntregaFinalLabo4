@@ -1,49 +1,30 @@
 import { MovementService } from '../services/movements.services.js';
 
 export const MovementController = {
-  async getAll(req, res) {
+  async getAll(req, res, next) {
     try {
-      const movements = await MovementService.getAll()
-      res.json(movements)
+      const movements = await MovementService.getAll();
+      res.json({ success: true, data: movements });
     } catch (err) {
-      res.status(500).json({ error: err.message })
+      next(err);
     }
   },
 
-  async getById(req, res) {
+  async getById(req, res, next) {
     try {
-      const movement = await MovementService.getById(req.params.id)
-      if (!movement) return res.status(404).json({ error: 'movemento no encontrado' })
-      res.json(movement)
+      const movement = await MovementService.getById(Number(req.params.id));
+      res.json({ success: true, data: movement });
     } catch (err) {
-      res.status(500).json({ error: err.message })
+      next(err);
     }
   },
 
-  async create(req, res) {
+  async create(req, res, next) {
     try {
-      const newmovement = await MovementService.create(req.body)
-      res.status(201).json(newmovement)
+      const newMovement = await MovementService.create(req.body);
+      res.status(201).json({ success: true, data: newMovement });
     } catch (err) {
-      res.status(500).json({ error: err.message })
+      next(err);
     }
   },
-
-  async update(req, res) {
-    try {
-      const updated = await MovementService.update(req.params.id, req.body)
-      res.json(updated)
-    } catch (err) {
-      res.status(500).json({ error: err.message })
-    }
-  },
-
-  async delete(req, res) {
-    try {
-      await MovementService.delete(req.params.id)
-      res.status(204).send()
-    } catch (err) {
-      res.status(500).json({ error: err.message })
-    }
-  }
-}
+};

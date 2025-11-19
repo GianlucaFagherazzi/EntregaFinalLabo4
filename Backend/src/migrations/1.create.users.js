@@ -8,6 +8,7 @@ export default {
       surname: { type: Sequelize.STRING, allowNull: false },
       email: { type: Sequelize.STRING, allowNull: false, unique: true },
       dni: { type: Sequelize.STRING, allowNull: false, unique: true },
+      isActive: { type: Sequelize.BOOLEAN, defaultValue: true },
       password: { type: Sequelize.STRING, allowNull: false }
     });
   },

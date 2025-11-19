@@ -42,21 +42,12 @@ export const ProductController = {
     }
   },
 
-  async delete(req, res, next) {
-  try {
-    await ProductService.softDelete(Number(req.params.id))
-    res.json({ success: true, message: 'Producto desactivado' })
-  } catch (error) {
-    next(error)
+  async softDelete(req, res, next) {
+    try {
+      await ProductService.softDelete(Number(req.params.id));
+      res.json({ success: true, message: 'Producto desactivado' });
+    } catch (error) {
+      next(error);
+    }
   }
-},
-
-async deletePermanent(req, res, next) {
-  try {
-    await ProductService.hardDelete(Number(req.params.id))
-    res.json({ success: true, message: 'Producto eliminado permanentemente' })
-  } catch (error) {
-    next(error)
-  }
-}
 }

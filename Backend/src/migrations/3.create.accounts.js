@@ -5,8 +5,9 @@ export default {
     await queryInterface.createTable('accounts', {
       id: { type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true },
       cbu: { type: Sequelize.STRING, allowNull: false },
+      isActive: { type: Sequelize.BOOLEAN, defaultValue: true },
 
-      userId: { type: Sequelize.INTEGER, allowNull: false, references: { model: 'users', key: 'id' }, onDelete: 'CASCADE' }
+      userId: { type: Sequelize.INTEGER, allowNull: false, references: { model: 'users', key: 'id' }}
     });
   },
 
