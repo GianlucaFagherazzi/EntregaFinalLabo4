@@ -37,9 +37,6 @@ Backend
 * * Un usuario puede borrar su cuenta (DELETE)
 * * * Cuando borre su cuenta, tienen que borrarse su cuenta bancaria, su tarjeta y sus movimientos
 
-
-
-
 Comandos: 
 - Backend
     - npm run dev: ejecuta la apk

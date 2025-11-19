@@ -1,7 +1,5 @@
 'use strict';
 
-import { sequelize } from "../config/database";
-
 export default {
     async up(queryInterface, Sequelize) {
         await queryInterface.createTable('movements', {
