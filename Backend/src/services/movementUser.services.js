@@ -29,7 +29,6 @@ export const MovementUserService = {
       return await MovementUser.findAll({
         include: [
           { model: User, as: 'User', attributes: ['id', 'name', 'surname'] },
-          { model: Account, as: 'Account' },
           { model: Tarjet, as: 'Tarjet' }
         ]
       });
@@ -51,6 +50,7 @@ export const MovementUserService = {
       if (!mu) throw new AppError('Registro de movementUser no encontrado', 404);
       return mu;
     } catch (error) {
+      if (error instanceof AppError) throw error
       throw new AppError('Error al obtener el registro de movementUser', 500, error);
     }
   },
@@ -70,7 +70,6 @@ export const MovementUserService = {
         rol: data.rol
       });
     } catch (error) {
-      if (error instanceof AppError) throw error;
       throw new AppError('Error al crear el registro de movementUser', 400, error);
     }
   },

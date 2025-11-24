@@ -42,12 +42,7 @@ export const ProductService = {
       return await Product.findAll({
         where: { isActive: true },
         include: [
-          { model: Category, as: 'Category' },
-          {
-            model: User,
-            as: 'User',
-            attributes: ['id', 'name', 'surname']
-          }
+          { model: Category, as: 'Category' }
         ]
       })
     } catch (error) {
@@ -59,14 +54,6 @@ export const ProductService = {
     try {
       const product = await Product.findByPk(id, {
         where: { isActive: true },
-        include: [
-          { model: Category, as: 'Category' },
-          {
-            model: User,
-            as: 'User',
-            attributes: ['id', 'name', 'surname']
-          }
-        ]
       })
 
       if (!product) throw new AppError('Producto no encontrado', 404);
@@ -88,7 +75,7 @@ export const ProductService = {
       return await Product.create(data);
 
     } catch (error) {
-      if (error instanceof AppError) throw error
+      if (error instanceof AppError) throw error;
       throw new AppError('Error al crear el producto', 400, error);
     }
   },
@@ -129,7 +116,7 @@ export const ProductService = {
       return updatedProduct
 
     } catch (error) {
-      if (error instanceof AppError) throw error
+      if (error instanceof AppError) throw error;
       throw new AppError('Error al actualizar el producto', 400, error)
     }
   },
@@ -143,7 +130,7 @@ export const ProductService = {
       return { message: 'Producto desactivado correctamente', productId: id };
 
     } catch (error) {
-      if (error instanceof AppError) throw error
+      if (error instanceof AppError) throw error;
       throw new AppError('Error al desactivar el producto', 500, error)
     }
   },

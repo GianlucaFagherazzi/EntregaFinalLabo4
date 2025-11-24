@@ -41,12 +41,7 @@ export const UserService = {
   // Obtener todos los usuarios
   async getAll() {
     try {
-      return await User.findAll({
-        include: [
-          { model: Product, as: 'Products' },
-          { model: Account, as: 'Accounts' }
-        ]
-      });
+      return await User.findAll()
     } catch (error) {
       throw new AppError('Error al obtener usuarios', 500, error);
     }
@@ -80,7 +75,6 @@ export const UserService = {
 
       return await User.create(data);
     } catch (error) {
-      if (error instanceof AppError) throw error;
       throw new AppError('Error al crear usuario', 400, error);
     }
   },
@@ -101,7 +95,6 @@ export const UserService = {
       const updated = await user.update(data);
       return updated;
     } catch (error) {
-      if (error instanceof AppError) throw error;
       throw new AppError('Error al actualizar usuario', 400, error);
     }
   },
@@ -115,7 +108,6 @@ export const UserService = {
       await user.update({ isActive: false });
       return { message: 'Usuario desactivado correctamente', id };
     } catch (error) {
-      if (error instanceof AppError) throw error;
       throw new AppError('Error al desactivar usuario', 500, error);
     }
   },
@@ -132,7 +124,6 @@ export const UserService = {
       const token = generateToken(user);
       return { user: { id: user.id, name: user.name, surname: user.surname, email: user.email }, token };
     } catch (error) {
-      if (error instanceof AppError) throw error;
       throw new AppError('Error al iniciar sesión', 500, error);
     }
   }

@@ -15,7 +15,7 @@ export const CategoryService = {
   async getAll() {
     try {
       return await Category.findAll({
-        include: [{ model: Product, as: 'Products' }] // opcional
+        include: [{ model: Product, as: 'Products' }]
       });
     } catch (error) {
       throw new AppError('Error al obtener las categorías', 500, error);
@@ -31,6 +31,7 @@ export const CategoryService = {
       if (!category) throw new AppError('Categoría no encontrada', 404);
       return category;
     } catch (error) {
+      if (error instanceof AppError) throw error;
       throw new AppError('Error al obtener la categoría', 500, error);
     }
   },

@@ -25,8 +25,7 @@ app.use(errorHandler);
 try {
   await sequelize.authenticate()
   console.log('Conexión a la base de datos establecida con éxito.')
-  await sequelize.sync() // Alter:true para actualizar tablas sin perder datos
-  // await sequelize.sync({ force:true}) // Force:true Elimina y recrea las tablas
+  await sequelize.sync() // { Alter:true } para actualizar tablas sin perder datos, { force:true } para eliminar y recrear tablas
   console.log('Tablas sincronizadas correctamente.')
 } catch (error) {
   console.error('Error al conectar con la base de datos:', error)

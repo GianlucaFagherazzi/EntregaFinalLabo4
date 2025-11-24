@@ -37,6 +37,12 @@ Backend
 * * Un usuario puede borrar su cuenta (DELETE)
 * * * Cuando borre su cuenta, tienen que borrarse su cuenta bancaria, su tarjeta y sus movimientos
 
+Cosas a tener en cuenta:
+- Estructura MVC (Modelo, vista, controlador)
+- Separación en capas
+- Manejo de roles y permisos de usuarios RBAC (Role-based access control)
+
+
 Comandos: 
 - Backend
     - npm run dev: ejecuta la apk
@@ -44,12 +50,6 @@ Comandos:
 - Averiguar si meter TEST unitarios al proyecto.
 - Subir el proyecto a Render para la api
 - Subir la base de datos a Railway.app
-
-
-**Comandos**
-Ejecutar la api
-- npm run dev
-
 
 ***Migraciones y seeders***
 Resetear la base de datos e inicializarla con los seeders

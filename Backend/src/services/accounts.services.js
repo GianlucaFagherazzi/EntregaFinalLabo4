@@ -23,7 +23,6 @@ export const AccountService = {
       return await Account.findAll({
         where: { isActive: true },
         include: [
-          { model: User, as: 'User', attributes: ['id', 'name', 'surname', 'email'] },
           { model: Tarjet, as: 'Tarjets' }
         ]
       });
@@ -45,6 +44,7 @@ export const AccountService = {
       if (!account) throw new AppError('Cuenta no encontrada', 404);
       return account;
     } catch (error) {
+      if (error instanceof AppError) throw error;
       throw new AppError('Error al obtener la cuenta', 500, error);
     }
   },

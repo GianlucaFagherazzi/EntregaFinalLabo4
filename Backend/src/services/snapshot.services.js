@@ -27,6 +27,7 @@ export const SnapshotService = {
       if (!snapshot) throw new AppError('Snapshot no encontrado', 404);
       return snapshot;
     } catch (error) {
+      if (error instanceof AppError) throw error;
       throw new AppError('Error al obtener el snapshot', 500, error);
     }
   },
@@ -41,13 +42,12 @@ export const SnapshotService = {
         buyerName: data.buyerName,
         sellerName: data.sellerName,
         productName: data.productName,
-        numberTarjet: data.numberTarjet,
+        last4Tarjet: data.numberTarjet,
         quantity: data.quantity,
         amount: data.amount,
         date: data.date || new Date()
       });
     } catch (error) {
-      if (error instanceof AppError) throw error;
       throw new AppError('Error al crear el snapshot', 400, error);
     }
   },
