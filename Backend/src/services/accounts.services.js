@@ -2,11 +2,7 @@ import { Account, User, Tarjet } from '../models/index.models.js'
 import { AppError } from '../utils/app.error.js'
 import { Op } from 'sequelize'
 
-// Helper: validar usuario.
-async function validateUser(userId) {
-  const user = await User.findByPk(userId);
-  if (!user || !user.isActive) throw new AppError('El usuario especificado no existe o está inactivo', 404);
-}
+import { UserService } from './users.services.js'
 
 // Helper: validar CBU único por usuario.
 async function validateCbuUnique(cbu, userId, excludeId = null) {
@@ -21,10 +17,7 @@ export const AccountService = {
   async getAll() {
     try {
       return await Account.findAll({
-        where: { isActive: true },
-        include: [
-          { model: Tarjet, as: 'Tarjets' }
-        ]
+        where: { isActive: true }
       });
     } catch (error) {
       throw new AppError('Error al obtener las cuentas', 500, error);
@@ -35,11 +28,7 @@ export const AccountService = {
   async getById(id) {
     try {
       const account = await Account.findOne({
-        where: { id, isActive: true },
-        include: [
-          { model: User, as: 'User', attributes: ['id', 'name', 'surname', 'email'] },
-          { model: Tarjet, as: 'Tarjets' }
-        ]
+        where: { id, isActive: true }
       });
       if (!account) throw new AppError('Cuenta no encontrada', 404);
       return account;
@@ -55,7 +44,7 @@ export const AccountService = {
       if (!data.cbu) throw new AppError('El CBU es obligatorio', 400);
       if (!data.userId) throw new AppError('El usuario es obligatorio', 400);
 
-      await validateUser(data.userId);
+      await UserService.getById(data.userId);
       await validateCbuUnique(data.cbu, data.userId);
 
       return await Account.create(data);
@@ -68,13 +57,10 @@ export const AccountService = {
   // Actualizar cuenta
   async update(id, data) {
     try {
-      const account = await Account.findOne({ where: { id, isActive: true } });
-      if (!account) throw new AppError('Cuenta no encontrada', 404);
+      const account = await this.getById(id);
 
-      // Validar usuario si se intenta cambiar
-      if (data.userId && data.userId !== account.userId) {
-        await validateUser(data.userId);
-      }
+      // Validar usuario si el usuario existe
+      await UserService.getById(data.userId ?? account.userId);
 
       // Validar CBU único si se cambia
       if (data.cbu && data.cbu !== account.cbu) {
@@ -91,8 +77,7 @@ export const AccountService = {
   // Soft delete
   async softDelete(id) {
     try {
-      const account = await Account.findOne({ where: { id, isActive: true } });
-      if (!account) throw new AppError('Cuenta no encontrada', 404);
+      const account = await this.getById(id);
 
       await account.update({ isActive: false });
       return { message: 'Cuenta desactivada correctamente', accountId: id };

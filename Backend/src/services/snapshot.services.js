@@ -1,16 +1,7 @@
-import { Snapshot, Movement } from '../models/index.models.js';
+import { Snapshot } from '../models/index.models.js';
 import { AppError } from '../utils/app.error.js';
 
-// Helper de validación
-async function validateMovement(movementId) {
-  const movement = await Movement.findByPk(movementId);
-  if (!movement) throw new AppError('Movimiento no existe', 404);
-  return movement;
-}
-
 export const SnapshotService = {
-  model: Snapshot, // para incluirlo en MovementService
-
   // Obtener todos
   async getAll() {
     try {
@@ -33,21 +24,13 @@ export const SnapshotService = {
   },
 
   // Crear snapshot
-  async create(data) {
+  async create(data, options = {}) {
     try {
-      await validateMovement(data.movementId);
-
-      return await Snapshot.create({
-        movementId: data.movementId,
-        buyerName: data.buyerName,
-        sellerName: data.sellerName,
-        productName: data.productName,
-        last4Tarjet: data.numberTarjet,
-        quantity: data.quantity,
-        amount: data.amount,
-        date: data.date || new Date()
+      return await Snapshot.create(data, {
+        transaction: options.transaction || null
       });
     } catch (error) {
+      if (error instanceof AppError) throw error;
       throw new AppError('Error al crear el snapshot', 400, error);
     }
   },

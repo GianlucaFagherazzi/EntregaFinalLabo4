@@ -33,7 +33,7 @@ function generateToken(user) {
   return jwt.sign(
     { id: user.id, email: user.email, name: user.name },
     process.env.JWT_SECRET,
-    { expiresIn: '1d' }
+    { expiresIn: process.env.JWT_EXPIRES_IN || '1h' }
   );
 }
 
@@ -51,15 +51,24 @@ export const UserService = {
   async getById(id) {
     try {
       const user = await User.findByPk(id, {
-        include: [
-          { model: Product, as: 'Products' },
-          { model: Account, as: 'Accounts' }
-        ]
+        where: { isActive: true }
       });
       if (!user) throw new AppError('Usuario no encontrado', 404);
       return user;
     } catch (error) {
+      if (error instanceof AppError) throw error;
       throw new AppError('Error al obtener el usuario', 500, error);
+    }
+  },
+
+  async getByEmail(email) {
+    try {
+      const user = await User.findOne({ where: { email, isActive: true } });
+      if (!user) throw new AppError('Usuario no encontrado', 404);
+      return user;
+    } catch (error) {
+      if (error instanceof AppError) throw error;
+      throw new AppError('Error al obtener el usuario por email', 500, error);
     }
   },
 
@@ -75,6 +84,7 @@ export const UserService = {
 
       return await User.create(data);
     } catch (error) {
+      if (error instanceof AppError) throw error;
       throw new AppError('Error al crear usuario', 400, error);
     }
   },
@@ -92,9 +102,10 @@ export const UserService = {
         data.password = await hashPassword(data.password);
       }
 
-      const updated = await user.update(data);
-      return updated;
+      return await user.update(data);
+
     } catch (error) {
+      if (error instanceof AppError) throw error;
       throw new AppError('Error al actualizar usuario', 400, error);
     }
   },
@@ -102,12 +113,13 @@ export const UserService = {
   // Soft delete
   async softDelete(id) {
     try {
-      const user = await User.findByPk(id);
-      if (!user) throw new AppError('Usuario no encontrado', 404);
+      const user = await this.getById(id);
 
       await user.update({ isActive: false });
       return { message: 'Usuario desactivado correctamente', id };
+
     } catch (error) {
+      if (error instanceof AppError) throw error;
       throw new AppError('Error al desactivar usuario', 500, error);
     }
   },
@@ -115,8 +127,7 @@ export const UserService = {
   // Login
   async login(email, password) {
     try {
-      const user = await User.findOne({ where: { email } });
-      if (!user || !user.isActive) throw new AppError('Usuario no encontrado o inactivo', 404);
+      const user = await this.getByEmail(email);
 
       const validPassword = await bcrypt.compare(password, user.password);
       if (!validPassword) throw new AppError('Contraseña incorrecta', 401);
@@ -124,6 +135,7 @@ export const UserService = {
       const token = generateToken(user);
       return { user: { id: user.id, name: user.name, surname: user.surname, email: user.email }, token };
     } catch (error) {
+      if (error instanceof AppError) throw error;
       throw new AppError('Error al iniciar sesión', 500, error);
     }
   }

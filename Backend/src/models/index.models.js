@@ -34,8 +34,8 @@ Account.hasMany(Tarjet, { foreignKey: 'accountId', as: 'Tarjets'});
 Tarjet.belongsTo(Account, { foreignKey: 'accountId', as: 'Account'});
 
 // -------- CATEGORY ↔ PRODUCT --------
-Category.hasMany(Product, { foreignKey: 'categoryId', as: 'Products'});
-Product.belongsTo(Category, { foreignKey: 'categoryId', as: 'Category'});
+Category.hasMany(Product, { foreignKey: 'categoryId', as: 'Products', onDelete: 'SET NULL'});
+Product.belongsTo(Category, { foreignKey: 'categoryId', as: 'Category', onDelete: 'SET NULL'});
 
 // -------- PRODUCT ↔ MOVEMENT --------
 Product.hasMany(Movement, { foreignKey: 'productId', as: 'Movements'});

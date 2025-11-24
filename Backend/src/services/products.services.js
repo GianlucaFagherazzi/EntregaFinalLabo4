@@ -1,26 +1,9 @@
-import { Product, Category, User } from '../models/index.models.js'
+import { Product } from '../models/index.models.js'
 import { AppError } from '../utils/app.error.js'
 import { Op, where } from 'sequelize'
 
-// Helpers reutilizables
-async function validateCategory(categoryId) {
-  const category = await Category.findByPk(categoryId)
-  if (!category) throw new AppError('La categoría especificada no existe', 404)
-}
-
-async function validateUser(userId) {
-  const user = await User.findByPk(userId)
-
-  if (!user) {
-    throw new AppError('El usuario especificado no existe', 404)
-  }
-
-  if (!user.isActive) {
-    throw new AppError('El usuario está inactivo', 400)
-  }
-
-  return user
-}
+import { UserService } from './users.services.js'  
+import { CategoryService } from './categories.services.js'
 
 async function validateProductNameUnique(name, userId, excludeId = null) {
   const where = { name: name.trim(), userId, isActive: true }
@@ -35,15 +18,11 @@ async function validateProductNameUnique(name, userId, excludeId = null) {
   }
 }
 
-
 export const ProductService = {
   async getAll() {
     try {
       return await Product.findAll({
         where: { isActive: true },
-        include: [
-          { model: Category, as: 'Category' }
-        ]
       })
     } catch (error) {
       throw new AppError('Error al obtener los productos', 500, error)
@@ -60,14 +39,15 @@ export const ProductService = {
 
       return product
     } catch (error) {
+      if (error instanceof AppError) throw error;
       throw new AppError('Error al obtener el producto', 500, error);
     }
   },
 
   async create(data) {
     try {
-      await validateUser(data.userId);
-      if (data.categoryId) await validateCategory(data.categoryId);
+      await UserService.getById(data.userId);
+      if (data.categoryId) await CategoryService.ge(data.categoryId);
       await validateProductNameUnique(data.name.trim(), data.userId);
 
       data.name = data.name.trim();
@@ -82,8 +62,7 @@ export const ProductService = {
 
   async update(id, data) {
     try {
-      const product = await Product.findByPk({where: {id, isActive: true}});
-      if (!product) throw new AppError('Producto no encontrado', 404);
+      const product = await this.getById(id)
 
       // Detectar si hubo cambios en el artículo
       const current = product.toJSON()
@@ -104,16 +83,15 @@ export const ProductService = {
 
       // Validar categoría si se envía ---
       if (data.categoryId) {
-        await validateCategory(data.categoryId)
+        await CategoryService.getById(data.categoryId)
       }
 
       // Validar usuario si se envía userId ---
       if (data.userId) {
-        await validateUser(data.userId)
+        await UserService.getById(data.userId)
       }
 
-      const updatedProduct = await product.update(data)
-      return updatedProduct
+      return await product.update(data)
 
     } catch (error) {
       if (error instanceof AppError) throw error;
@@ -123,8 +101,7 @@ export const ProductService = {
 
   async softDelete(id) {
     try {
-      const product = await Product.findOne({ where: { id, isActive: true } });
-      if (!product) throw new AppError('Producto no encontrado', 404)
+      const product = await this.getById(id);
 
       await product.update({ isActive: false })
       return { message: 'Producto desactivado correctamente', productId: id };

@@ -1,4 +1,4 @@
-import { Category, Product } from '../models/index.models.js'
+import { Category } from '../models/index.models.js'
 import { AppError } from '../utils/app.error.js'
 import { Op } from 'sequelize'
 
@@ -14,9 +14,7 @@ export const CategoryService = {
   // Obtener todas las categorías
   async getAll() {
     try {
-      return await Category.findAll({
-        include: [{ model: Product, as: 'Products' }]
-      });
+      return await Category.findAll();
     } catch (error) {
       throw new AppError('Error al obtener las categorías', 500, error);
     }
@@ -25,9 +23,7 @@ export const CategoryService = {
   // Obtener categoría por ID
   async getById(id) {
     try {
-      const category = await Category.findByPk(id, {
-        include: [{ model: Product, as: 'Products' }] // opcional
-      });
+      const category = await Category.findByPk( id );
       if (!category) throw new AppError('Categoría no encontrada', 404);
       return category;
     } catch (error) {
@@ -51,8 +47,7 @@ export const CategoryService = {
   // Actualizar categoría
   async update(id, data) {
     try {
-      const category = await Category.findByPk(id);
-      if (!category) throw new AppError('Categoría no encontrada', 404);
+      const category = await this.getById(id);
 
       if (data.name && data.name !== category.name) {
         await validateCategoryNameUnique(data.name, id);
@@ -69,8 +64,7 @@ export const CategoryService = {
   // Eliminar categoría (hard delete)
   async delete(id) {
     try {
-      const category = await Category.findByPk(id);
-      if (!category) throw new AppError('Categoría no encontrada', 404);
+      const category = await this.getById(id);
 
       await category.destroy();
       return { message: 'Categoría eliminada correctamente', categoryId: id };

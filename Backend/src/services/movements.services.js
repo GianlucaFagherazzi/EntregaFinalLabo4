@@ -1,123 +1,101 @@
-import { Movement, Product, MovementUser, Tarjet, User, Account } from '../models/index.models.js';
+import { Movement } from '../models/index.models.js';
 import { AppError } from '../utils/app.error.js';
-import { MovementUserService } from './movementUser.services.js';
-import { SnapshotService } from './snapshot.services.js';
 import { sequelize } from '../config/database.js';
 
-// ---------------------- VALIDACIONES -------------------------
+// Servicios especializados
+import { ProductService } from './products.services.js';
+import { AccountService } from './accounts.services.js';
+import { TarjetService } from './tarjets.services.js';
+import { MovementUserService } from './movementUser.services.js';
+import { SnapshotService } from './snapshot.services.js';
+import { UserService } from './users.services.js';
 
-function validateProductForSnapshot(product) {
-  if (!product.name) throw new AppError('El producto debe tener nombre', 400);
-  if (!product.price || product.price <= 0)
-    throw new AppError('El producto debe tener un precio válido', 400);
-}
-
-function validateMovementData(quantity, totalAmount) {
-  if (!quantity || quantity <= 0)
-    throw new AppError('La cantidad debe ser mayor a cero', 400);
-
-  if (!totalAmount || totalAmount <= 0)
-    throw new AppError('Monto total inválido', 400);
-}
-
-// --- 🆕 VALIDAR QUE LA CUENTA EXISTA Y ESTE ACTIVA ---
-async function validateAccount(accountId) {
-  const acc = await Account.findByPk(accountId);
-
-  if (!acc || !acc.isActive)
-    throw new AppError('Cuenta inválida o inactiva', 400);
-
-  return acc;
-}
-
-// validar que una tarjeta tiene saldo suficiente
-async function validateTarjetHasBalance(tarjetId, amountNeeded) {
-  const tarjet = await Tarjet.findByPk(tarjetId);
-
-  if (!tarjet || !tarjet.isActive)
-    throw new AppError('La tarjeta no existe o está inactiva', 404);
-
-  if (tarjet.balance < amountNeeded)
-    throw new AppError(
-      `Saldo insuficiente. Saldo: ${tarjet.balance}, Necesario: ${amountNeeded}`,
-      400
-    );
-
-  return tarjet;
-}
-
-function extractLast4(number) {
-  if (!number) return null;
-  return String(number).slice(-4);
-}
-
-
-// --------------------------------------------------------------
+import { extractLast4, validateProduct, validateBuyerSeller } from '../utils/helpers.js';
 
 export const MovementService = {
+
   async getAll() {
-    return Movement.findAll();
+    try {
+      return await Movement.findAll();
+    } catch (error) {
+      throw new AppError('Error al obtener los movimientos', 500, error);
+    }
   },
 
   async getById(id) {
-    return Movement.findByPk(id, {
-      include: [
-        { model: Product, as: 'Product' },
-        { model: MovementUser, as: 'MovementUsers' },
-        { model: SnapshotService.model, as: 'Snapshot' }
-      ]
-    });
+    try {
+      const movement = await Movement.findByPk(id);
+      if (!movement) throw new AppError('Movimiento no encontrado', 404);
+      return movement;
+    } catch (error) {
+      if (error instanceof AppError) throw error;
+      throw new AppError('Error al obtener el movimiento', 500, error);
+    }
   },
 
-  // -------------------------- CREATE --------------------------
+
+
+
+  async getAllMovementsByProductId(productId) { },
+
+  async getAllMovementsByUserId(userId) { },
+
+  async getAllMovementsByTarjetId(tarjetId) { },
+
+
+
 
   async create(data) {
     const t = await sequelize.transaction();
 
     try {
-      // 1. Obtener producto
-      const product = await Product.findByPk(data.productId);
-      if (!product) throw new AppError('Producto no encontrado', 404);
+      /*{
+  "productId": 1,
+  "quantity": 2,
+  "movementUsers": [
+    {
+      "userId": 2,
+      "accountId": 2,
+      "tarjetId": 2,
+      "rol": "buyer"
+    },
+    {
+      "userId": 1,
+      "accountId": 2,
+      "tarjetId": 1,
+      "rol": "seller"
+    }
+  ]
+}*/
 
-      validateProductForSnapshot(product);
+      // Se validan los datos de los usuarios del movimiento
+      const { buyer: buyerMU, seller: sellerMU } = validateBuyerSeller(data.movementUsers);
 
-      const totalAmount = data.quantity * product.price;
+      // Validar si los usuarios existen y están activos
+      const buyerUser = await UserService.getById(buyerMU.userId);
+      const sellerUser = await UserService.getById(sellerMU.userId);
 
-      validateMovementData(data.quantity, totalAmount);
+      // Validar si el producto existe y está activo
+      const product = await ProductService.getById(data.productId);
 
-      // 2. Validar movementUsers buyer/seller
-      if (!data.movementUsers || data.movementUsers.length < 2) {
-        throw new AppError('Debe haber buyer y seller en el movimiento', 400);
+      // Se validan las cuentas asociadas a los usuarios
+      await AccountService.getById(buyerMU.accountId);
+      await AccountService.getById(sellerMU.accountId);
+
+      // Se validan las tarjetas asociadas a los usuarios
+      const buyerTarjet = await TarjetService.getById(buyerMU.tarjetId);
+      const sellerTarjet = await TarjetService.getById(sellerMU.tarjetId);
+
+      // Validar cantidad y monto total      
+      const totalAmount = validateProduct(product, data.quantity);
+
+      // Validar fondos suficientes en la tarjeta del comprador
+      if (buyerTarjet.balance < totalAmount) {
+        throw new AppError('Fondos insuficientes en la tarjeta del comprador', 400);
       }
-
-      const buyerMU = data.movementUsers.find(mu => mu.rol === 'buyer');
-      const sellerMU = data.movementUsers.find(mu => mu.rol === 'seller');
-      
-      if (!buyerMU || !sellerMU)
-        throw new AppError('Debe existir buyer y seller', 400);
-
-      // --- 🆕 VALIDAR CUENTAS ---
-      await validateAccount(buyerMU.accountId);
-      await validateAccount(sellerMU.accountId);
-
-      // 3. Validar saldo suficiente del comprador
-      const buyerTarjet = await validateTarjetHasBalance(buyerMU.tarjetId, totalAmount);
-
-      // 4. Obtener tarjeta del vendedor
-      const sellerTarjet = await Tarjet.findByPk(sellerMU.tarjetId);
-      if (!sellerTarjet)
-        throw new AppError('Tarjeta del vendedor no encontrada', 404);
-
       const last4Seller = extractLast4(sellerTarjet.number);
 
-      // 5. Obtener usuarios reales
-      const buyerUser = await User.findByPk(buyerMU.userId);
-      const sellerUser = await User.findByPk(sellerMU.userId);
-
-      if (!buyerUser || !sellerUser)
-        throw new AppError('Usuario buyer o seller no encontrado', 404);
-
-      // 6. Crear movimiento
+      // Crear el movimiento
       const movement = await Movement.create({
         productId: data.productId,
         quantity: data.quantity,
@@ -125,28 +103,19 @@ export const MovementService = {
         date: data.date || new Date()
       }, { transaction: t });
 
-      // 7. Registrar movementUsers
+      // Crear los registros de movementUser asociados
       for (const mu of data.movementUsers) {
-        await MovementUserService.create({
-          movementId: movement.id,
-          userId: mu.userId,
-          accountId: mu.accountId,
-          tarjetId: mu.tarjetId,
-          rol: mu.rol
-        }, t);
+        await MovementUserService.create(
+          { ...mu, movementId: movement.id },
+          { transaction: t }
+        );
       }
-      
-      // 8. Descontar saldo comprador
-      await buyerTarjet.update({
-        balance: buyerTarjet.balance - totalAmount
-      }, { transaction: t });
 
-      // 9. Acreditar saldo vendedor
-      await sellerTarjet.update({
-        balance: sellerTarjet.balance + totalAmount
-      }, { transaction: t });
+      // Actualizar balances de las tarjetas
+      await TarjetService.updateBalance(buyerTarjet.id, buyerTarjet.balance - totalAmount, { transaction: t });
+      await TarjetService.updateBalance(sellerTarjet.id, sellerTarjet.balance + totalAmount, { transaction: t });
 
-      // 10. Crear snapshot
+      // Crear snapshot del movimiento
       await SnapshotService.create({
         movementId: movement.id,
         buyerName: `${buyerUser.name} ${buyerUser.surname}`,
@@ -156,7 +125,7 @@ export const MovementService = {
         quantity: data.quantity,
         amount: totalAmount,
         date: data.date || new Date()
-      }, t);
+      }, { transaction: t });
 
       await t.commit();
 
@@ -164,9 +133,8 @@ export const MovementService = {
 
     } catch (error) {
       await t.rollback();
-
       if (error instanceof AppError) throw error;
-      throw new AppError('Error al crear el movimiento', 400, error);
+      throw new AppError('Error al crear el movimiento', 500, error);
     }
   }
 };
