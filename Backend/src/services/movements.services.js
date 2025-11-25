@@ -10,7 +10,7 @@ import { MovementUserService } from './movementUser.services.js';
 import { SnapshotService } from './snapshot.services.js';
 import { UserService } from './users.services.js';
 
-import { extractLast4, validateProduct, validateBuyerSeller } from '../utils/helpers.js';
+import { extractLast4, validateProduct, validateOwnership } from '../utils/helpers.js';
 
 export const MovementService = {
 
@@ -67,24 +67,29 @@ export const MovementService = {
     }
   ]
 }*/
-
-      // Se validan los datos de los usuarios del movimiento
-      const { buyer: buyerMU, seller: sellerMU } = validateBuyerSeller(data.movementUsers);
+      const buyer = data.movementUsers.find(mu => mu.rol === "buyer");
+      const seller = data.movementUsers.find(mu => mu.rol === "seller");
 
       // Validar si los usuarios existen y están activos
-      const buyerUser = await UserService.getById(buyerMU.userId);
-      const sellerUser = await UserService.getById(sellerMU.userId);
+      const buyerUser = await UserService.getById(buyer.userId);
+      const sellerUser = await UserService.getById(seller.userId);
 
       // Validar si el producto existe y está activo
       const product = await ProductService.getById(data.productId);
+      validateOwnership(product, 'userId', seller.userId, 'El producto no pertenece al vendedor especificado');
 
       // Se validan las cuentas asociadas a los usuarios
-      await AccountService.getById(buyerMU.accountId);
-      await AccountService.getById(sellerMU.accountId);
+      const buyerAccount = await AccountService.getById(buyer.accountId);
+      validateOwnership(buyerAccount, 'userId', buyer.userId, 'La cuenta del comprador no pertenece al usuario especificado');
+      const sellerAccount = await AccountService.getById(seller.accountId);
+      validateOwnership(sellerAccount, 'userId', seller.userId, 'La cuenta del vendedor no pertenece al usuario especificado');
+
 
       // Se validan las tarjetas asociadas a los usuarios
-      const buyerTarjet = await TarjetService.getById(buyerMU.tarjetId);
-      const sellerTarjet = await TarjetService.getById(sellerMU.tarjetId);
+      const buyerTarjet = await TarjetService.getById(buyer.tarjetId);
+      validateOwnership(buyerTarjet, 'accountId', buyerAccount.id, 'La tarjeta del comprador no pertenece a la cuenta especificada');
+      const sellerTarjet = await TarjetService.getById(seller.tarjetId);
+      validateOwnership(sellerTarjet, 'accountId', sellerAccount.id, 'La tarjeta del vendedor no pertenece a la cuenta especificada');
 
       // Validar cantidad y monto total      
       const totalAmount = validateProduct(product, data.quantity);

@@ -34,25 +34,18 @@ export function validateProduct(product, cuantity) {
   }
 }
 
-export function validateBuyerSeller(movementUsers) {
-  try {
-    const buyer = movementUsers.find(mu => mu.rol === "buyer");
-    const seller = movementUsers.find(mu => mu.rol === "seller");
-
-    // Asegurar que buyer y seller no sean la misma entidad en la BD
-    if (buyer.userId === seller.userId) {
-      throw new AppError("Buyer y seller no pueden ser el mismo usuario", 400);
-    }
-
-    // Prevenir duplicados exactos por ID real (no solo payload)
-    const uniqueKeys = new Set(movementUsers.map(mu => `${mu.userId}-${mu.accountId}-${mu.rol}`));
-    if (uniqueKeys.size !== movementUsers.length) {
-      throw new AppError("Hay registros movementUsers duplicados", 400);
-    }
-
-    return { buyer, seller };
-  } catch (error) {
-    if (error instanceof AppError) throw error;
-    throw new AppError('Error al validar el producto y la cantidad', 500, error);
+/**
+ * Valida que un recurso pertenezca a un dueño específico
+ * @param {object} resource - El objeto que quieres validar (ej: cuenta, tarjeta)
+ * @param {string} ownerKey - La propiedad que indica el dueño en el objeto (ej: "userId", "accountId")
+ * @param {number|string} ownerId - El ID con el que se valida la propiedad
+ * @param {string} errorMessage - Mensaje de error opcional
+ */
+export function validateOwnership(resource, ownerKey, ownerId, errorMessage = null) {
+  if (!resource[ownerKey] || resource[ownerKey] !== ownerId) {
+    throw new AppError(
+      errorMessage || `El recurso no pertenece al propietario especificado`,
+      400
+    );
   }
 }
