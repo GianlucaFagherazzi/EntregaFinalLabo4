@@ -1,11 +1,9 @@
-import UsersList from "./users.jsx";
+import { Routes, Route } from "react-router-dom";
+
+import  {AppRouter} from "./routes/AppRouter";
 
 function App() {
-  return (
-    <div>
-      <UsersList />
-    </div>
-  );
+  return (<AppRouter />);
 }
 
 export default App;
