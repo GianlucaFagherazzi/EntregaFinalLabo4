@@ -21,43 +21,33 @@ const User = UserModel(sequelize, DataTypes);
 
 // Relaciones
 
-// -------- USER ↔ PRODUCT --------
 User.hasMany(Product, { foreignKey: 'userId', as: 'Products'});
 Product.belongsTo(User, { foreignKey: 'userId', as: 'User'});
 
-// -------- USER ↔ ACCOUNT --------
 User.hasMany(Account, { foreignKey: 'userId', as: 'Accounts'});
 Account.belongsTo(User, { foreignKey: 'userId', as: 'User'});
 
-// -------- ACCOUNT ↔ TARJET --------
 Account.hasMany(Tarjet, { foreignKey: 'accountId', as: 'Tarjets'});
 Tarjet.belongsTo(Account, { foreignKey: 'accountId', as: 'Account'});
 
-// -------- CATEGORY ↔ PRODUCT --------
 Category.hasMany(Product, { foreignKey: 'categoryId', as: 'Products', onDelete: 'SET NULL'});
 Product.belongsTo(Category, { foreignKey: 'categoryId', as: 'Category', onDelete: 'SET NULL'});
 
-// -------- PRODUCT ↔ MOVEMENT --------
 Product.hasMany(Movement, { foreignKey: 'productId', as: 'Movements'});
 Movement.belongsTo(Product, { foreignKey: 'productId', as: 'Product'});
 
-// -------- ACCOUNT ↔ MOVEMENTUSER --------
 Account.hasMany(MovementUser, { foreignKey: 'accountId', as: 'MovementUsers'});
 MovementUser.belongsTo(Account, { foreignKey: 'accountId', as: 'Account'});
 
-// -------- TARJET ↔ MOVEMENTUSER --------
 Tarjet.hasMany(MovementUser, { foreignKey: 'tarjetId', as: 'MovementUsers'});
 MovementUser.belongsTo(Tarjet, { foreignKey: 'tarjetId', as: 'Tarjet'});
 
-// -------- MOVEMENT ↔ MOVEMENTUSER --------
 Movement.hasMany(MovementUser, { foreignKey: 'movementId', as: 'MovementUsers'});
 MovementUser.belongsTo(Movement, { foreignKey: 'movementId', as: 'Movement'});
 
-// -------- USER ↔ MOVEMENTUSER --------
 User.hasMany(MovementUser, { foreignKey: 'userId', as: 'MovementUsers'});
 MovementUser.belongsTo(User, { foreignKey: 'userId', as: 'User'});
 
-// -------- MOVEMENT ↔ SNAPSHOT --------
 Movement.hasOne(Snapshot, { foreignKey: 'movementId', as: 'Snapshot' });
 Snapshot.belongsTo(Movement, { foreignKey: 'movementId', as: 'Movement' });
 

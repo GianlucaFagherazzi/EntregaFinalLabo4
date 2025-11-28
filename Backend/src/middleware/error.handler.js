@@ -1,4 +1,3 @@
-// Middleware para manejar errores en la aplicacion. Es el ultimo en la cadena de middlewares.
 // El error que recibe puede ser una instancia de AppError para errores personalizados.
 export function errorHandler(err, req, res, _next) {
   const timestamp = new Date().toISOString()

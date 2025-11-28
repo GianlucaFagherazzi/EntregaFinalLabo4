@@ -35,7 +35,6 @@ export function validateProduct(product, cuantity) {
 }
 
 /**
- * Valida que un recurso pertenezca a un dueño específico
  * @param {object} resource - El objeto que quieres validar (ej: cuenta, tarjeta)
  * @param {string} ownerKey - La propiedad que indica el dueño en el objeto (ej: "userId", "accountId")
  * @param {number|string} ownerId - El ID con el que se valida la propiedad
