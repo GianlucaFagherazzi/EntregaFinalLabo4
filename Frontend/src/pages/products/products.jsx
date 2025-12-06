@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from "react";
 import { getProducts } from "../../services/productsServices";
-import ProductCard from "../../components/productsCard/productsCard";
+import { ProductCard } from "../../components/productsCard/productsCard";
 import "./products.css";
 
 function Products() {
@@ -25,7 +25,7 @@ function Products() {
 
       <div className="products-grid">
         {products.map((p) => (
-          <ProductCard key={p.id} product={p} />
+          <ProductCard key={p.id} product={p} mode={""}/>
         ))}
       </div>
     </div>
