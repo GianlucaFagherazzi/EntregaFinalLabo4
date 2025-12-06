@@ -21,7 +21,6 @@ export function AppRouter() {
         {CategoriesRouter()}
         {CartRouter()}
 
-
       </Route>
 
     </Routes>

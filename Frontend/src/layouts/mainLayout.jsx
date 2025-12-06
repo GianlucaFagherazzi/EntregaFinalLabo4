@@ -1,14 +1,22 @@
 import { Outlet } from "react-router-dom";
 import Navbar from "../components/navbar.jsx";
+import Header from "../components/header.jsx";
+import Footer from "../components/footer.jsx";
 
 export default function MainLayout() {
   return (
-    <div style={{ padding: 20 }}>
-      <Navbar />
+    <div className="app-container">
 
-      <div style={{ marginTop: 20 }}>
-        <Outlet />
-      </div>
+      <Header />     {/* Encabezado */}
+      
+      <Navbar />     {/* Navegación */}
+      
+      <main className="main-content">
+        <Outlet />   {/* Cuerpo dinámico */}
+      </main>
+
+      <Footer />     {/* Pie de página */}
+
     </div>
   );
 }
