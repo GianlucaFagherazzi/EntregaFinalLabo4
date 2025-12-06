@@ -1,5 +1,8 @@
 Cosas pendientes
 
+- mostrar mensaje de error e indicar que el dni tiene que tener 8 caracteres
+
+
 Backend
 - Agregar las siguientes funcionalidades: 
 - Categoria

@@ -1,14 +1,14 @@
 import { AppRouter } from "./routes/AppRouter";
-import { CartProvider } from "./context/CartContext";
-// import { UserProvider } from "./context/UserContext";
+import { CartProvider } from "./context/cartContext";
+import { AuthProvider } from "./context/authContext";
 
 function App() {
   return (
-    // <UserProvider>
+    <AuthProvider>
       <CartProvider>
         <AppRouter />
       </CartProvider>
-    // </UserProvider>
+    </AuthProvider>
   );
 }
 
