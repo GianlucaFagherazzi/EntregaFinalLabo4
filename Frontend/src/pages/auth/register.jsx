@@ -28,14 +28,14 @@ function Register() {
 
       await registerUser(newUser);
 
-      setSuccess("Usuario registrado correctamente ✅");
+      setSuccess("Usuario registrado correctamente ");
 
       setTimeout(() => {
-        navigate("/");
+        navigate("/login");
       }, 1500);
 
     } catch (error) {
-      alert("Error al registrar usuario ❌");
+      alert("Error al registrar usuario ");
       console.error(error);
     }
   }
@@ -44,7 +44,7 @@ function Register() {
     <div className="auth-container">
       <h1>Registrarse</h1>
 
-      {/* ✅ MENSAJE CORRECTAMENTE UBICADO */}
+      {/* MENSAJE CORRECTAMENTE UBICADO */}
       {success && <p className="success-message">{success}</p>}
 
       <form onSubmit={handleSubmit} className="auth-form">
@@ -83,11 +83,11 @@ function Register() {
         <input
           type="password"
           placeholder="Contraseña"
+          autoComplete="current-password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-
         <button type="submit">Crear cuenta</button>
       </form>
     </div>

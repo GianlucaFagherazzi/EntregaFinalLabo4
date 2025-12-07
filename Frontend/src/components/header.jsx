@@ -11,14 +11,14 @@ function Header() {
 
         // CUANDO NO HAY SESIÓN
         <div className="header-simple">
-          <img src="/logo.png" alt="Logo" />
+          <img src="0a356142c7184ae283480e277bf81dda.gif" alt="Logo" />
           <h1>Mi Tienda</h1>
         </div>
       ) : (
         
         // CUANDO HAY SESIÓN
         <div className="header-completo">
-          <img src="/logo.png" alt="Logo" />
+          <img src="7f7db2e0d39ad48e344a4d551dcf5b08.jpg" alt="Logo" />
           <h1>Mi Tienda</h1>
           <p>Bienvenido, {user.name}</p>
         </div>

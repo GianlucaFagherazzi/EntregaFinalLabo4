@@ -15,16 +15,20 @@ export function AuthProvider({ children }) {
 
   function login(userData) {
     setUser(userData);
-    localStorage.setItem("user", JSON.stringify(userData));
+    localStorage.setItem("user", JSON.stringify(userData.user));
+    localStorage.setItem("token", JSON.stringify(userData.token));
   }
 
   function logout() {
     setUser(null);
     localStorage.removeItem("user");
+    localStorage.removeItem("token");
   }
 
+  const isAuthenticated = !!user;
+
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, isAuthenticated, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

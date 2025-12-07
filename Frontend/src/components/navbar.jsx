@@ -23,7 +23,7 @@ export default function Navbar() {
                 <li>
                     <NavLink to="/" end onClick={() => setOpen(false)}>Inicio</NavLink>
                 </li>
-                {!isAuthenticated ? (
+                {!isAuthenticated  ? (
                     <>
                         <li>
                         <NavLink to="/register" onClick={() => setOpen(false)}>

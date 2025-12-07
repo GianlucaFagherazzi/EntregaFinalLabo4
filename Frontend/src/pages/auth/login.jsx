@@ -8,20 +8,21 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { login } = useContext(AuthContext); // ✅ agarramos el login global
+  const { login } = useContext(AuthContext); // agarramos el login global
   const navigate = useNavigate();
 
   async function handleSubmit(e) {
     e.preventDefault();
 
     try {
+
       const response = await loginUser({
         email,
         password,
       });
 
-      login(response.data); // ✅ ahora sí guardás SOLO el usuario
-      navigate("/");        // ✅ redirige al home
+      login(response.data); // Se guarda el usuario y el token globalmente
+      navigate("/");        // redirige al home
 
     } catch (error) {
       alert("Correo o contraseña incorrectos ❌");
@@ -37,6 +38,7 @@ function Login() {
         <input
           type="email"
           placeholder="Correo electrónico"
+          autoComplete="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
@@ -45,6 +47,7 @@ function Login() {
         <input
           type="password"
           placeholder="Contraseña"
+          autoComplete="current-password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required

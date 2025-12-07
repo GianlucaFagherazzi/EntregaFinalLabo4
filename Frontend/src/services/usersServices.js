@@ -1,8 +1,12 @@
-const API_URL = import.meta.env.VITE_API_URL;
-const API_PORT = import.meta.env.VITE_API_PORT;
+import api from './api'
 
-export async function getUsers() {
-  const response = await fetch(`${API_URL}${API_PORT}/api/users`);
-  const data = await response.json();
-  return data.data; // solo el array de usuarios
+export function getUsers() {
+  return api.get('/users')
+    .then(res => {
+      return res.data.data
+    })
+    .catch(err => {
+      console.error('Error fetching users:', err)
+      throw err
+    })
 }

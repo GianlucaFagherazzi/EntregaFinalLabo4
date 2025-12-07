@@ -48,8 +48,8 @@ export const UserController = {
 
   async login(req, res, next) {
     try {
-      const { email, password } = req.body;   // ✅ extraemos bien
-      const result = await UserService.login(email, password); // ✅ enviamos separado
+      const { email, password } = req.body;  
+      const result = await UserService.login(email, password); 
       res.status(200).json({ success: true, data: result });
     } catch (error) {
       next(error);

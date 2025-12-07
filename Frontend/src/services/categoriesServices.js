@@ -1,9 +1,10 @@
-const API_URL = import.meta.env.VITE_API_URL;
-const API_PORT = import.meta.env.VITE_API_PORT;
+import api from './api'
 
-
-export async function getCategories() {
-  const response = await fetch(`${API_URL}${API_PORT}/api/categories`);
-  const data = await response.json();
-  return data.data; // solo el array de categorias
+export function getCategories() {
+  try {
+    return api.get('/categories').then(res => res.data.data)
+  } catch (err) {
+    console.error('Error fetching categories:', err)
+    throw err
+  }
 }
