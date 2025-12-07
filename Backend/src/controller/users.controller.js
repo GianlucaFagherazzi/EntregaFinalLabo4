@@ -48,11 +48,13 @@ export const UserController = {
 
   async login(req, res, next) {
     try {
-      const result = await UserService.login(req.body)
-      res.status(201).json({ success: true, data: result })
+      const { email, password } = req.body;   // ✅ extraemos bien
+      const result = await UserService.login(email, password); // ✅ enviamos separado
+      res.status(200).json({ success: true, data: result });
     } catch (error) {
-      next(error)
+      next(error);
     }
-  },
+  }
+
 }
 

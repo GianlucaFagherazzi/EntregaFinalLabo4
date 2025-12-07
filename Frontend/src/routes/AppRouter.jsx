@@ -5,6 +5,7 @@ import { ProductsRouter } from "./productsRouter";
 import { UsersRouter } from "./usersRouter";
 import { CategoriesRouter } from "./categoriesRouter";
 import { CartRouter } from "./cartRouter";
+import { AuthRouter } from "./authRouter";
 
 export function AppRouter() {
   return (
@@ -14,6 +15,7 @@ export function AppRouter() {
         <Route path="/" element={<Home />} />
 
         {/* Rutas de la api */}
+        {AuthRouter()}
         {ProductsRouter()}
         {UsersRouter()}
         {CategoriesRouter()}
