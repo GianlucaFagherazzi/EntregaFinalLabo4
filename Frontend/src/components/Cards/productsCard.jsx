@@ -32,7 +32,7 @@ export function ProductCard({ product, variant = "view" }) {
   const config = VARIANTS[variant];
 
   return (
-    <div className="product-card">
+    <div className="card">
       <h2>{product.name}</h2>
       <p>{product.description}</p>
       <p className="product-price">${product.price}</p>
@@ -40,7 +40,7 @@ export function ProductCard({ product, variant = "view" }) {
         <strong>Stock:</strong> {product.stock}
       </p>
 
-      <button onClick={() => config.action(product, ctx)}>
+      <button className="btn" onClick={() => config.action(product, ctx)}>
         {config.text}
       </button>
 

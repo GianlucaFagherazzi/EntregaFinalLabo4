@@ -30,7 +30,7 @@ function Login() {
   }
 
   return (
-    <div className="auth-container">
+    <div className="form">
       <h1>Iniciar sesión</h1>
 
       <form onSubmit={handleSubmit} className="auth-form">
@@ -52,7 +52,7 @@ function Login() {
           required
         />
 
-        <button type="submit">Ingresar</button>
+        <button className="btn" type="submit">Ingresar</button>
       </form>
 
       <p>

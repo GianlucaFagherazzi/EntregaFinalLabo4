@@ -39,7 +39,7 @@ function Register() {
   }
 
   return (
-    <div className="auth-container">
+    <div className="form">
       <h1>Registrarse</h1>
 
       {/* MENSAJE CORRECTAMENTE UBICADO */}
@@ -86,7 +86,7 @@ function Register() {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <button type="submit">Crear cuenta</button>
+        <button className="btn" type="submit">Crear cuenta</button>
       </form>
     </div>
   );

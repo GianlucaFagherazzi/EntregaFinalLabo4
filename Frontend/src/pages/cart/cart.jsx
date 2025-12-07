@@ -14,14 +14,14 @@ export default function Cart() {
                 <div key={item.id} style={{ marginBottom: 10 }}>
                     <strong>{item.name}</strong> - ${item.price}
 
-                    <div style={{ display: "inline-flex", gap: 10, marginLeft: 20 }}>
-                        <button onClick={() => decreaseQty(item.id)}>-</button>
+                    <div> 
+                        <button className="btn"  onClick={() => decreaseQty(item.id)}>-</button>
 
-                        <span>x {item.qty}</span>
+                        <span>  x   {item.qty}</span>
 
-                        <button onClick={() => addToCart(item)}>+</button>
+                        <button className="btn"  onClick={() => addToCart(item)}>+</button>
 
-                        <button onClick={() => removeFromCart(item.id)}>X</button>
+                        <button className="btn"  onClick={() => removeFromCart(item.id)}>X</button>
 
                     </div>
                 </div>
@@ -31,7 +31,7 @@ export default function Cart() {
             <p><strong>Total:</strong> ${total}</p>
 
             {cart.length > 0 && (
-                <button onClick={clearCart}>Vaciar carrito</button>
+                <button className="btn"  onClick={clearCart}>Vaciar carrito</button>
             )}
         </div>
     );

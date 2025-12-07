@@ -9,9 +9,9 @@ export default function ThemeSelector() {
 
   return (
     <div>
-      <button onClick={() => updateUser({ theme: "clean" })}>Clean</button>
-      <button onClick={() => updateUser({ theme: "dark" })}>Dark</button>
-      <button onClick={() => updateUser({ theme: "green" })}>Green</button>
+      <button className="btn" onClick={() => updateUser({ theme: "clean" })}>Clean</button>
+      <button className="btn" onClick={() => updateUser({ theme: "dark" })}>Dark</button>
+      <button className="btn" onClick={() => updateUser({ theme: "green" })}>Green</button>
     </div>
   );
 }
