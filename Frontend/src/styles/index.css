@@ -1,0 +1,56 @@
+/* clean modern */
+:root {
+  --color-bg: #f8fafc;
+  --color-surface: #ffffff;
+  --color-text: #0f172a;
+  --color-text-secondary: #475569;
+  --color-border: #e2e8f0;
+
+  --color-primary: #2563eb;
+  --color-primary-hover: #1d4ed8;
+  --color-secondary: #0ea5e9;
+  --color-accent: #6366f1;
+
+  --radius: 8px;
+  --shadow: 0px 2px 10px rgba(0,0,0,0.04);
+}
+
+/* dark elegant */
+[data-theme="dark"] {
+  --color-bg: #0f172a;
+  --color-surface: #1e293b;
+  --color-text: #f8fafc;
+  --color-text-secondary: #cbd5e1;
+  --color-border: #334155;
+
+  --color-primary: #8b5cf6;
+  --color-primary-hover: #7c3aed;
+  --color-secondary: #6366f1;
+  --color-accent: #a78bfa;
+}
+
+/* green tech */
+[data-theme="green"] {
+  --color-bg: #f1f5f9;
+  --color-surface: #ffffff;
+  --color-text: #0f172a;
+  --color-text-secondary: #475569;
+  --color-border: #d4d4d8;
+
+  --color-primary: #16a34a;
+  --color-primary-hover: #15803d;
+  --color-secondary: #4ade80;
+  --color-accent: #10b981;
+}
+
+/* aplicar variabes */
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: system-ui, sans-serif;
+}
+
+* {
+  transition: background 0.3s ease, color 0.3s ease;
+}

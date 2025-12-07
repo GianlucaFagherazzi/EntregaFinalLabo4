@@ -1,4 +1,3 @@
-
 function CategoriesCard({ category }) {
   return (
     <div className="category-card">

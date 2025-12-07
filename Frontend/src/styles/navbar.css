@@ -1,0 +1,30 @@
+.navbar {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: var(--color-text);
+  padding: 0.4rem 0.8rem;
+  border-radius: var(--radius);
+}
+
+.nav-link:hover {
+  background: var(--color-border);
+  transition: 0.2s;
+}
+
+.nav-link.active {
+  background: var(--color-primary);
+  color: white;
+}
+
+/* user info */
+.nav-user {
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  gap: 0.4rem;
+}

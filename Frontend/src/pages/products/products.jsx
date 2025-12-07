@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react";
 import { getProducts } from "../../services/productsServices";
 import { ProductCard } from "../../components/productsCard/productsCard";
-import "./products.css";
 
 function Products() {
   const [products, setProducts] = useState([]);

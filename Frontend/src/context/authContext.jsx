@@ -9,26 +9,57 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
-      setUser(JSON.parse(storedUser));
+      const parsedUser = JSON.parse(storedUser);
+      setUser(parsedUser);
+
+      // Aplicar tema si existe
+      if (parsedUser.theme) {
+        applyTheme(parsedUser.theme);
+      }
     }
+    // No hay user o no tiene theme → usar preferencia del sistema
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const defaultTheme = prefersDark ? "dark" : "clean";
+    applyTheme(defaultTheme);
   }, []);
 
   function login(userData) {
-    setUser(userData);
+    setUser(userData.user);
     localStorage.setItem("user", JSON.stringify(userData.user));
     localStorage.setItem("token", JSON.stringify(userData.token));
+
+    // aplicar el tema del user al entrar
+    if (userData.user.theme) {
+      applyTheme(userData.user.theme);
+    }
   }
 
   function logout() {
     setUser(null);
     localStorage.removeItem("user");
     localStorage.removeItem("token");
+    applyTheme("clean"); // tema por defecto al salir
   }
 
-  const isAuthenticated = !!user;
+  function updateUser(fields) {
+    if (!user) return;
+
+    const updated = { ...user, ...fields };
+    setUser(updated);
+    localStorage.setItem("user", JSON.stringify(updated));
+
+    if (fields.theme) {
+      applyTheme(fields.theme);
+    }
+  }
+
+  function applyTheme(theme) {
+    document.documentElement.setAttribute("data-theme", theme);
+  }
+
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, updateUser }}>
       {children}
     </AuthContext.Provider>
   );

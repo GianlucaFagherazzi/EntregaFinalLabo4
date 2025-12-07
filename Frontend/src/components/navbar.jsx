@@ -1,13 +1,14 @@
-import { useState, useContext  } from "react";
+import { useState, useContext } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { AuthContext } from "../context/authContext";
-import "./navbar.css";
+import ThemeSelector from "../components/themeSelector";
+import "../styles/navbar.css";
 
 export default function Navbar() {
     const [open, setOpen] = useState(false);
     const toggleMenu = () => setOpen(!open);
-    const { user, logout, isAuthenticated } = useContext(AuthContext);
+    const { user, logout } = useContext(AuthContext);
 
     return (
         <nav className="navbar">
@@ -23,31 +24,34 @@ export default function Navbar() {
                 <li>
                     <NavLink to="/" end onClick={() => setOpen(false)}>Inicio</NavLink>
                 </li>
-                {!isAuthenticated  ? (
+                {!user ? (
                     <>
                         <li>
-                        <NavLink to="/register" onClick={() => setOpen(false)}>
-                            Registrarse
-                        </NavLink>
+                            <NavLink to="/register" onClick={() => setOpen(false)}>
+                                Registrarse
+                            </NavLink>
                         </li>
                         <li>
-                        <NavLink to="/login" onClick={() => setOpen(false)}>
-                            Login
-                        </NavLink>
+                            <NavLink to="/login" onClick={() => setOpen(false)}>
+                                Login
+                            </NavLink>
                         </li>
                     </>
-                    ) : (
+                ) : (
                     <>
                         <li className="navbar-user">
-                        👤 {user.name}
+                            👤 {user.name}
                         </li>
                         <li>
-                        <button onClick={logout} className="logout-btn">
-                            Cerrar sesión
-                        </button>
+                            <button onClick={logout} className="logout-btn">
+                                Cerrar sesión
+                            </button>
+                        </li>
+                        <li>
+                            <ThemeSelector />
                         </li>
                     </>
-                    )}
+                )}
 
                 <li>
                     <NavLink to="/users" onClick={() => setOpen(false)}>Usuarios</NavLink>

@@ -2,7 +2,6 @@ import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/authContext";
 import { loginUser } from "../../services/authService";
-import "./auth.css";
 
 function Login() {
   const [email, setEmail] = useState("");
