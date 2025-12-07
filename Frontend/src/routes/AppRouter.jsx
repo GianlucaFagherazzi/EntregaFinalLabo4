@@ -18,8 +18,6 @@ export function AppRouter() {
         {UsersRouter()}
         {CategoriesRouter()}
         {CartRouter()}
-
-
       </Route>
 
     </Routes>

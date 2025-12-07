@@ -14,6 +14,15 @@ const VARIANTS = {
     text: "Eliminar producto",
     action: (product, ctx) => ctx.deleteProduct(product),
   }
+
+  //  edit: {
+  //   text: "Modificar artículo",
+  //   action: (product) => products.editProduct(product),
+  // },
+  // admin: {
+  //   text: "Eliminar producto",
+  //   action: (product) => products.deleteProduct(product),
+  // },
 };
 
 export function ProductCard({ product, variant = "view" }) {
@@ -34,6 +43,12 @@ export function ProductCard({ product, variant = "view" }) {
       <button onClick={() => config.action(product, ctx)}>
         {config.text}
       </button>
+
+      {/* // ProductCard.jsx
+<button onClick={() => config.action(product)}>
+  {config.text}
+</button> */}
+
     </div>
   );
 }
