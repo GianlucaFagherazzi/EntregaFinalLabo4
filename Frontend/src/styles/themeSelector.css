@@ -10,7 +10,7 @@
   font-size: 0.9rem;
   cursor: pointer;
   background: var(--color-primary);
-  color: white;
+  color: var(--color-text);
 }
 
 .theme-selector button.btn:hover {

@@ -76,11 +76,11 @@ html, body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  
 }
 
 /* CONTENIDO PRINCIPAL */
 .main-content {
   flex: 1;
-  width: 100%;
   padding: 1.5rem;
 }

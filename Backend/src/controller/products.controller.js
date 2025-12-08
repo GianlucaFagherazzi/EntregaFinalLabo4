@@ -3,8 +3,19 @@ import { ProductService } from '../services/products.services.js';
 export const ProductController = {
   async getAll(req, res, next) {
     try {
-      const products = await ProductService.getAll()
-      res.json({ success: true, data: products })
+      const filters = {}
+
+      if (req.query.userId) {
+        filters.userId = Number(req.query.userId)
+      }
+
+      if (req.query.categoryId) {
+        filters.categoryId = Number(req.query.categoryId)
+      }
+
+      const result = await ProductService.getAll(filters)
+
+      res.json(result)
     } catch (error) {
       next(error)
     }
@@ -14,7 +25,8 @@ export const ProductController = {
     try {
       const product = await ProductService.getById(Number(req.params.id))
       res.json({ success: true, data: product })
-    } catch (error) {
+    }
+    catch (error) {
       next(error)
     }
   },

@@ -24,7 +24,6 @@ textarea {
   font-size: 0.95rem;
   
   transition: border 0.3s ease, box-shadow 0.2s ease;
-  width: 100%;
   text-align: center;
 }
 

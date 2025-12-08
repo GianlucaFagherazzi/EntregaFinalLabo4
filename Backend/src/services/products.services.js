@@ -2,7 +2,7 @@ import { Product } from '../models/index.models.js'
 import { AppError } from '../utils/app.error.js'
 import { Op, where } from 'sequelize'
 
-import { UserService } from './users.services.js'  
+import { UserService } from './users.services.js'
 import { CategoryService } from './categories.services.js'
 
 async function validateProductNameUnique(name, userId, excludeId = null) {
@@ -19,15 +19,27 @@ async function validateProductNameUnique(name, userId, excludeId = null) {
 }
 
 export const ProductService = {
-  async getAll() {
+  async getAll(filters) {
     try {
-      return await Product.findAll({
-        where: { isActive: true },
+      const products = await Product.findAll({
+        where: {
+          isActive: true,
+          ...filters,
+        },
       })
+
+      if (products.length === 0) {
+        throw new AppError('No se encontraron productos con los filtros proporcionados', 404);
+      }
+
+      return products
+
     } catch (error) {
+      if (error instanceof AppError) throw error;
       throw new AppError('Error al obtener los productos', 500, error)
     }
   },
+
 
   async getById(id) {
     try {
@@ -111,6 +123,6 @@ export const ProductService = {
       throw new AppError('Error al desactivar el producto', 500, error)
     }
   },
-  
+
 }
 

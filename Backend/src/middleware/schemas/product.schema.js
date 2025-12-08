@@ -20,12 +20,12 @@ const productSchema = {
             "number.min": "El stock no puede ser negativo."
         }),
 
-        userId: Joi.number().required().messages({
+        userId: Joi.number().required().integer().messages({
             "number.base": "El ID de usuario debe ser un número.",
             "any.required": "El ID de usuario es obligatorio."
         }),
 
-        categoryId: Joi.number().required().messages({
+        categoryId: Joi.number().required().integer().messages({
             "number.base": "El ID de la categoria debe ser un número.",
             "any.required": "El ID de la categoría es obligatorio."
         })

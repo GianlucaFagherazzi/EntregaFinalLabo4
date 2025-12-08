@@ -62,6 +62,10 @@ export default function Navbar() {
         <NavLink to="/products" onClick={() => setOpen(false)}>Productos</NavLink>
       </li>
 
+      <li>
+        <NavLink to="/users" onClick={() => setOpen(false)}>Usuarios</NavLink>
+      </li>
+
       {!user ? (
         <>
           <li>
@@ -79,6 +83,7 @@ export default function Navbar() {
             <li><NavLink to="/profile">Mi perfil</NavLink></li>
             <li><NavLink to="/orders">Mis compras</NavLink></li>
             <li><NavLink to="/settings">Configuración</NavLink></li>
+            <li><NavLink to="/products/myProducts">Mis artículos</NavLink></li>
             <li>
               <button onClick={handleLogout} className="logout-btn">
                 Cerrar sesión
