@@ -1,0 +1,18 @@
+.theme-selector {
+  display: flex;
+  gap: 0.7rem;
+}
+
+.theme-selector button.btn {
+  padding: 0.4rem 0.9rem;
+  border-radius: 6px;
+  border: none;
+  font-size: 0.9rem;
+  cursor: pointer;
+  background: var(--color-primary);
+  color: white;
+}
+
+.theme-selector button.btn:hover {
+  background: var(--color-primary-hover);
+}

@@ -1,17 +1,16 @@
-// components/ThemeSelector.jsx
-import { useContext } from "react";
-import { AuthContext } from "../context/authContext";
+import "../styles/themeSelector.css";
 
 export default function ThemeSelector() {
-  const { user, updateUser } = useContext(AuthContext);
-
-  if (!user) return null;
+  function setTheme(theme) {
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
+  }
 
   return (
-    <div>
-      <button className="btn" onClick={() => updateUser({ theme: "clean" })}>Clean</button>
-      <button className="btn" onClick={() => updateUser({ theme: "dark" })}>Dark</button>
-      <button className="btn" onClick={() => updateUser({ theme: "green" })}>Green</button>
+    <div className="theme-selector">
+      <button className="btn" onClick={() => setTheme("clean")}>Clean</button>
+      <button className="btn" onClick={() => setTheme("dark")}>Dark</button>
+      <button className="btn" onClick={() => setTheme("green")}>Green</button>
     </div>
   );
 }

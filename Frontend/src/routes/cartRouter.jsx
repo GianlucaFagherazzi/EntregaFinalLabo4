@@ -1,6 +1,6 @@
 import { Route } from "react-router-dom";
 import CartLayout from "../layouts/cartLayout";
-import ProtectedRoute from "./ProtectedRoute";
+import ProtectedRoute from "./protectedRouter";
 import Cart from "../pages/cart/cart";
 
 export function CartRouter() {
