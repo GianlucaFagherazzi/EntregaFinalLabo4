@@ -1,6 +1,13 @@
 import Joi from 'joi';
 
 const productSchema = {
+    get: Joi.object({
+        userId: Joi.number().integer().positive().optional(),
+        categoryId: Joi.number().integer().positive().optional(),
+        minPrice: Joi.number().min(0).optional(),
+        maxPrice: Joi.number().min(0).optional()
+    }),
+
     create: Joi.object({
         name: Joi.string().required().messages({
             "string.empty": "El nombre es obligatorio."
@@ -28,7 +35,7 @@ const productSchema = {
         categoryId: Joi.number().required().integer().messages({
             "number.base": "El ID de la categoria debe ser un número.",
             "any.required": "El ID de la categoría es obligatorio."
-        })
+        }),
     }),
 
     update: Joi.object({

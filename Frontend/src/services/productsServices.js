@@ -1,9 +1,20 @@
 import api from './api'
 
 // Traer todos los productos
-export function getProducts() {
+export async function getProducts(filters) {
   try {
-    return api.get('/products').then(res => res.data.data)
+    console.log('Fetching products with filters:', filters)
+    const clean = Object.fromEntries(
+      Object.entries(filters).filter(
+        ([_, v]) => v !== null && v !== "" && v !== undefined
+      )
+    )
+
+    const params = new URLSearchParams(clean).toString()
+    const res = await api.get(`/products?${params}`)
+
+    console.log('Fetched products:', res.data.data)
+    return res.data.data
   } catch (err) {
     console.error('Error fetching products:', err)
     throw err
@@ -11,9 +22,10 @@ export function getProducts() {
 }
 
 // Traer un producto por ID
-export function getProductById(id) {
+export async function getProductById(id) {
   try {
-    return api.get(`/products/${id}`).then(res => res.data.data)
+    const res = await api.get(`/products/${id}`);
+    return res.data.data;
   } catch (err) {
     console.error(`Error fetching product ${id}:`, err)
     throw err

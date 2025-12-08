@@ -1,8 +1,9 @@
 import api from './api'
 
-export function getCategories() {
+export async function getCategories() {
   try {
-    return api.get('/categories').then(res => res.data.data)
+    const res = await api.get('/categories')
+    return res.data.data
   } catch (err) {
     console.error('Error fetching categories:', err)
     throw err

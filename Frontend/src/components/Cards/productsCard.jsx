@@ -1,55 +1,29 @@
-import { useContext } from "react";
-import { CartContext } from "../../context/cartContext";
+import { Link } from "react-router-dom";
 
-const VARIANTS = {
-  view: {
-    text: "Agregar al carrito",
-    action: (product, ctx) => ctx.addToCart(product),
-  },
-  edit: {
-    text: "Modificar artículo",
-    action: (product, ctx) => ctx.editProduct(product),
-  },
-  admin: {
-    text: "Eliminar producto",
-    action: (product, ctx) => ctx.deleteProduct(product),
-  }
-
-  //  edit: {
-  //   text: "Modificar artículo",
-  //   action: (product) => products.editProduct(product),
-  // },
-  // admin: {
-  //   text: "Eliminar producto",
-  //   action: (product) => products.deleteProduct(product),
-  // },
-};
-
-export function ProductCard({ product, variant = "view" }) {
+export function ProductCard({ product}) {
   // Ejemplo: Acciones globales
-  const ctx = useContext(CartContext);
-
-  const config = VARIANTS[variant];
 
   return (
     <div className="card">
-      <h2>{product.name}</h2>
-      <p>{product.description}</p>
-      <p className="product-price">${product.price}</p>
-      <p className="product-stock">
-        <strong>Stock:</strong> {product.stock}
-      </p>
+      <div className="product-info">
+        <h2>{product.name}</h2>
+        {product.User && (
+          <Link to={`/users/${product.User.id}`} className="user-link">
+            {product.User.name}
+          </Link>
+        )}
+        {product.Category && (
+          <p className="category">{product.Category.name}</p>
+        )}
+        <p>{product.description}</p>
+      </div>
 
-      
-      <button className="btn" onClick={() => config.action(product, ctx)}>
-        {config.text}
-      </button>
+      <div className="product-details">
+        <p className="product-price">Price: ${product.price}</p>
+        <p className="product-stock"><strong>Stock:</strong> {product.stock}</p>
+      </div>
 
-      {/* // ProductCard.jsx
-<button onClick={() => config.action(product)}>
-  {config.text}
-</button> */}
-
+      <button className="btn" onClick={() => ""}> View Details </button>
     </div>
   );
 }

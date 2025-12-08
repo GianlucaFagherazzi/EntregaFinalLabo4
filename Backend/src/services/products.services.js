@@ -1,4 +1,4 @@
-import { Product } from '../models/index.models.js'
+import { Product, User, Category} from '../models/index.models.js'
 import { AppError } from '../utils/app.error.js'
 import { Op, where } from 'sequelize'
 
@@ -26,6 +26,10 @@ export const ProductService = {
           isActive: true,
           ...filters,
         },
+        include: [
+          { model: User, as: 'User', attributes: ['id', 'name'] },
+          { model: Category, as:'Category', attributes: ['id', 'name'] }
+        ]
       })
 
       if (products.length === 0) {
@@ -59,7 +63,7 @@ export const ProductService = {
   async create(data) {
     try {
       await UserService.getById(data.userId);
-      if (data.categoryId) await CategoryService.ge(data.categoryId);
+      if (data.categoryId) await CategoryService.getById(data.categoryId);
       await validateProductNameUnique(data.name.trim(), data.userId);
 
       data.name = data.name.trim();

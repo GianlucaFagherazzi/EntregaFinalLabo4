@@ -1,18 +1,19 @@
 import { ProductService } from '../services/products.services.js';
+import { Op } from 'sequelize';
 
 export const ProductController = {
   async getAll(req, res, next) {
     try {
-      const filters = {}
-
-      if (req.query.userId) {
-        filters.userId = Number(req.query.userId)
+      const filters = {
+        ...(req.query.userId && { userId: req.query.userId }),
+        ...(req.query.categoryId && { categoryId: req.query.categoryId }),
       }
 
-      if (req.query.categoryId) {
-        filters.categoryId = Number(req.query.categoryId)
+      if (req.query.minPrice || req.query.maxPrice) {
+        filters.price = {}
+        if (req.query.minPrice) filters.price[Op.gte] = Number(req.query.minPrice)
+        if (req.query.maxPrice) filters.price[Op.lte] = Number(req.query.maxPrice)
       }
-
       const result = await ProductService.getAll(filters)
 
       res.json({ success: true, data: result })
