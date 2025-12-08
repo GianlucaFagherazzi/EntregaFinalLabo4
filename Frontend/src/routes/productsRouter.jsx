@@ -6,12 +6,10 @@ import Products from "../pages/products/products";
 export function ProductsRouter() {
   return (
     <>
-      <Route path="products" element={<ProductsLayout />}>
-        {/* /products */}
-        <Route index element={<Products />} />
+      {/* /products */}
+      <Route path="products" element={<Products />} />
 
-        {/* {<Route path="/:id" element={<ProductDetail />} />} */}
-      </Route>
+      {/* {<Route path="/:id" element={<ProductDetail />} />} */}
     </>
   );
 }

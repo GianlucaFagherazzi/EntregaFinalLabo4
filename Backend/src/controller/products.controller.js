@@ -15,7 +15,7 @@ export const ProductController = {
 
       const result = await ProductService.getAll(filters)
 
-      res.json(result)
+      res.json({ success: true, data: result })
     } catch (error) {
       next(error)
     }

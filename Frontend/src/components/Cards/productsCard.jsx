@@ -40,6 +40,7 @@ export function ProductCard({ product, variant = "view" }) {
         <strong>Stock:</strong> {product.stock}
       </p>
 
+      
       <button className="btn" onClick={() => config.action(product, ctx)}>
         {config.text}
       </button>

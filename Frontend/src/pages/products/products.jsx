@@ -9,7 +9,10 @@ function Products() {
   useEffect(() => {
     async function load() {
       try {
+
         const productos = await getProducts();
+        console.log("Productos:", productos); // inspeccionar
+
         setProducts(productos);
       } catch (err) {
         console.error("Error al cargar productos", err);
