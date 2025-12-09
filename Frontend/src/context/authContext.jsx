@@ -26,7 +26,7 @@ export function AuthProvider({ children }) {
   function login(userData) {
     setUser(userData.user);
     localStorage.setItem("user", JSON.stringify(userData.user));
-    localStorage.setItem("token", JSON.stringify(userData.token));
+    localStorage.setItem("token", userData.token);  
     console.log(localStorage.getItem("token"));
 
     // aplicar el tema del user al entrar

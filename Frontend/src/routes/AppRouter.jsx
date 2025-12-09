@@ -9,7 +9,7 @@ import { UsersRouter } from "./usersRouter";
 import { CartRouter } from "./cartRouter";
 import ProtectedRoute from "../routes/protectedRouter";
 import { UserSectionsRoutes } from "./userSectionsRouter";
-import { AccountSelectionRouter } from "./accountSelectorRouter";
+import { AccountRouter } from "./AccoutnRouter";
 
 export function AppRouter() {
   return (
@@ -27,7 +27,7 @@ export function AppRouter() {
           {UsersRouter()}
           {CartRouter()}
           {UserSectionsRoutes()}
-          {AccountSelectionRouter()}
+          {AccountRouter()}
         </Route>
 
       </Route>

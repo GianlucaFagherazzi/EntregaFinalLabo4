@@ -23,9 +23,20 @@ export default function Profile() {
         [editingField]: value
       });
 
-      updateUserContext({
-        [editingField]: updated[editingField]
-      });
+      // ✅ Solo actualizamos contexto si NO es password
+      if (editingField !== "password") {
+        updateUserContext({
+          [editingField]: updated.data[editingField]
+        });
+      }
+
+      // ✅ Si es password → cerrar sesión
+      if (editingField === "password") {
+        alert("Contraseña actualizada. Debes iniciar sesión nuevamente.");
+        logout();
+        window.location.href = "/login";
+        return; // ⛔ cortamos la ejecución acá
+      }
 
       setEditingField(null);
       setValue("");
@@ -34,6 +45,7 @@ export default function Profile() {
       alert("Error al actualizar el dato");
     }
   }
+
 
   async function handleDeleteAccount() {
     try {
@@ -52,7 +64,8 @@ export default function Profile() {
     { key: "name", label: "Nombre" },
     { key: "surname", label: "Apellido" },
     { key: "email", label: "Email" },
-    { key: "dni", label: "DNI" }
+    { key: "dni", label: "DNI" },
+    { key: "password", label: "Contraseña", isPassword: true }
   ];
 
   return (
@@ -68,9 +81,12 @@ export default function Profile() {
             {editingField === field.key ? (
               <>
                 <input
+                  type={field.isPassword ? "password" : "text"}
                   value={value}
                   onChange={(e) => setValue(e.target.value)}
+                  placeholder={field.isPassword ? "Nueva contraseña" : ""}
                 />
+
                 <button onClick={saveEdit}>Guardar</button>
                 <button onClick={() => setEditingField(null)}>Cancelar</button>
               </>
