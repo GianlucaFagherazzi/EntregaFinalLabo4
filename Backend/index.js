@@ -9,7 +9,7 @@ const app = express();
 dotenv.config();
 
 // Configuraciones del servidor
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3000;
 const HOST = process.env.HOST || 'http://localhost';
 
 // Middlewares

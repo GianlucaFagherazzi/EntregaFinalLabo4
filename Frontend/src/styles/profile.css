@@ -1,0 +1,83 @@
+.profile-container {
+  max-width: 600px;
+  margin: auto;
+  padding: 2rem;
+}
+
+.profile-list {
+  list-style: none;
+  padding: 0;
+}
+
+.profile-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.profile-label {
+  width: 80px;
+  font-weight: bold;
+}
+
+.profile-value {
+  flex: 1;
+}
+
+.profile-item input {
+  flex: 1;
+  padding: 6px;
+}
+
+.delete-account-box {
+  margin-top: 40px;
+  text-align: center;
+}
+
+.delete-account-btn {
+  background: #d9534f;
+  color: white;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.delete-confirm-box {
+  margin-top: 18px;
+  padding: 16px;
+  border: 5px solid #810400;
+  border-radius: 8px;
+  background: #d38383;
+}
+
+.confirm-actions {
+  margin-top: 14px;
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+}
+
+.confirm-btn {
+  background: #ac2520;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.cancel-btn {
+  background: #d1d1d1;
+  color: black;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.mensaje {
+  color: #4b0704;
+  font-weight: bold;
+}

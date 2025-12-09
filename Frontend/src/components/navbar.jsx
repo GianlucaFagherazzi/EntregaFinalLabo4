@@ -82,6 +82,9 @@ export default function Navbar() {
           <ul className="dropdown-menu">
             <li><NavLink to="/profile">Mi perfil</NavLink></li>
             <li><NavLink to="/orders">Mis compras</NavLink></li>
+            <li><NavLink to="/sales">Mis ventas</NavLink></li>
+            <li><NavLink to="/accounts">Mis cuentas</NavLink></li>
+            <li><NavLink to="/favorites">Favoritos</NavLink></li>
             <li><NavLink to="/settings">Configuración</NavLink></li>
             <li><NavLink to="/products/myProducts">Mis artículos</NavLink></li>
             <li>
