@@ -1,0 +1,14 @@
+.tarjet-card {
+  border: 1px solid #ccc;
+  padding: 15px;
+  border-radius: 10px;
+  width: 220px;
+  background: white;
+}
+
+.tarjet-card.add {
+  cursor: pointer;
+  text-align: center;
+  font-weight: bold;
+  color: #2c7be5;
+}

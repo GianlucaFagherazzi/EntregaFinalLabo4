@@ -44,5 +44,16 @@ export const AccountController = {
     } catch (err) {
       next(err);
     }
+  },
+
+  async getByUser(req, res, next) {
+    try {
+      const userId = Number(req.params.userId);
+      const accounts = await AccountService.getByUser(userId);
+      res.json({ success: true, data: accounts });
+    } catch (err) {
+      next(err);
+    }
   }
+
 };

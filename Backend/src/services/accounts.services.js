@@ -85,5 +85,19 @@ export const AccountService = {
       if (error instanceof AppError) throw error;
       throw new AppError('Error al desactivar la cuenta', 500, error);
     }
+  },
+
+  async getByUser(userId) {
+    try {
+      return await Account.findAll({
+        where: {
+          userId,
+          isActive: true
+        }
+      });
+    } catch (error) {
+      throw new AppError('Error al obtener cuentas del usuario', 500, error);
+    }
   }
+
 };

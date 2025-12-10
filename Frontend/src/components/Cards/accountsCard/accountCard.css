@@ -1,0 +1,43 @@
+.account-card {
+  width: 250px;
+  height: 130px;
+  background: linear-gradient(145deg, #0f172a, #1e293b);
+  border-radius: 14px;
+  padding: 16px;
+  color: white;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.account-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+}
+
+.account-card h3 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.account-card p {
+  margin-top: 8px;
+  font-size: 1rem;
+}
+
+/* ✅ Tarjeta de agregar */
+.add-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px dashed #7c3aed;
+  align-items: center;
+  text-align: center;
+  color: #a78bfa;
+}
+
+.add-card .plus {
+  font-size: 2rem;
+  margin-bottom: 5px;
+}

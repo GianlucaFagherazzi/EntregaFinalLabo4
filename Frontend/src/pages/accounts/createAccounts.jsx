@@ -1,30 +1,45 @@
-import { useState } from "react";
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { createAccount } from "../../services/accountServices";
+import { AuthContext } from "../../context/authContext";
 
 export default function CreateAccount() {
-  const [type, setType] = useState("");
+  const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
   async function handleSubmit(e) {
     e.preventDefault();
 
-    await createAccount({ type });
-    navigate("/accounts");
+    try {
+      const newAccount = {
+        userId: user.id,
+        cbu: generateCBU()
+      };
+
+      await createAccount(newAccount);
+      navigate("/accounts");
+
+    } catch (err) {
+      alert("Error al crear la cuenta");
+      console.error(err);
+    }
+  }
+
+  // ✅ CBU NUMÉRICO DE 12 DÍGITOS
+  function generateCBU() {
+    let cbu = "";
+    for (let i = 0; i < 12; i++) {
+      cbu += Math.floor(Math.random() * 10);
+    }
+    return cbu;
   }
 
   return (
     <div>
-      <h2>Create Account</h2>
+      <h2>Crear Cuenta</h2>
 
       <form onSubmit={handleSubmit}>
-        <select onChange={e => setType(e.target.value)} required>
-          <option value="">Select type</option>
-          <option value="SAVINGS">Savings</option>
-          <option value="CHECKING">Checking</option>
-        </select>
-
-        <button type="submit">Create</button>
+        <button type="submit">Crear Cuenta</button>
       </form>
     </div>
   );

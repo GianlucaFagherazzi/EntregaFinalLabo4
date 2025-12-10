@@ -8,5 +8,7 @@ router.get('/:id', AccountController.getById);
 router.post('/', AccountController.create);
 router.put('/:id', AccountController.update);
 router.put('/:id/deactivate', AccountController.softDelete);
+router.get('/my/:userId', AccountController.getByUser);
+
 
 export default router;

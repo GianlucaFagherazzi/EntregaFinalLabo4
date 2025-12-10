@@ -19,10 +19,10 @@ export default function MyAccounts() {
 
   return (
     <div className="my-accounts-container">
-      <h2>My Accounts</h2>
+      <h2>Mis cuentas</h2>
 
       <div className="cards-grid">
-        {accounts.map(account => (
+        {accounts.map((account) => (
           <AccountCard
             key={account.id}
             account={account}
