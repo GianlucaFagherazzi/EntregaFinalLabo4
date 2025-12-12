@@ -12,22 +12,14 @@ Backend
 - Productos
 * Los productos pueden ser vistos por todos
 
-- Usuarios: 
-* Alguien sin usuario, puede crearse uno
+- Usuarios:
 * Alguien sin usuario no puede comprar productos
-* Funcionalidad de inicio de sesión para cada usuario creado (Esto va a ser un middleware, va a funcionar con jwt) (POST) (Listo)
-* * Un usuario puede ver sus datos (GET) (Listo)
-* * * Puede ver sus cuentas, sus tarjetas, sus movimientos y sus productos (Listo)
 
 - Datos personales
-* * El usuario logueado puede salir de la sesion (POST)
-* * El usuario logueado puede crear cuentas (POST)
 * * El usuario logueado hacer compras (movimientos) (POST)
 * * * Los movimientos modifican los saldos de las tarjetas y el stock de productos (PUT)
 
 - Datos de cuentas
-* * Un usuario puede actualizar sus datos (PUT) 
-* * Un usuario puede actualizar los datos de su cuenta (PUT) 
 * * * Un usuario puede crear una tarjeta (POST) 
 * * * Un usuario puede eliminar una tarjeta (DELETE) 
 
@@ -37,8 +29,8 @@ Backend
 * * * (Posiblemente cuando se modifique un producto, se registre un movimiento (PUT)) 
 * * Un usuario puede borrar sus productos (DELETE) 
 
-* * Un usuario puede borrar su cuenta (DELETE)
-* * * Cuando borre su cuenta, tienen que borrarse su cuenta bancaria, su tarjeta y sus movimientos
+
+* * * Cuando un usuario borra su cuenta, tienen que borrarse su cuenta bancaria, su tarjeta y sus movimientos
 
 Cosas a tener en cuenta:
 - Estructura MVC (Modelo, vista, controlador)

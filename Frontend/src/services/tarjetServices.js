@@ -4,41 +4,75 @@ function getToken() {
   return localStorage.getItem("token");
 }
 
-// Obtener todas las tarjets de una cuenta
-export async function getTarjetsByAccount(accountId) {
-  const response = await fetch(`${API_URL}/tarjets`, {
+// Obtener tarjeta por ID
+export async function getTarjetById(id) {
+  const res = await fetch(`${API_URL}/tarjets/${id}`, {
     headers: {
       Authorization: `Bearer ${getToken()}`
     }
   });
 
-  if (!response.ok) {
-    throw new Error("Error al obtener tarjetas");
-  }
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message);
 
-  const data = await response.json();
-
-  // filtramos solo las de esta cuenta
-  return data.data.filter(t => t.accountId === Number(accountId));
+  return data.data;
 }
 
-// Crear tarjet
-export const createTarjet = async (tarjetData) => {
-  const token = localStorage.getItem("token");
+// Acreditar saldo
+export async function updateTarjetBalance(id, amount) {
+  const res = await fetch(`${API_URL}/tarjets/balance/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${getToken()}`
+    },
+    body: JSON.stringify({ amount })
+  });
 
-  const res = await fetch("http://localhost:3000/tarjets", {
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(data.message || "Error al acreditar saldo");
+  }
+
+  return data.data;
+}
+
+
+// Crear tarjeta
+export const createTarjet = async (tarjetData) => {
+  const res = await fetch(`${API_URL}/tarjets`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`
+      Authorization: `Bearer ${getToken()}`
     },
     body: JSON.stringify(tarjetData)
   });
 
   const data = await res.json();
 
-  if (!res.ok) throw new Error(data.message);
+  if (!res.ok) {
+    throw new Error(data.message || "Error al crear tarjeta");
+  }
 
   return data;
 };
 
+
+export async function getTarjetsByAccount(accountId) {
+  const token = localStorage.getItem("token");
+
+  const res = await fetch(`${API_URL}/tarjets/account/${accountId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error("Error al obtener tarjetas");
+  }
+
+  const data = await res.json();
+  return data.data;
+}

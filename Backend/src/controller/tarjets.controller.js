@@ -1,4 +1,5 @@
 import { TarjetService } from '../services/tarjets.services.js';
+import { Tarjet } from '../models/index.models.js';
 
 export const TarjetController = {
   async getAll(req, res, next) {
@@ -14,6 +15,17 @@ export const TarjetController = {
     try {
       const tarjet = await TarjetService.getById(Number(req.params.id));
       res.json({ success: true, data: tarjet });
+    } catch (err) {
+      next(err);
+    }
+  },
+
+  async getByAccount(req, res, next) {
+    try {
+      const accountId = Number(req.params.accountId);
+      const tarjets = await TarjetService.getByAccount(accountId);
+
+      res.json({ success: true, data: tarjets });
     } catch (err) {
       next(err);
     }
@@ -37,6 +49,35 @@ export const TarjetController = {
     }
   },
 
+  async updateBalance(req, res) {
+    try {
+      const { id } = req.params;
+      const { amount } = req.body;
+
+      if (!amount || amount <= 0) {
+        return res.status(400).json({ message: "Monto inválido" });
+      }
+
+      const tarjet = await Tarjet.findByPk(id);
+
+      if (!tarjet) {
+        return res.status(404).json({ message: "Tarjeta no encontrada" });
+      }
+
+      tarjet.balance = Number(tarjet.balance) + Number(amount);
+      await tarjet.save();
+
+      res.json({
+        message: "Saldo acreditado correctamente",
+        data: tarjet
+      });
+
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Error interno del servidor" });
+    }
+  },
+
   async softDelete(req, res, next) {
     try {
       await TarjetService.softDelete(Number(req.params.id));
@@ -45,4 +86,5 @@ export const TarjetController = {
       next(err);
     }
   }
+
 };

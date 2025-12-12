@@ -1,7 +1,6 @@
 import { Tarjet } from '../models/index.models.js'
 import { AppError } from '../utils/app.error.js'
 import { Op } from 'sequelize'
-
 import { AccountService } from '../services/accounts.services.js'
 
 export const TarjetService = {
@@ -32,14 +31,35 @@ export const TarjetService = {
     }
   },
 
+  async getByAccount(accountId) {
+    try {
+      return await Tarjet.findAll({
+        where: {
+          accountId,
+          isActive: true
+        }
+      });
+    } catch (error) {
+      throw new AppError('Error al obtener tarjetas por cuenta', 500, error);
+    }
+  },
+
   async create(data) {
     try {
+      // normalizar número: quitar espacios y asegurar string
+      data.number = String(data.number).replace(/\s+/g, '');
+
       // Verificar existencia de la cuenta
       await AccountService.getById(data.accountId)
 
-      // verifica que no exista una tarjeta con el mismo numero en la misma cuenta
-      const existing = await Tarjet.findOne({ where: { number: data.number, accountId: data.accountId, isActive: true } })
-      if (existing) throw new AppError('Ya existe una tarjeta con ese número en la cuenta especificada', 400)
+      // verificar duplicados en la misma cuenta
+      const existing = await Tarjet.findOne({
+        where: { number: data.number, accountId: data.accountId, isActive: true }
+      })
+
+      if (existing) {
+        throw new AppError('Ya existe una tarjeta con ese número en la cuenta especificada', 400)
+      }
 
       return await Tarjet.create(data)
 
@@ -58,13 +78,25 @@ export const TarjetService = {
         await AccountService.getById(data.accountId)
       }
 
-      // validar numero de tarjeta unico en la cuenta.
+      // normalizar número
       if (data.number) {
-        data.number = data.number.trim()
+        data.number = String(data.number).replace(/\s+/g, '');
+      }
+
+      // validar número único
+      if (data.number) {
         const existing = await Tarjet.findOne({
-          where: { number: data.number, accountId: data.accountId ?? tarjet.accountId, isActive: true, id: { [Op.ne]: id } }
+          where: {
+            number: data.number,
+            accountId: data.accountId ?? tarjet.accountId,
+            isActive: true,
+            id: { [Op.ne]: id }
+          }
         })
-        if (existing) throw new AppError('Ya existe una tarjeta con ese número en la cuenta especificada', 409)
+
+        if (existing) {
+          throw new AppError('Ya existe una tarjeta con ese número en la cuenta especificada', 409)
+        }
       }
 
       return await tarjet.update(data)
@@ -75,15 +107,17 @@ export const TarjetService = {
     }
   },
 
-  async updateBalance(tarjetId, newBalance, options = {}) {
+  async updateBalance(tarjetId, amount) {
     const tarjet = await Tarjet.findByPk(tarjetId, {
-      transaction: options.transaction
+      transaction: options.transaction,
     });
 
     if (!tarjet) throw new AppError("Tarjeta no encontrada", 404);
 
+    const nuevoBalance = Number(tarjet.balance) + Number(amount);
+
     await tarjet.update(
-      { balance: newBalance },
+      { balance: nuevoBalance },
       { transaction: options.transaction }
     );
 

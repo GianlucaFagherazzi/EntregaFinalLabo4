@@ -7,7 +7,7 @@ export default function AddTarjet() {
 
   return (
     <div
-      className="tarjet-card add"
+      className="tarjet-card"
       onClick={() => navigate(`/nueva-tarjeta/${id}`)}
     >
       <h3>➕ Agregar Tarjeta</h3>
