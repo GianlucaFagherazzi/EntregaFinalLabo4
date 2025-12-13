@@ -1,14 +1,59 @@
 .tarjet-card {
-  border: 1px solid #ccc;
-  padding: 15px;
-  border-radius: 10px;
-  width: 220px;
-  background: white;
+  background: linear-gradient(135deg, #0603c3, #009420);
+  color: #fff;
+  padding: 18px;
+  border-radius: 14px;
+  width: 240px;
+  min-height: 140px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+.tarjet-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.45);
+}
+
+/* Texto del número (más estilo de tarjeta real) */
+.tarjet-card .number {
+  font-size: 1.2rem;
+  letter-spacing: 2px;
+  font-weight: 600;
+  opacity: 0.95;
+}
+
+/* Balance */
+.tarjet-card .balance {
+  font-size: 0.95rem;
+  margin-top: 10px;
+  opacity: 0.85;
+}
+
+/* Footer o id de cuenta */
+.tarjet-card .footer {
+  font-size: 0.85rem;
+  opacity: 0.7;
+  margin-top: 10px;
+}
+
+/* Card "añadir nueva" */
 .tarjet-card.add {
-  cursor: pointer;
-  text-align: center;
-  font-weight: bold;
+  background: #fff;
+  border: 2px dashed #2c7be5;
   color: #2c7be5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  transition: background 0.2s, transform 0.2s, border-color 0.2s;
+}
+
+.tarjet-card.add:hover {
+  background: #eaf3ff;
+  border-color: #1a6ed8;
+  transform: scale(1.05);
 }

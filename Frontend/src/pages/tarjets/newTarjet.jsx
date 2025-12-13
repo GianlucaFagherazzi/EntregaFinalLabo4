@@ -22,9 +22,9 @@ export default function NewTarjet() {
     e.preventDefault();
 
     const newTarjet = {
-      number: numberValue, // string
-      balance: Number(balanceValue) || 0, // balance puede ser 0
-      accountId
+      number: form.number,              // <-- ahora correcto
+      balance: Number(form.balance) || 0, // <-- conversión correcta
+      accountId: Number(accountId)
     };
 
     try {
@@ -33,7 +33,7 @@ export default function NewTarjet() {
     } catch (err) {
       alert("Error al crear tarjeta");
     }
-  };
+  }
 
   return (
     <div className="new-tarjet-container">
