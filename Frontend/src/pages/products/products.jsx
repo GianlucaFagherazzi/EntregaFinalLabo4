@@ -4,10 +4,6 @@ import { ProductCard } from "../../components/Cards/productsCard";
 import { AuthContext } from "../../context/authContext";
 import Filters from "../../components/filters.jsx";
 
-import "./productsPage.css";
-import "./productCard.css";
-
-
 function Products() {
   const { user } = useContext(AuthContext);
 
@@ -21,7 +17,6 @@ function Products() {
   useEffect(() => {
     async function load() {
       try {
-
         const productos = await getProducts(filterData);
         setProducts(productos);
       } catch (err) {
