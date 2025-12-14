@@ -1,0 +1,67 @@
+
+
+/* ========================= */
+/* SIDEBAR */
+/* ========================= */
+
+.sidebar {
+  width: 260px;
+  min-width: 260px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.25rem;
+  height: fit-content;
+  position: sticky;
+  top: 1.5rem;
+}
+
+.sidebar-filters{
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-options{
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar h3 {
+  margin: 0 0 1rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.sidebar label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  margin-bottom: 0.25rem;
+}
+
+.sidebar select,
+.sidebar input[type="number"] {
+  padding: 0.55rem 0.6rem;
+  font-size: 0.9rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--color-border);
+  background: var(--color-bg);
+  color: var(--color-text);
+  margin-bottom: 0.75rem;
+}
+
+.sidebar select:focus,
+.sidebar input[type="number"]:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-primary) 20%, transparent);
+}
+
+.sidebar .btn {
+  width: 100%;
+  margin-top: 0.5rem;
+}
+

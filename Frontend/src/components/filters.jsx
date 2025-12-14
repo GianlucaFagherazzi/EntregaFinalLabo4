@@ -34,7 +34,7 @@ export default function Filters({ onFilterChange }) {
 
 
     return (
-        <div>
+        <div className="sidebar-filters">
             <h3>Filtros</h3>
 
             <label>Categoría</label>
@@ -65,8 +65,11 @@ export default function Filters({ onFilterChange }) {
                 onChange={(e) => setMaxPrice(e.target.value)}
             />
             <br />
-            <button className="btn" onClick={apply}>Aplicar</button>
-            <button className="btn" onClick={clear}>Limpiar</button>
+            <div className="filters-actions">
+                <button className="btn" onClick={apply}>Aplicar</button>
+                <button className="btn btn-secondary" onClick={clear}>Limpiar</button>
+            </div>
+
         </div>
     );
 }

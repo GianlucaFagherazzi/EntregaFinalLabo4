@@ -32,10 +32,6 @@ export const ProductService = {
         ]
       })
 
-      if (products.length === 0) {
-        throw new AppError('No se encontraron productos con los filtros proporcionados', 404);
-      }
-
       return products
 
     } catch (error) {

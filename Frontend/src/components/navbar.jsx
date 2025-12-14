@@ -28,7 +28,7 @@ export default function Navbar() {
   return (
   <nav className="navbar">
 
-    {/* ✅ BLOQUE IZQUIERDO: LOGO + BUSCADOR */}
+    {/* BLOQUE IZQUIERDO: LOGO + BUSCADOR */}
     <div className="navbar-left">
 
       <div className="navbar__brand">
@@ -46,12 +46,12 @@ export default function Navbar() {
 
     </div>
 
-    {/* ✅ BOTÓN MOBILE */}
+    {/* BOTÓN MOBILE */}
     <button className="navbar__toggle" onClick={toggleMenu}>
       {open ? <X /> : <Menu />}
     </button>
 
-    {/* ✅ LINKS DERECHA */}
+    {/* LINKS DERECHA */}
     <ul className={`navbar__links ${open ? "open" : ""}`}>
 
       <li>

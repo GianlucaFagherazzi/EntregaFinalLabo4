@@ -1,0 +1,35 @@
+.products-page {
+  display: flex;
+  width: 100%;
+  min-height: calc(100vh - 64px);
+  gap: 1.5rem;
+}
+
+.products-container {
+  flex: 1;
+  background: transparent;
+}
+
+.products-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 1.25rem;
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 1.25rem;
+}
+
+
+@media (max-width: 900px) {
+  .products-page {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    position: static;
+  }
+}
