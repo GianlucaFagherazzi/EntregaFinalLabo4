@@ -1,0 +1,72 @@
+/* ========================= */
+/* FONDO OSCURO */
+/* ========================= */
+
+.confirm-dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+/* ========================= */
+/* CAJA DE CONFIRMACIÓN */
+/* ========================= */
+
+.confirm-dialog {
+  background: rgb(85, 12, 12);
+  padding: 25px;
+  max-width: 420px;
+  border-radius: 6px;
+  text-align: center;
+}
+
+/* Título */
+.confirm-title {
+  margin-bottom: 15px;
+}
+
+/* Mensaje */
+.confirm-message {
+  margin-bottom: 25px;
+  line-height: 1.4;
+}
+
+/* ========================= */
+/* BOTONES */
+/* ========================= */
+
+.confirm-actions {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.confirm-btn {
+  background-color: #c62828;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.confirm-btn:hover {
+  background-color: #fc7272;
+}
+
+.cancel-btn {
+  background-color: #8b8b8b;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.cancel-btn:hover {
+  background-color: #d3d3d3;
+}

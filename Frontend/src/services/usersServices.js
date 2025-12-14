@@ -38,22 +38,3 @@ export function deactivateUser(id) {
       throw err;
     });
 }
-/*
-export async function deactivateUser(id) {
-  const token = localStorage.getItem("token");
-
-  const response = await fetch(`http://localhost:3000/api/users/${id}/deactivate`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${token}`
-    }
-  });
-
-  if (!response.ok) {
-    throw new Error("Error al desactivar cuenta");
-  }
-
-  return response.json();
-}
-*/

@@ -76,3 +76,12 @@ export async function getTarjetsByAccount(accountId) {
   const data = await res.json();
   return data.data;
 }
+
+export function deleteTarjet(id) {
+  return api.put(`/tarjets/${id}/deactivate`)
+    .then(res => res.data)
+    .catch(err => {
+      console.error("Error al desactivar tarjeta:", err.response);
+      throw err;
+    });
+}
