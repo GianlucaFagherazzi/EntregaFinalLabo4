@@ -1,7 +1,8 @@
 import { useEffect, useState, useContext } from "react";
-import { getProducts } from "../../services/productsServices";
-import { ProductCard } from "../../components/Cards/productsCard";
+import { getProducts, deleteProduct } from "../../services/productsServices";
+import { ProductCard } from "../../components/Cards/productsCard/productsCard";
 import { AuthContext } from "../../context/authContext";
+import { Link } from "react-router-dom";
 
 export default function MyProducts() {
   const { user } = useContext(AuthContext);
@@ -9,31 +10,53 @@ export default function MyProducts() {
 
   useEffect(() => {
     async function load() {
-      try {
-        if (!user?.id) return;
+      if (!user?.id) return;
 
-        // Filtro: obtener solo productos cuyo userId coincida
-        const productos = await getProducts({ userId: user.id });
-        setProducts(productos);
-      } catch (err) {
-        console.error("Error al cargar mis productos", err);
-      }
+      const productos = await getProducts({ userId: user.id });
+      setProducts(productos);
     }
     load();
   }, [user]);
 
+  async function handleDelete(id) {
+    const confirmed = confirm("¿Eliminar producto?");
+    if (!confirmed) return;
+
+    try {
+      await deleteProduct(id);
+      setProducts(prev => prev.filter(p => p.id !== id));
+    } catch (err) {
+      console.error("No se pudo eliminar", err);
+    }
+  }
+
   return (
     <div className="products-page">
-      <h1 className="products-title">Mis Productos</h1>
+      <aside className="sidebar">
+        <div className="navbar__links">
+          <Link to="/products/create" className="btn">
+            + Crear producto
+          </Link>
+        </div>
+      </aside>
 
-      <div className="products-grid">
-        {products.length > 0 ? (
-          products.map((p) => (
-            <ProductCard key={p.id} product={p} />
-          ))
-        ) : (
-          <p>No tenés productos cargados.</p>
-        )}
+      <div className="products-container">
+        <h1 className="products-title">Mis Productos</h1>
+
+        <div className="products-grid">
+          {products.length ? (
+            products.map(p => (
+              <ProductCard
+                key={p.id}
+                product={p}
+                mode="owner"
+                onDelete={handleDelete}
+              />
+            ))
+          ) : (
+            <p>No tenés productos cargados.</p>
+          )}
+        </div>
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 import { useEffect, useState, useContext } from "react";
 import { getProducts } from "../../services/productsServices";
-import { ProductCard } from "../../components/Cards/productsCard";
+import { ProductCard } from "../../components/Cards/productsCard/productsCard.jsx";
 import { AuthContext } from "../../context/authContext";
 import Filters from "../../components/filters.jsx";
 
@@ -39,7 +39,7 @@ function Products() {
 
         <div className="products-grid">
           {products.map((p) => (
-            <ProductCard key={p.id} product={p} />
+            <ProductCard key={p.id} product={p} user={user}  />
           ))}
         </div>
       </div>
