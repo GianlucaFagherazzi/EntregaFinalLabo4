@@ -2,7 +2,8 @@
 import { useContext, useState } from "react";
 import { AuthContext } from "../context/authContext";
 import { updateUser, deactivateUser } from "../services/usersServices";
-import ConfirmDialog from "../components/confirmDialog.jsx";
+import ConfirmDialog from "../components/ConfirmDialog";
+
 import "../styles/profile.css";
 
 export default function Profile() {
