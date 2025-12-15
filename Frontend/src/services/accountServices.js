@@ -1,14 +1,13 @@
 const API_URL = "http://localhost:3000/api";
 
 function getToken() {
-  return localStorage.getItem("token"); // NO parsear
+  return localStorage.getItem("token");
 }
 
 function getUser() {
   return JSON.parse(localStorage.getItem("user"));
 }
-
-// ✅ MIS CUENTAS DEL USUARIO
+// mis cuentas (yo soy el usuario)
 export async function getMyAccounts() {
   const user = getUser();
 
@@ -26,7 +25,7 @@ export async function getMyAccounts() {
   return data.data;
 }
 
-// ✅ DETALLE
+// obtenoge el detalle de una cuenta por id
 export async function getAccountById(id) {
   const response = await fetch(`${API_URL}/accounts/${id}`, {
     headers: {
@@ -42,7 +41,6 @@ export async function getAccountById(id) {
   return data.data;
 }
 
-// ✅ CREAR CUENTA (con userId)
 export async function createAccount(accountData) {
   const response = await fetch(`${API_URL}/accounts`, {
     method: "POST",

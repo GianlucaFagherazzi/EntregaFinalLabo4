@@ -1,4 +1,4 @@
-/* Import card styles */
+
 @import "./cards.css";
 @import "./buttons.css";
 @import "./forms.css";
@@ -64,9 +64,7 @@ body {
   transition: background 0.3s ease, color 0.3s ease;
 }
 
-/* ========================= */
-/* RESET DE LAYOUT GENERAL */
-/* ========================= */
+/* reset del layout general */
 
 html, body {
   width: 100%;
@@ -74,7 +72,7 @@ html, body {
   overflow-x: hidden;
 }
 
-/* CONTENEDOR GENERAL DE LA APP */
+/* contenedor general de la app */
 .app-container {
   width: 100%;
   min-height: 100vh;
@@ -83,7 +81,7 @@ html, body {
   
 }
 
-/* CONTENIDO PRINCIPAL */
+/* contenido principal */
 .main-content {
   flex: 1;
   padding: 1.5rem;

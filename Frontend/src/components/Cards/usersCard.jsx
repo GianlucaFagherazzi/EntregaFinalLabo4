@@ -6,7 +6,6 @@ function UsersCard({ user }) {
       <p>{"Email: "}{user.email}</p>
       <p>{"Dni: "}{user.dni}</p>
       <p>{"Estado: "}{user.isActive ? "Activo" : "Inactivo"}</p>
-      {/*<p className="user-role">{user.role}</p>*/}
     </div>
   );
 }

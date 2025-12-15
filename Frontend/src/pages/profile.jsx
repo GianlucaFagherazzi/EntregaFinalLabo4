@@ -26,14 +26,14 @@ export default function Profile() {
         [editingField]: value
       });
 
-      // ✅ Solo actualizamos contexto si NO es password
+      // actualizamos el contexto si NO es el password
       if (editingField !== "password") {
         updateUserContext({
           [editingField]: updated.data[editingField]
         });
       }
 
-      // ✅ Si es password → cerrar sesión
+      // si es el password se cerrar sesión
       if (editingField === "password") {
         alert("Contraseña actualizada. Debes iniciar sesión nuevamente.");
         logout();
@@ -101,7 +101,7 @@ export default function Profile() {
         ))}
       </ul>
 
-      {/* ✅ BLOQUE ELIMINAR CUENTA */}
+      {/* bloque para eliminar la cuenta */}
       <div className="delete-account-box">
         <button
           className="delete-account-btn"

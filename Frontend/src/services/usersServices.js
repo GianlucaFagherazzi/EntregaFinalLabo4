@@ -10,9 +10,9 @@ export function getUsers() {
 }
 
 export async function updateUser(id, data) {
-  const token = localStorage.getItem("token"); // ✅ SIN JSON.parse
+  const token = localStorage.getItem("token");
 
-  console.log("TOKEN EN PUT:", token); // 👈 dejalo por ahora
+  console.log("TOKEN EN PUT:", token);
 
   const response = await fetch(`http://localhost:3000/api/users/${id}`, {
     method: "PUT",

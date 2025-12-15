@@ -5,7 +5,7 @@ const tarjetSchema = {
   create: Joi.object({
     number: Joi.string()
       .pattern(/^\d+$/)
-      .min(6)      // puedes ajustar si querés, BIGINT soporta hasta 19 dígitos
+      .min(6)
       .max(19)
       .required()
       .messages({

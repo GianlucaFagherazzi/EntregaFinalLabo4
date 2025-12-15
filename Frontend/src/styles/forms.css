@@ -1,18 +1,16 @@
-/* WRAPPER DE FORM */
+
 form {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-/* LABEL */
 label {
   font-size: 0.9rem;
   color: var(--color-text);
   font-weight: 500;
 }
 
-/* INPUT + SELECT + TEXTAREA */
 input,
 select,
 textarea {
@@ -27,14 +25,12 @@ textarea {
   text-align: center;
 }
 
-/* Hover */
 input:hover,
 select:hover,
 textarea:hover {
   border-color: var(--color-primary);
 }
 
-/* Focus accesible y moderno */
 input:focus,
 select:focus,
 textarea:focus {
@@ -43,7 +39,6 @@ textarea:focus {
   outline: none;
 }
 
-/* Placeholder */
 input::placeholder {
   color: var(--color-text-secondary);
 }

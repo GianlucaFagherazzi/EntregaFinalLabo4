@@ -16,12 +16,12 @@ const HOST = process.env.HOST || 'http://localhost';
 app.use(cors());
 app.use(express.json());
 
-// Usar rutas centralizadas
+// Usamos rutas centralizadas
 app.use('/api', routes);
 app.use('/', (req, res) => { res.send(' Api funcionando, revisar a que ruta estás entrando'); }); // Respuesta por defecto en caso de que entren a una ruta no definida
 app.use(errorHandler);
 
-// Sincronizar la base de datos
+// Se sincroniza la base de datos
 try {
   await sequelize.authenticate()
   console.log('Conexión a la base de datos establecida con éxito.')
@@ -31,7 +31,7 @@ try {
   console.error('Error al conectar con la base de datos:', error)
 }
 
-// Iniciar el servidor
+// Se inicia el servidor
 app.listen(PORT, () => {
   console.log(`Servidor escuchando en ${"" + HOST + ":" + PORT + ""}`);
 });

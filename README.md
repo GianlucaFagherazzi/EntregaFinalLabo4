@@ -1,10 +1,10 @@
-# TRABAJO FINAL LABORATORIO III - TELEZ LEONARDO
+# TRABAJO FINAL LABORATORIO IV - GIANLUCA FAGHERAZZI & TELEZ LEONARDO
 
 # TABLA DE CONTENIDO
 - [Introduccion](#Introducción)
 - [Instalacion](#Instalación)
 - [Ejecucion](#Ejecución)
-- [Backend&Database](#Backend & Database)
+- [Backend&Database](#Backend&Database)
 - [Endpoints](#Endpoints)
 - [Flujo_de_Logica](#Flujo_de_Logica)
 - [Flujo_de_un_endpoint](#Flujo_de_un_endpoint)
@@ -18,19 +18,17 @@ El sistema simula el funcionamiento básico de una plataforma de comercio electr
 
 ## INSTALACIÓN
 Para ejecutar este proyecto, es necesario contar con un entorno de desarrollo preparado para el frontend.
-El backend y la base de datos se encuentran desplegados en la web, por lo que no es necesario realizar configuraciones locales de base de datos.
 
-Requisitos previos
-- Node.js y npm (o yarn)
-- Un navegador web moderno
-- Acceso a la API REST desplegada (consumible desde el frontend o mediante herramientas como Postman)
-
-Una vez descargado el proyecto, desde la carpeta correspondiente al frontend se deben instalar las dependencias ejecutando el siguiente comando en la terminal:
+Una vez descargado el proyecto, desde la carpeta correspondiente al frontend se deben instalar las dependencias ejecutando el siguiente comando en la terminal backend y en la terminal frontend:
 - npm install
+- npm run reset
+
+Posteriormente se debra configurar el .env en el cual debera introducir la configuracion de acceso de su base de datos mySQL, y se debara configurar la ruta de acceso de la api y su password de acceso para el JWT (utilizar template de referencia).
+
 
 ## EJECUCIÓN
 
-Luego para iniciar la aplicacion, ejecutar:
+Luego para iniciar la aplicacion, ejecutar el siguiene comando en la terminal backend y en la terminal frontend:
 - npm run dev
 
 La aplicación frontend quedara disponible por defecto en:
@@ -49,7 +47,7 @@ Si se accede desde Postman, el Endpoint es el siguiente:
 
   - GET /api/users
 
-  - ### 📤 Respuesta esperada
+  - ### Respuesta esperada
 
     Devuelve una lista con todos los usuarios registrados.
 
@@ -59,7 +57,7 @@ Si se accede desde Postman, el endpoint es el siguiente.
 
   - POST /api/users
 
-  - ### 📥 Campos del JSON
+  - ### Campos del JSON
 
     | Campo | Tipo | Obligatorio | Descripción |
     |--------|------|-------------|-------------|
@@ -89,7 +87,7 @@ Si se accede desde Postman, el endpoint es el siguiente.
 
   - **Endpoint:**   GET /api/users/{id}
 
-  - ### 📤 Respuesta esperada
+  - ### Respuesta esperada
 
     Devuelve todos los datos del usuario registrado.
 
@@ -113,7 +111,7 @@ Desde postman se puede realizar a travez del siguiente endpoint: PUT /api/users/
 
   - **Endpoint:**   GET /api/accounts/{id}
 
-  - ### 📤 Respuesta esperada
+  - ### Respuesta esperada
 
     Devuelve todos los datos de la cuenta registrada.
 
@@ -122,7 +120,7 @@ Desde postman se puede realizar a travez del siguiente endpoint: PUT /api/users/
   Desde postman se podra crear desde el siguiente endpoint:
   - POST /api/accounts
 
-  - ### 📥 Campos del JSON
+  - ### Campos del JSON
   Desde el front el cbu se generará de forma aleatoria, pero desde Postman el usuario deberá introducir un número de 12 digitos.
 
     | Campo | Tipo | Obligatorio | Descripción |
@@ -148,14 +146,14 @@ Esta accion por el momento solo se puede realizar a traves de Postman con el sig
   Esto solo es posible desde Postman a travez del siguiente endpoint:
   - GET /api/tarjets
 
-  - ### 📤 Respuesta esperada
+  - ### Respuesta esperada
 
     Devuelve una lista con todas las tarjetas registradas indicando su estado (activa/desactivada) y el id del usuario al que pertenece.
 
 ## 10. Crear una tarjeta
   - - **Endpoint:**   POST /api/tarjets
 
-  - ### 📥 Campos del JSON
+  - ### Campos del JSON
 
     | Campo | Tipo | Obligatorio | Descripción |
     |--------|------|-------------|-------------|
@@ -188,7 +186,7 @@ Por el momento esta acción solo es posible desde Postman a traves del siguiente
 
   - **Endpoint:**   GET /api/products
 
-  - ### 📤 Respuesta esperada
+  - ### Respuesta esperada
 
     Devuelve una lista con todos los productos publicados por usuarios registrados.
 
@@ -196,7 +194,7 @@ Por el momento esta acción solo es posible desde Postman a traves del siguiente
   
   - **Endpoint**    POST /api/products
 
-  - ### 📥 Campos del JSON
+  - ### Campos del JSON
 
     | Campo | Tipo | Obligatorio | Descripción |
     |--------|------|-------------|-------------|
@@ -232,7 +230,7 @@ Por el momento esta acción solo es posible desde Postman a traves del siguiente
 
   - **Endpoint:**   GET /api/categories
 
-  - ### 📤 Respuesta esperada
+  - ### Respuesta esperada
 
     Devuelve una lista con todas las categorias registradas.
 
@@ -240,7 +238,7 @@ Por el momento esta acción solo es posible desde Postman a traves del siguiente
   
   - **Endpoint**    POST /api/categories
 
-  - ### 📥 Campos del JSON
+  - ### Campos del JSON
 
     | Campo | Tipo | Obligatorio | Descripción |
     |--------|------|-------------|-------------|
@@ -262,7 +260,7 @@ Por el momento esta acción solo es posible desde Postman a traves del siguiente
 
   - **Endpoint:**   GET /api/movements
 
-  - ### 📤 Respuesta esperada
+  - ### Respuesta esperada
 
     Devuelve una lista con todos los movimietnos (transacciones) realizadas por usuarios registrados.
 
@@ -270,7 +268,7 @@ Por el momento esta acción solo es posible desde Postman a traves del siguiente
   
   - **Endpoint**    POST /api/movements
 
-  - ### 📥 Campos del JSON
+  - ### Campos del JSON
 
     | Campo | Tipo | Obligatorio | Descripción |
     |--------|------|-------------|-------------|
@@ -483,38 +481,3 @@ __
 
     El frontend no accede directamente a la base de datos. Todas las operaciones se realizan a través del backend mediante solicitudes HTTP.
     El token JWT se almacena localmente y se envía en los headers para acceder a rutas protegidas.
-
-
-## FLUJO_DE_UN_ENDPOINT
-  Cuando un cliente solicita un préstamo, el flujo interno de la aplicación es el siguiente:
-
-    1. El cliente envía un JSON con los datos de la solicitud:
-
-      - numeroCliente
-      - montoPrestamo
-      - plazoMeses
-      - moneda
-
-    2. El PrestamoController recibe la solicitud y la pasa al PrestamoService.
-
-    3. El PrestamoService valida los datos y aplica la lógica de negocio:
-
-      - Verifica que el cliente exista a través de ClienteService.
-      - Verifica que el cliente tenga una cuenta válida en la moneda solicitada mediante CuentaService.
-      - Calcula el scoring del cliente (calcularScoring) para determinar la aprobación o rechazo del préstamo.
-
-    4. Dependiendo del scoring:
-
-      - Si el préstamo es aprobado:
-
-        .Se crea un objeto Prestamo con estado APROBADO.
-        .Se genera el plan de pagos (Cuota).
-        .Se guarda el préstamo en la base de datos usando PrestamoDao.
-
-      - Si el préstamo es rechazado:
-
-        .Se crea un objeto Prestamo con estado RECHAZADO.
-        .Se establece un mensaje explicativo para el cliente.
-
-    5. Se devuelve un objeto PrestamoOutputDto con el estado y el mensaje correspondiente al cliente.
-

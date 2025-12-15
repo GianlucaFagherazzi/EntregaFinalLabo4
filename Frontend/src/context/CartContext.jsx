@@ -1,9 +1,7 @@
 import { createContext, useState } from "react";
 
-// 1️⃣ Creamos el Contexto
 export const CartContext = createContext();
 
-// 2️⃣ Creamos el Provider
 export function CartProvider({ children }) {
     const [cart, setCart] = useState([]);
 
@@ -25,12 +23,11 @@ export function CartProvider({ children }) {
         });
     }
 
-    // eliminar producto
+    // eliminamos el producto del carrito
     function removeFromCart(id) {
         setCart(prev => prev.filter(p => p.id !== id));
     }
 
-    // limpiar carrito
     function clearCart() {
         setCart([]);
     }
@@ -43,7 +40,7 @@ export function CartProvider({ children }) {
                         ? { ...item, qty: item.qty - 1 }
                         : item
                 )
-                .filter(item => item.qty > 0) // si llega a 0 => lo saco
+                .filter(item => item.qty > 0) // si llega a 0 se elimina del carrito
         );
     }
 

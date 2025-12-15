@@ -9,7 +9,6 @@ function Header() {
   return (
     <header className="header">
 
-      {/* IZQUIERDA */}
       {!user ? (
         <div className="header-logout">
           <img className="logo" src="0a356142c7184ae283480e277bf81dda.gif" alt="Logo" />
@@ -23,7 +22,6 @@ function Header() {
         </div>
       )}
 
-      {/* ✅ SIEMPRE VISIBLE A LA DERECHA */}
       <div className="theme-container">
         <ThemeSelector />
       </div>

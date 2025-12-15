@@ -1,3 +1,9 @@
+crear un .env en el front con rutas de hosteo y la ruta de la api junto con su template.
+eitar los comentarios para que no paresca echo por chat jpt
+hacer responsive el front
+
+
+
 Cosas pendientes
 
 - mostrar mensaje de error e indicar que el dni tiene que tener 8 caracteres

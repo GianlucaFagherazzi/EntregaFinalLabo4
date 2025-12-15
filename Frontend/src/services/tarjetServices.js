@@ -4,7 +4,6 @@ function getToken() {
   return localStorage.getItem("token");
 }
 
-// Obtener tarjeta por ID
 export async function getTarjetById(id) {
   const res = await fetch(`${API_URL}/tarjets/${id}`, {
     headers: {
@@ -18,7 +17,7 @@ export async function getTarjetById(id) {
   return data.data;
 }
 
-// Acreditar saldo
+// acreditamos el saldo
 export async function updateTarjetBalance(id, amount) {
   const res = await fetch(`${API_URL}/tarjets/balance/${id}`, {
     method: "PUT",

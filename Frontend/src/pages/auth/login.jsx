@@ -21,10 +21,10 @@ function Login() {
       });
 
       login(response.data); // Se guarda el usuario y el token globalmente
-      navigate("/");        // redirige al home
+      navigate("/");        // no redirigimos al home
 
     } catch (error) {
-      alert("Correo o contraseña incorrectos ❌");
+      alert("Correo o contraseña incorrectos");
       console.error(error);
     }
   }

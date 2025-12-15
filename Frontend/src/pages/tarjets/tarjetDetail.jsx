@@ -6,10 +6,8 @@ import ConfirmDialog from "../../components/ConfirmDialog";
 export default function TarjetDetail() {
   const { id } = useParams();
   const [tarjet, setTarjet] = useState(null);
-
-  // Estados para el modal de acreditación y de confirmación de eliminación
   const [showConfirm, setShowConfirm] = useState(false);
-  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);  // Estado para mostrar el modal de eliminación
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   async function loadTarjet() {
     try {
@@ -36,17 +34,17 @@ export default function TarjetDetail() {
     alert("Saldo acreditado con éxito");
   }
 
-  // Lógica para eliminar la tarjeta
+  // logica para eliminar la tarjeta
   async function handleDeleteTarjet() {
     try {
       console.log(id);
       await deleteTarjet(id);  
       alert("Tarjeta eliminada con éxito.");
-      window.location.href = "/tarjetas";  // Redirige al listado de tarjetas o página de inicio
+      window.location.href = "/tarjetas";  // redirige al listado de tarjetas
     } catch (err) {
       alert("Error al eliminar la tarjeta");
     } finally {
-      setShowDeleteConfirm(false); // Cierra el modal de confirmación de eliminación
+      setShowDeleteConfirm(false); // cierra el modal de confirmación de eliminación
     }
   }
 
@@ -62,7 +60,6 @@ export default function TarjetDetail() {
 
       <button onClick={handleAcreditar}>Acreditar saldo</button>
 
-      {/* ConfirmDialog para Acreditación */}
       {showConfirm && (
         <ConfirmDialog
           title="Acreditar saldo"

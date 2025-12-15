@@ -33,17 +33,11 @@ export const MovementService = {
     }
   },
 
-
-
-
   async getAllMovementsByProductId(productId) { },
 
   async getAllMovementsByUserId(userId) { },
 
   async getAllMovementsByTarjetId(tarjetId) { },
-
-
-
 
   async create(data) {
     const t = await sequelize.transaction();
@@ -84,7 +78,6 @@ export const MovementService = {
       const sellerAccount = await AccountService.getById(seller.accountId);
       validateOwnership(sellerAccount, 'userId', seller.userId, 'La cuenta del vendedor no pertenece al usuario especificado');
 
-
       // Se validan las tarjetas asociadas a los usuarios
       const buyerTarjet = await TarjetService.getById(buyer.tarjetId);
       validateOwnership(buyerTarjet, 'accountId', buyerAccount.id, 'La tarjeta del comprador no pertenece a la cuenta especificada');
@@ -100,7 +93,7 @@ export const MovementService = {
       }
       const last4Seller = extractLast4(sellerTarjet.number);
 
-      // Crear el movimiento
+      // Se crea el movimiento
       const movement = await Movement.create({
         productId: data.productId,
         quantity: data.quantity,
@@ -108,7 +101,7 @@ export const MovementService = {
         date: data.date || new Date()
       }, { transaction: t });
 
-      // Crear los registros de movementUser asociados
+      // Se crean los registros de movementUser asociados
       for (const mu of data.movementUsers) {
         await MovementUserService.create(
           { ...mu, movementId: movement.id },
@@ -116,11 +109,11 @@ export const MovementService = {
         );
       }
 
-      // Actualizar balances de las tarjetas
+      // Se actualizan los balances de las tarjetas
       await TarjetService.updateBalance(buyerTarjet.id, buyerTarjet.balance - totalAmount, { transaction: t });
       await TarjetService.updateBalance(sellerTarjet.id, sellerTarjet.balance + totalAmount, { transaction: t });
 
-      // Crear snapshot del movimiento
+      // Se crea la snapshot del movimiento
       await SnapshotService.create({
         movementId: movement.id,
         buyerName: `${buyerUser.name} ${buyerUser.surname}`,

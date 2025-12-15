@@ -1,3 +1,4 @@
+
 .header {
   width: 100%;
   background: var(--color-surface);
@@ -5,14 +6,13 @@
   padding: 1rem 2rem;
 
   display: flex;
-  justify-content: space-between; /* 👈 izquierda - derecha REAL */
+  justify-content: space-between;
   align-items: center;
 
   box-shadow: var(--shadow);
   box-sizing: border-box;
 }
 
-/* ✅ BLOQUE IZQUIERDO */
 .header-logout,
 .header-logged {
   display: flex;
@@ -21,30 +21,26 @@
   white-space: nowrap;
 }
 
-/* ✅ LOGO */
 .header img,
 .header .logo {
   height: 40px;
   width: auto;
 }
 
-/* ✅ TITULO */
 .header h1 {
   font-size: 1.4rem;
   font-weight: 700;
   margin: 0;
 }
 
-/* ✅ TEXTO BIENVENIDA */
 .header p {
   font-size: 1rem;
   opacity: 0.8;
   margin: 0;
 }
 
-/* ✅ BLOQUE DERECHO (THEME) */
 .theme-container {
   display: flex;
   align-items: center;
-  flex-shrink: 0;   /* ✅ evita que se achique o se vaya */
+  flex-shrink: 0;
 }

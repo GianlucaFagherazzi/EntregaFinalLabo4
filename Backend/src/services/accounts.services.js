@@ -13,7 +13,6 @@ async function validateCbuUnique(cbu, userId, excludeId = null) {
 }
 
 export const AccountService = {
-  // Obtener todas las cuentas activas
   async getAll() {
     try {
       return await Account.findAll({
@@ -24,7 +23,6 @@ export const AccountService = {
     }
   },
 
-  // Obtener cuenta por ID
   async getById(id) {
     try {
       const account = await Account.findOne({
@@ -38,7 +36,6 @@ export const AccountService = {
     }
   },
 
-  // Crear cuenta
   async create(data) {
     try {
       if (!data.cbu) throw new AppError('El CBU es obligatorio', 400);
@@ -54,7 +51,6 @@ export const AccountService = {
     }
   },
 
-  // Actualizar cuenta
   async update(id, data) {
     try {
       const account = await this.getById(id);
@@ -74,7 +70,6 @@ export const AccountService = {
     }
   },
 
-  // Soft delete
   async softDelete(id) {
     try {
       const account = await this.getById(id);
