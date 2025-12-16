@@ -85,9 +85,10 @@ export default function Profile() {
                   onChange={(e) => setValue(e.target.value)}
                   placeholder={field.isPassword ? "Nueva contraseña" : ""}
                 />
-
-                <button onClick={saveEdit}>Guardar</button>
-                <button onClick={() => setEditingField(null)}>Cancelar</button>
+                <div className="profile-actions">
+                  <button onClick={saveEdit}>Guardar</button>
+                  <button onClick={() => setEditingField(null)}>Cancelar</button>
+                </div>
               </>
             ) : (
               <>

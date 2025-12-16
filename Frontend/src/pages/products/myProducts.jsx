@@ -31,19 +31,18 @@ export default function MyProducts() {
   }
 
   return (
-    <div className="products-page">
-      <aside className="sidebar">
-        <div className="navbar__links">
-          <Link to="/products/create" className="btn">
+    <div className="my-products-page">
+
+      <div className="my-products-container">
+        <h1 className="my-products-title">Mis Productos</h1>
+
+        <aside className="my-products-sidebar">
+          <Link to="/products/create" className="btn create-btn">
             + Crear producto
           </Link>
-        </div>
-      </aside>
+        </aside>
 
-      <div className="products-container">
-        <h1 className="products-title">Mis Productos</h1>
-
-        <div className="products-grid">
+        <div className="my-products-grid">
           {products.length ? (
             products.map(p => (
               <ProductCard
@@ -58,6 +57,8 @@ export default function MyProducts() {
           )}
         </div>
       </div>
+
     </div>
   );
+
 }
