@@ -44,23 +44,23 @@ export const MovementService = {
 
     try {
       /*{
-  "productId": 1,
-  "quantity": 2,
-  "movementUsers": [
-    {
-      "userId": 2,
-      "accountId": 2,
-      "tarjetId": 2,
-      "rol": "buyer"
-    },
-    {
-      "userId": 1,
-      "accountId": 2,
-      "tarjetId": 1,
-      "rol": "seller"
-    }
-  ]
-}*/
+      "productId": 2,
+      "quantity": 1,
+      "movementUsers": [
+        {
+          "userId": 2,
+          "accountId": 2,
+          "tarjetId": 2,
+          "rol": "buyer"
+        },
+        {
+          "userId": 1,
+          "accountId": 1,
+          "tarjetId": 1,
+          "rol": "seller"
+        }
+      ]
+    }*/
       const buyer = data.movementUsers.find(mu => mu.rol === "buyer");
       const seller = data.movementUsers.find(mu => mu.rol === "seller");
 

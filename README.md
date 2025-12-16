@@ -20,10 +20,31 @@ El sistema simula el funcionamiento básico de una plataforma de comercio electr
 Para ejecutar este proyecto, es necesario contar con un entorno de desarrollo preparado para el frontend.
 
 Una vez descargado el proyecto, desde la carpeta correspondiente al frontend se deben instalar las dependencias ejecutando el siguiente comando en la terminal backend y en la terminal frontend:
-- npm install
-- npm run reset
+- npm install (Para instalar todas als dependencias)
+- npm run reset (Comando personalizado de sequelize para borrar todas las migraciones anteriores y crear nuevas con datos de ejemplo)
 
-Posteriormente se debra configurar el .env en el cual debera introducir la configuracion de acceso de su base de datos mySQL, y se debara configurar la ruta de acceso de la api y su password de acceso para el JWT (utilizar template de referencia).
+El proyecto requiere que se cree un esquema en mysql (Puede ser workbench, xampp, etc), en el cual sequelize va a sincronizar los datos de las tablas.
+
+Posteriormente se debera configurar el .env en el cual debera introducir la configuracion de acceso de su base de datos mySQL, y se debera configurar la ruta de acceso de la api y su password de acceso para el JWT (utilizar template de referencia).
+
+  Ejemplo de un .env del backend
+  ```
+  PORT=3000
+  HOST=http://localhost
+  DB_NAME=tpfinal
+  DB_USER=root
+  DB_PASS=12346
+  DB_HOST=localhost
+  DB_PORT=3306
+  JWT_SECRET=viva_la_seguridad
+  JWT_EXPIRES_IN=10h
+  ```
+
+Ejemplo de un .env del frontend (en el cual se configurara la ruta de acceso a la api)
+  ```
+  VITE_API_URL=http://localhost:3000
+  ```
+
 
 
 ## EJECUCIÓN
@@ -31,11 +52,18 @@ Posteriormente se debra configurar el .env en el cual debera introducir la confi
 Luego para iniciar la aplicacion, ejecutar el siguiene comando en la terminal backend y en la terminal frontend:
 - npm run dev
 
+La api quedara funcionando en el puerto que configures en el .env, o por defecto en el 3000.
+Podran acceder a la api y testearla desde:
+- 🧪 Postman
+- 🌐 http://localhost:3000
+
 La aplicación frontend quedara disponible por defecto en:
 - 🌐 http://localhost:5173
-- 🧪 Postman
+
 
 ## BACKEND & DATABASE
+Implementaciones a futuro:
+
 El backend expone una API REST que se encuentra desplegada en la web y conectada a una base de datos remota.
 Dicha API es consumida exclusivamente por el frontend de la aplicación o mediante herramientas de prueba como Postman, no requiriendo instalación ni ejecución local para su funcionamiento.
 
@@ -143,7 +171,7 @@ Al igual que ocurre con los usuarios, las cuentas no pueden eliminarse de forma 
 Esta accion por el momento solo se puede realizar a traves de Postman con el siguiente endpoint: PUT /api/accounts/{accountId}/deactivate
 
 ## 9. obtener todas las tarjetas
-  Esto solo es posible desde Postman a travez del siguiente endpoint:
+  Esto solo es posible desde Postman a traves del siguiente endpoint:
   - GET /api/tarjets
 
   - ### Respuesta esperada
@@ -269,30 +297,56 @@ Por el momento esta acción solo es posible desde Postman a traves del siguiente
   - **Endpoint**    POST /api/movements
 
   - ### Campos del JSON
+  - **Objeto principal**
 
     | Campo | Tipo | Obligatorio | Descripción |
     |--------|------|-------------|-------------|
-    | name | string | ✅ | nombre |
-    | description | int | ❌ | descrición |
-    | price | int | ✅ | precio unitario |
-    | stock | int | ✅ | stock disponible |
-    | userId | int | ✅ | Id del usuario (vendedor) |
-    | categoryId | int | ✅ | Id de la categoria |
+    | productId | string | ✅ | Id del producto |
+    | quantity | int | ✅ | Cantidad del producto |
+    | movementUsers | array | ✅ | Usuarios involucrados en el movimiento |
 
-  - ### Coasa a tener en cuenta
-    La descripción del producto NO es obligatoria, es opcional.
-    Los datos de (userId y de categoryId) deben existir.
+    **Usuarios del arreglo**
+    | Campo | Tipo | Obligatorio | Descripción |
+    |--------|------|-------------|-------------|
+    | userId | string | ✅ | Id del producto |
+    | accountId | int | ✅ | Id de la cuenta asociada|
+    | tarjetId | int | ✅ | Id de la tarjeta asociada |
+    | rol | string | ✅ | Rol del usuario en el movimiento (buyer o seller)|
+
+
+  - ### Cosas a tener en cuenta
+    - El producto (productId) debe existir.
+    - La cantidad (quantity) debe ser mayor a 0.
+    - El array movementUsers:
+      - Debe contener un usuario con rol buyer.
+      - Debe contener un usuario con rol seller.
+    - Los datos de:
+      - userId
+      - accountId
+      - tarjetId
+      - deben existir y estar relacionados correctamente.
+    - El stock del producto se validará según la cantidad solicitada.
 
   - ### Ejemplo
 
     ``` json
     {
-      "name": "remeras",
-      "description": "",
-      "price": 500,
-      "stock": 100,
-      "userId": 1,
-      "categoryId": 1
+      "productId": 2,
+      "quantity": 1,
+      "movementUsers": [
+        {
+          "userId": 2,
+          "accountId": 2,
+          "tarjetId": 2,
+          "rol": "buyer"
+        },
+        {
+          "userId": 1,
+          "accountId": 1,
+          "tarjetId": 1,
+          "rol": "seller"
+        }
+      ]
     }
     ```
 
@@ -314,7 +368,7 @@ __
 
     Configuración (src/config)
 
-    Este directorio contiene toda la configuración general de la aplicación, incluyendo la conexión a la base de datos mediante Sequelize, parámetros de seguridad y otras configuraciones necesarias para el correcto funcionamiento del backend.
+    Este directorio contiene la configuración de la conexión a la base de datos mediante Sequelize
 __
 
     Rutas (src/routes)

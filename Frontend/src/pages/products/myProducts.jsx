@@ -31,18 +31,20 @@ export default function MyProducts() {
   }
 
   return (
-    <div className="my-products-page">
+    <div className="products-page">
 
-      <div className="my-products-container">
-        <h1 className="my-products-title">Mis Productos</h1>
+      <aside className="sidebar">
+        <div className="sidebar-filters">
+            <Link to="/products/create" className="btn create-product-btn">
+              + Crear producto
+            </Link>
+        </div>
+      </aside>
 
-        <aside className="my-products-sidebar">
-          <Link to="/products/create" className="btn create-btn">
-            + Crear producto
-          </Link>
-        </aside>
+      <div className="products-container">
+        <h1 className="products-title">Mis Productos</h1>
 
-        <div className="my-products-grid">
+        <div className="products-grid">
           {products.length ? (
             products.map(p => (
               <ProductCard
