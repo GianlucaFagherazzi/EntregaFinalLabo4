@@ -42,7 +42,6 @@ function Register() {
     <div className="form">
       <h1>Registrarse</h1>
 
-      {/* MENSAJE CORRECTAMENTE UBICADO */}
       {success && <p className="success-message">{success}</p>}
 
       <form onSubmit={handleSubmit} className="auth-form">

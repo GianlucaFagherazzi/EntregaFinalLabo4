@@ -1,6 +1,5 @@
 import api from './api'
 
-// Traer todos los productos
 export async function getProducts(filters) {
   try {
     console.log('Fetching products with filters:', filters)

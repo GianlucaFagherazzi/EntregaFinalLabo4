@@ -88,17 +88,17 @@ export const ProductService = {
       // Resolver usuario final (si no viene, queda el actual)
       const finalUserId = data.userId ?? product.userId
 
-      // Validar nombre SOLO si cambia realmente ---
+      // Validar nombre SOLO si cambia realmente
       if (data.name && data.name !== product.name) {
         await validateProductNameUnique(data.name, finalUserId, id)
       }
 
-      // Validar categoría si se envía ---
+      // Validar categoría si se envía
       if (data.categoryId) {
         await CategoryService.getById(data.categoryId)
       }
 
-      // Validar usuario si se envía userId ---
+      // Validar usuario si se envía userId
       if (data.userId) {
         await UserService.getById(data.userId)
       }

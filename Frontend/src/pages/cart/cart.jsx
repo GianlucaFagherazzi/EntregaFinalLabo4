@@ -1,4 +1,4 @@
-// cart.jsx
+
 import { useContext } from "react";
 import { CartContext } from "../../context/cartContext";
 
@@ -27,7 +27,6 @@ export default function Cart() {
                 </div>
             ))}
 
-            {/* mostrar total */}
             <p><strong>Total:</strong> ${total}</p>
 
             {cart.length > 0 && (

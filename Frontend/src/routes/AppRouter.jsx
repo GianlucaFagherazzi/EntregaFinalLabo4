@@ -8,7 +8,7 @@ import { UsersRouter } from "./usersRouter";
 import { CartRouter } from "./cartRouter";
 import ProtectedRoute from "../routes/protectedRouter";
 import { UserSectionsRoutes } from "./userSectionsRouter";
-import { AccountRouter } from "./accountRouter"; // Asegurate del nombre y path exacto
+import { AccountRouter } from "./accountRouter";
 
 export function AppRouter() {
   return (

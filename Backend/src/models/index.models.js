@@ -9,7 +9,7 @@ import snapshotModel from './snapshot.model.js';
 import tarjetsModels from './tarjet.model.js';
 import UserModel from './user.model.js';
 
-// Inicializar modelos
+// Inicialización de modelos
 const Account = AccountModel(sequelize, DataTypes);
 const Category = CategorysModels(sequelize, DataTypes);
 const Movement = MovementModel(sequelize, DataTypes);

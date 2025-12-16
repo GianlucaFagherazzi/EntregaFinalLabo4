@@ -25,7 +25,6 @@ export default function CreateAccount() {
     }
   }
 
-  // ✅ CBU NUMÉRICO DE 12 DÍGITOS
   function generateCBU() {
     let cbu = "";
     for (let i = 0; i < 12; i++) {

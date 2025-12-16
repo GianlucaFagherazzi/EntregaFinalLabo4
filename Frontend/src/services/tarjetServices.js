@@ -4,7 +4,6 @@ function getToken() {
   return localStorage.getItem("token");
 }
 
-// Obtener tarjeta por ID
 export async function getTarjetById(id) {
   const res = await fetch(`${API_URL}/tarjets/${id}`, {
     headers: {
@@ -18,7 +17,7 @@ export async function getTarjetById(id) {
   return data.data;
 }
 
-// Acreditar saldo
+// acreditamos el saldo
 export async function updateTarjetBalance(id, amount) {
   const res = await fetch(`${API_URL}/tarjets/balance/${id}`, {
     method: "PUT",
@@ -75,4 +74,13 @@ export async function getTarjetsByAccount(accountId) {
 
   const data = await res.json();
   return data.data;
+}
+
+export function deleteTarjet(id) {
+  return api.put(`/tarjets/${id}/deactivate`)
+    .then(res => res.data)
+    .catch(err => {
+      console.error("Error al desactivar tarjeta:", err.response);
+      throw err;
+    });
 }

@@ -3,7 +3,7 @@ import "./tarjetCard.css";
 
 export default function AddTarjet() {
   const navigate = useNavigate();
-  const { id } = useParams(); // id de la cuenta
+  const { id } = useParams();
 
   return (
     <div

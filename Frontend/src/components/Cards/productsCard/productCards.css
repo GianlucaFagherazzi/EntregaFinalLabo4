@@ -91,10 +91,6 @@
   .card-actions {
     flex-direction: column;
   }
-
-  .card-actions .btn {
-    width: 100%;
-  }
 }
 
 @media (max-width: 768px) {

@@ -1,4 +1,4 @@
-// REGISTRO
+
 export async function registerUser(userData) {
   const response = await fetch("http://localhost:3000/api/users", {
     method: "POST",
@@ -15,8 +15,6 @@ export async function registerUser(userData) {
   return response.json();
 }
 
-
-// LOGIN
 export async function loginUser(credentials) {
   const response = await fetch("http://localhost:3000/api/users/login", {
     method: "POST",

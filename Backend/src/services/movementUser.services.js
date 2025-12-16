@@ -2,7 +2,6 @@ import { MovementUser } from '../models/index.models.js';
 import { AppError } from '../utils/app.error.js';
 
 export const MovementUserService = {
-  // Obtener todos
   async getAll() {
     try {
       return await MovementUser.findAll( );
@@ -11,7 +10,6 @@ export const MovementUserService = {
     }
   },
 
-  // Obtener por ID
   async getById(id) {
     try {
       const mu = await MovementUser.findByPk(id);
@@ -23,7 +21,6 @@ export const MovementUserService = {
     }
   },
 
-  // Crear registro
   async create(data, options = {}) {
     try {
         return await MovementUser.create(data, {

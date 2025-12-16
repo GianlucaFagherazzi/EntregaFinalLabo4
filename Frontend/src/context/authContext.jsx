@@ -5,7 +5,7 @@ export const AuthContext = createContext();
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
 
-  // Al recargar la página, mantiene la sesión
+  // Al recargar la página, se mantiene la sesión
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
@@ -17,7 +17,7 @@ export function AuthProvider({ children }) {
         applyTheme(parsedUser.theme);
       }
     }
-    // No hay user o no tiene theme → usar preferencia del sistema
+    // Si no hay un usuario logeado o no tiene theme se usa la preferencia del sistema
     const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
     const defaultTheme = prefersDark ? "dark" : "clean";
     applyTheme(defaultTheme);

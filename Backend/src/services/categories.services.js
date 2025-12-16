@@ -11,7 +11,6 @@ async function validateCategoryNameUnique(name, excludeId = null) {
 }
 
 export const CategoryService = {
-  // Obtener todas las categorías
   async getAll() {
     try {
       return await Category.findAll();
@@ -20,7 +19,6 @@ export const CategoryService = {
     }
   },
 
-  // Obtener categoría por ID
   async getById(id) {
     try {
       const category = await Category.findByPk( id );
@@ -32,7 +30,6 @@ export const CategoryService = {
     }
   },
 
-  // Crear categoría
   async create(data) {
     try {
       if (!data.name) throw new AppError('El nombre es obligatorio', 400);
@@ -44,7 +41,6 @@ export const CategoryService = {
     }
   },
 
-  // Actualizar categoría
   async update(id, data) {
     try {
       const category = await this.getById(id);
@@ -61,7 +57,6 @@ export const CategoryService = {
     }
   },
 
-  // Eliminar categoría (hard delete)
   async delete(id) {
     try {
       const category = await this.getById(id);

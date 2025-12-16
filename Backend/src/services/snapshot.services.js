@@ -2,7 +2,6 @@ import { Snapshot } from '../models/index.models.js';
 import { AppError } from '../utils/app.error.js';
 
 export const SnapshotService = {
-  // Obtener todos
   async getAll() {
     try {
       return await Snapshot.findAll();
@@ -11,7 +10,6 @@ export const SnapshotService = {
     }
   },
 
-  // Obtener por ID
   async getById(id) {
     try {
       const snapshot = await Snapshot.findByPk(id);
@@ -23,7 +21,6 @@ export const SnapshotService = {
     }
   },
 
-  // Crear snapshot
   async create(data, options = {}) {
     try {
       return await Snapshot.create(data, {

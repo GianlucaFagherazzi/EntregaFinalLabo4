@@ -38,7 +38,6 @@ function generateToken(user) {
 }
 
 export const UserService = {
-  // Obtener todos los usuarios
   async getAll() {
     try {
       return await User.findAll()
@@ -47,7 +46,6 @@ export const UserService = {
     }
   },
 
-  // Obtener por ID
   async getById(id) {
     try {
       const user = await User.findByPk(id, {
@@ -72,7 +70,6 @@ export const UserService = {
     }
   },
 
-  // Crear usuario
   async create(data) {
     try {
       await validateUniqueEmail(data.email);
@@ -89,7 +86,6 @@ export const UserService = {
     }
   },
 
-  // Actualizar usuario
   async update(id, data) {
     try {
       const user = await User.findByPk(id);
@@ -110,7 +106,6 @@ export const UserService = {
     }
   },
 
-  // Soft delete
   async softDelete(id) {
     try {
       const user = await this.getById(id);
@@ -124,7 +119,6 @@ export const UserService = {
     }
   },
 
-  // Login
   async login(email, password) {
     try {
       const user = await this.getByEmail(email);

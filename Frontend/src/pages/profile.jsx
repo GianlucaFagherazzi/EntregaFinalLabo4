@@ -1,6 +1,9 @@
+
 import { useContext, useState } from "react";
 import { AuthContext } from "../context/authContext";
 import { updateUser, deactivateUser } from "../services/usersServices";
+import ConfirmDialog from "../components/ConfirmDialog";
+
 import "../styles/profile.css";
 
 export default function Profile() {
@@ -23,38 +26,35 @@ export default function Profile() {
         [editingField]: value
       });
 
-      // ✅ Solo actualizamos contexto si NO es password
+      // actualizamos el contexto si NO es el password
       if (editingField !== "password") {
         updateUserContext({
           [editingField]: updated.data[editingField]
         });
       }
 
-      // ✅ Si es password → cerrar sesión
+      // si es el password se cerrar sesión
       if (editingField === "password") {
         alert("Contraseña actualizada. Debes iniciar sesión nuevamente.");
         logout();
         window.location.href = "/login";
-        return; // ⛔ cortamos la ejecución acá
+        return;
       }
 
       setEditingField(null);
       setValue("");
-
     } catch (err) {
       alert("Error al actualizar el dato");
     }
   }
-
 
   async function handleDeleteAccount() {
     try {
       await deactivateUser(user.id);
 
       alert("Tu cuenta fue desactivada correctamente.");
-      logout();              // ✅ Cierra sesión automáticamente
-      window.location.href = "/";  // ✅ Redirige al home
-
+      logout();
+      window.location.href = "/";
     } catch (err) {
       alert("Error al eliminar la cuenta");
     }
@@ -75,7 +75,6 @@ export default function Profile() {
       <ul className="profile-list">
         {fields.map((field) => (
           <li key={field.key} className="profile-item">
-
             <span className="profile-label">{field.label}:</span>
 
             {editingField === field.key ? (
@@ -86,9 +85,10 @@ export default function Profile() {
                   onChange={(e) => setValue(e.target.value)}
                   placeholder={field.isPassword ? "Nueva contraseña" : ""}
                 />
-
-                <button onClick={saveEdit}>Guardar</button>
-                <button onClick={() => setEditingField(null)}>Cancelar</button>
+                <div className="profile-actions">
+                  <button onClick={saveEdit}>Guardar</button>
+                  <button onClick={() => setEditingField(null)}>Cancelar</button>
+                </div>
               </>
             ) : (
               <>
@@ -98,34 +98,28 @@ export default function Profile() {
                 </button>
               </>
             )}
-
           </li>
         ))}
       </ul>
 
-      {/* ✅ BLOQUE ELIMINAR CUENTA */}
+      {/* bloque para eliminar la cuenta */}
       <div className="delete-account-box">
-        <button className="delete-account-btn" onClick={() => setShowDeleteConfirm(true)}>
+        <button
+          className="delete-account-btn"
+          onClick={() => setShowDeleteConfirm(true)}
+        >
           Eliminar cuenta
         </button>
 
         {showDeleteConfirm && (
-          <div className="delete-confirm-box">
-            <p className="mensaje">
-              ⚠️ ¿Seguro que quiere eliminar su cuenta?  
-              No podrá acceder nunca más a ella.
-            </p>
-
-            <div className="confirm-actions">
-              <button className="confirm-btn" onClick={handleDeleteAccount}>
-                Aceptar
-              </button>
-
-              <button className="cancel-btn" onClick={() => setShowDeleteConfirm(false)}>
-                Cancelar
-              </button>
-            </div>
-          </div>
+          <ConfirmDialog
+            title="Eliminar cuenta"
+            message="⚠️ ¿Seguro que quiere eliminar su cuenta? No podrá acceder nunca más a ella."
+            confirmText="Eliminar"
+            cancelText="Cancelar"
+            onConfirm={handleDeleteAccount}
+            onCancel={() => setShowDeleteConfirm(false)}
+          />
         )}
       </div>
     </div>

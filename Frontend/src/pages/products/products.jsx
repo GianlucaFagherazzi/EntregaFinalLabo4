@@ -29,7 +29,6 @@ function Products() {
   return (
     <div className="products-page">
 
-      {/* SIDEBAR */}
       <aside className="sidebar">
         <Filters onFilterChange={setFilterData} />
       </aside>

@@ -22,8 +22,8 @@ export default function NewTarjet() {
     e.preventDefault();
 
     const newTarjet = {
-      number: form.number,              // <-- ahora correcto
-      balance: Number(form.balance) || 0, // <-- conversión correcta
+      number: form.number,
+      balance: Number(form.balance) || 0, 
       accountId: Number(accountId)
     };
 

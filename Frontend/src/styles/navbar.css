@@ -1,212 +1,173 @@
-/* ========================= */
-/* CONTENEDOR PRINCIPAL */
-/* ========================= */
+/* mobile */
+
 .navbar {
-  display: flex;           /* Pone los hijos en horizontal */
-  align-items: center;     /* Centra verticalmente */
-  flex-wrap: nowrap;       /* Evita que los elementos se rompan en otra línea */
-  gap: 1.2rem;
-  padding: 12px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.75rem;
+  padding: 12px 16px;
   background-color: var(--color-bg);
   border-bottom: 1px solid var(--color-border);
   position: relative;
 }
 
-/* ========================= */
-/* LOGO */
-/* ========================= */
+/* fila superior: brand + toggle */
+.navbar-left {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
 .navbar__brand a {
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   font-weight: bold;
+  white-space: nowrap;
   text-decoration: none;
   color: var(--color-text);
 }
 
-/* ========================= */
-/* BOTÓN HAMBURGUESA */
-/* ========================= */
+/* botón hamburguesa visible */
 .navbar__toggle {
-  display: none;
+  display: block;
   background: none;
   border: none;
   color: var(--color-text);
   cursor: pointer;
 }
 
-/* ========================= */
-/* LINKS */
-/* ========================= */
+.navbar-search {
+  width: 100%;
+}
+
+/* search ocupa todo el ancho */
+.navbar-search input {
+  width: calc(100% - 8px);
+  margin-right: 8px;
+  height: 36px;
+  padding: 6px 10px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text);
+  box-sizing: border-box;
+}
+
+
+/* links desplegables */
 .navbar__links {
-  display: flex;
+  display: none;
+  flex-direction: column;
+  gap: 0.8rem;
+  list-style: none;
+  padding: 12px;
+  margin: 0;
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
   align-items: center;
-  gap: 1.2rem;
-  list-style: none;
-  margin-left: auto;  /* ✅ empuja todo a la derecha */
-  padding: 0;
+  text-align: center;
 }
 
-.navbar__links li {
-  list-style: none;
+/* estado abierto */
+.navbar__links.open {
+  display: flex;
 }
 
-/* ========================= */
-/* LINKS INDIVIDUALES */
-/* ========================= */
 .navbar__links a {
   text-decoration: none;
   color: var(--color-text);
   padding: 0.4rem 0.8rem;
   border-radius: 8px;
-  transition: background 0.2s;
 }
 
 .navbar__links a:hover {
-  background: var(--color-border);
+  color: #4fc3f7;
 }
 
-.navbar__links a.active {
-  background: var(--color-primary);
-  color: var(--color-text);
-}
-
-/* ========================= */
-/* USUARIO */
-/* ========================= */
+/* usuario */
 .navbar-user {
   display: flex;
   align-items: center;
-  font-weight: 500;
   gap: 0.4rem;
+  font-weight: 500;
 }
 
-/* ========================= */
-/* BOTÓN LOGOUT */
-/* ========================= */
-.logout-btn {
-  background: none;
-  border: 1px solid var(--color-border);
-  padding: 6px 12px;
-  border-radius: 8px;
-  cursor: pointer;
-  color: var(--color-text);
-}
-
-.logout-btn:hover {
-  background: var(--color-border);
-}
-
-/* ========================= */
-/* USUARIO CON DROPDOWN */
-/* ========================= */
-.navbar-user-dropdown {
-  position: relative;
-}
-
-.navbar-user-name {
-  cursor: pointer;
-  font-weight: 600;
-}
-
-/* ========================= */
-/* MENÚ DESPLEGABLE */
-/* ========================= */
+/* dropdown */
 .dropdown-menu {
-  position: absolute;
-  top: 110%;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--color-surface);
+  position: static;
+  transform: none;
+  box-shadow: none;
   border: 1px solid var(--color-border);
-  box-shadow: var(--shadow);
   border-radius: 8px;
-  padding: 0.5rem 0;
-  min-width: 180px;
+  background-color: var(--color-surface);
+  padding: 6px 0;
   display: none;
   flex-direction: column;
-  z-index: 100;
+  gap: 0;
+  margin: 0;
   list-style: none;
+  padding-left: 0;
+  margin-top: 8;
 }
 
-/* Mostrar al pasar el mouse */
+.dropdown-menu li:hover a,
+.dropdown-menu li:hover button {
+  color: #4fc3f7;
+}
+
 .navbar-user-dropdown:hover .dropdown-menu {
   display: flex;
 }
 
-/* Opciones del menú */
-.dropdown-menu li {
-  padding: 8px 14px;
-  list-style: none;
-}
+/* desktop */
 
-.dropdown-menu li a,
-.dropdown-menu li button {
-  text-decoration: none;
-  color: var(--color-text);
-  background: none;
-  border: none;
-  width: 100%;
-  text-align: left;
-  cursor: pointer;
-}
+@media (min-width: 768px) {
+  .navbar {
+    flex-direction: row;
+    align-items: center;
+    gap: 1.2rem;
+    padding: 12px 24px;
+  }
 
-.dropdown-menu li:hover {
-  background: var(--color-border);
-}
+  .navbar-left {
+    justify-content: flex-start;
+  }
 
-/* ========================= */
-/* RESPONSIVE MOBILE */
-/* ========================= */
-@media (max-width: 768px) {
   .navbar__toggle {
-    display: block;
+    display: none;
   }
 
   .navbar__links {
+    display: flex !important;
+    flex-direction: row;
+    align-items: center;
+    gap: 1.2rem;
+    margin-left: auto;
+    padding: 0;
+    background: none;
+    border: none;
+    box-shadow: none;
+  }
+
+  .navbar-search input {
+    width: 300px;
+  }
+
+  .navbar-user-dropdown {
+    position: relative;
+  }
+
+  .dropdown-menu {
     position: absolute;
-    top: 60px;
+    top: 100%;
     right: 0;
-    flex-direction: column;
     background-color: var(--color-bg);
-    width: 220px;
-    padding: 16px;
-    gap: 1rem;
-    display: none;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-  }
-
-  .navbar__links.open {
-    display: flex;
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow);
+    border-radius: 8px;
+    flex-direction: column;
+    min-width: 150px;
+    z-index: 1000;
   }
 }
-/* ========================= */
-/* BLOQUE IZQUIERDO */
-/* ========================= */
-
-.navbar-left {
-  display: flex;           /* Pone los hijos en horizontal */
-  align-items: center;     /* Centra verticalmente */
-  gap: 12px;               /* Espacio entre logo y buscador */
-  flex-wrap: nowrap;       /* Evita que los elementos se rompan en otra línea */
-}
-
-/* Logo */
-.navbar__brand a {
-  font-size: 1.3rem;
-  font-weight: bold;
-  white-space: nowrap;
-  text-decoration: none;
-  color: inherit;
-}
-
-
-/* Input del buscador */
-.navbar-search input {
-  flex: 1;                 /* Ocupa todo el ancho disponible */
-  width: 300px;            /* Ancho base */
-  height: 34px;
-  padding: 6px 10px;
-  border: 1px solid var(--color-border);
-  background: var(--color-surface);
-  color: var(--color-text);
-}
-
