@@ -107,21 +107,26 @@ export const TarjetService = {
     }
   },
 
-  async updateBalance(tarjetId, amount) {
-    const tarjet = await Tarjet.findByPk(tarjetId, {
-      transaction: options.transaction,
-    });
+  async updateBalance(tarjetId, amount, options = {}) {
+    try {
+      const tarjet = await Tarjet.findByPk(tarjetId, {
+        transaction: options.transaction || null,
+      });
 
-    if (!tarjet) throw new AppError("Tarjeta no encontrada", 404);
+      if (!tarjet) throw new AppError("Tarjeta no encontrada", 404);
 
-    const nuevoBalance = Number(tarjet.balance) + Number(amount);
+      const nuevoBalance = Number(tarjet.balance) + Number(amount);
 
-    await tarjet.update(
-      { balance: nuevoBalance },
-      { transaction: options.transaction }
-    );
+      await tarjet.update(
+        { balance: nuevoBalance },
+        { transaction: options.transaction }
+      );
 
-    return tarjet;
+      return tarjet;
+    } catch (error) {
+      if (error instanceof AppError) throw error;
+      throw new AppError("Error al actualizar el balance de la tarjeta", 500, error);
+    }
   },
 
   async softDelete(id) {

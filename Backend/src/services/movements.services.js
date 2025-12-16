@@ -109,6 +109,7 @@ export const MovementService = {
       }, { transaction: t });
 
       // Crear los registros de movementUser asociados
+      console.log(data.movementUsers);
       for (const mu of data.movementUsers) {
         await MovementUserService.create(
           { ...mu, movementId: movement.id },
@@ -119,6 +120,9 @@ export const MovementService = {
       // Actualizar balances de las tarjetas
       await TarjetService.updateBalance(buyerTarjet.id, buyerTarjet.balance - totalAmount, { transaction: t });
       await TarjetService.updateBalance(sellerTarjet.id, sellerTarjet.balance + totalAmount, { transaction: t });
+
+      // Actualizar stock del producto
+      await ProductService.decreaseStock(product.id, data.quantity, { transaction: t });
 
       // Crear snapshot del movimiento
       await SnapshotService.create({

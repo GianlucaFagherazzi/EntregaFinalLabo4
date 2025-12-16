@@ -1,4 +1,4 @@
-import { Product, User, Category} from '../models/index.models.js'
+import { Product, User, Category } from '../models/index.models.js'
 import { AppError } from '../utils/app.error.js'
 import { Op, where } from 'sequelize'
 
@@ -28,7 +28,7 @@ export const ProductService = {
         },
         include: [
           { model: User, as: 'User', attributes: ['id', 'name'] },
-          { model: Category, as:'Category', attributes: ['id', 'name'] }
+          { model: Category, as: 'Category', attributes: ['id', 'name'] }
         ]
       })
 
@@ -124,5 +124,31 @@ export const ProductService = {
     }
   },
 
+  async decreaseStock(productId, quantity, options = {}) {
+    try {
+      const product = await Product.findByPk(productId, {
+        transaction: options.transaction || null,
+      });
+
+      if (!product) {
+        throw new AppError('Producto no encontrado', 404);
+      }
+
+      if (product.stock < quantity) {
+        throw new AppError('Stock insuficiente', 400);
+      }
+
+      await product.update(
+        { stock: product.stock - quantity },
+        { transaction: options.transaction || null }
+      );
+
+      return product;
+
+    } catch (error) {
+      if (error instanceof AppError) throw error;
+      throw new AppError('Error al descontar stock', 500, error);
+    }
+  }
 }
 
