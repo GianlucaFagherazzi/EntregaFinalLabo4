@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getTarjetById, updateTarjetBalance, deleteTarjet } from "../../services/tarjetServices"; // Asegúrate de tener la función deleteTarjet en el servicio
-import ConfirmDialog from "../../components/ConfirmDialog";
+import { getTarjetById, updateTarjetBalance, deleteTarjet } from "../../services/tarjetServices";
+import ConfirmDialog from "../../components/confirmDialog";
 
 export default function TarjetDetail() {
   const { id } = useParams();

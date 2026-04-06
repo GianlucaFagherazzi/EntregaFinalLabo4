@@ -5,7 +5,6 @@ import { AuthRouter } from "./authRouter";
 import { ProductsRouter } from "./productsRouter";
 import { CategoriesRouter } from "./categoriesRouter";
 import { UsersRouter } from "./usersRouter";
-import { CartRouter } from "./cartRouter";
 import ProtectedRoute from "../routes/protectedRouter";
 import { UserSectionsRoutes } from "./userSectionsRouter";
 import { AccountRouter } from "./accountRouter";
@@ -21,7 +20,6 @@ export function AppRouter() {
 
         <Route element={<ProtectedRoute />}>
           {UsersRouter()}
-          {CartRouter()}
           {UserSectionsRoutes()}
           {AccountRouter()}
         </Route>

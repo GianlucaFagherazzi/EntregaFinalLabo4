@@ -8,12 +8,10 @@ import routes from './src/routes/index.routes.js';
 const app = express();
 dotenv.config();
 
-// Configuraciones del servidor
-const PORT = process.env.PORT || 3000;
-const HOST = process.env.HOST || 'http://localhost';
-
 // Middlewares
-app.use(cors());
+app.use(cors({
+  origin: "*"
+}));
 app.use(express.json());
 
 // Usamos rutas centralizadas
@@ -31,7 +29,6 @@ try {
   console.error('Error al conectar con la base de datos:', error)
 }
 
-// Se inicia el servidor
-app.listen(PORT, () => {
-  console.log(`Servidor escuchando en ${"" + HOST + ":" + PORT + ""}`);
+app.listen(process.env.PORT, "0.0.0.0", () => {
+  console.log("Server running");
 });
