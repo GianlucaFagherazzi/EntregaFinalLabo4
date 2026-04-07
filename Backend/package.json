@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "start": "node index.js",
-    "start:prod": "npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all && node index.js",
+    "start:prod": "npm run migrate:undo:all && npm run migrate && npm run seed && node index.js",
     "dev": "node --watch ./index.js",
     "prepare": "husky",
     "lint": "eslint .",
