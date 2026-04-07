@@ -1,10 +1,9 @@
 #!/usr/bin/env bash
 set -e
 
-echo "Esperando MySQL REAL..."
+echo "Esperando PostgreSQL..."
 
-# 👇 usamos el script correcto
-./wait-for-mysql.sh db
+./wait-for-postgres.sh db
 
 echo "Ejecutando migraciones..."
 npm run migrate

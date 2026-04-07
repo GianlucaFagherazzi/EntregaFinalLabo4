@@ -12,6 +12,7 @@ dotenv.config();
 app.use(cors({
   origin: "*"
 }));
+
 app.use(express.json());
 
 // Usamos rutas centralizadas
