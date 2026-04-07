@@ -1,5 +1,5 @@
 // Configuracion necesaria para que sequelizerc pueda leer las variables de entorno y usarlas para las migraciones y seeders
-require('dotenv').config();
+require("dotenv").config()
 
 module.exports = {
   development: {
@@ -8,6 +8,17 @@ module.exports = {
     database: process.env.DB_NAME,
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
+    dialect: "postgres"
+  },
+
+  production: {
+    use_env_variable: "DATABASE_URL",
     dialect: "postgres",
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false
+      }
+    }
   }
-};
+}
