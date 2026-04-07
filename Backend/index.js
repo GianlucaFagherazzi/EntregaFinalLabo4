@@ -30,6 +30,6 @@ try {
   console.error('Error al conectar con la base de datos:', error)
 }
 
-app.listen(process.env.PORT, "0.0.0.0", () => {
+app.listen(process.env.PORT || 3000, "0.0.0.0", () => {
   console.log("Server running");
 });
