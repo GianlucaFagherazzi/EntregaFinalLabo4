@@ -1,86 +1,51 @@
-const API_URL = "http://localhost:3000/api";
-
-function getToken() {
-  return localStorage.getItem("token");
-}
+import api from "./api"
 
 export async function getTarjetById(id) {
-  const res = await fetch(`${API_URL}/tarjets/${id}`, {
-    headers: {
-      Authorization: `Bearer ${getToken()}`
-    }
-  });
-
-  const data = await res.json();
-  if (!res.ok) throw new Error(data.message);
-
-  return data.data;
+  try {
+    const res = await api.get(`/tarjets/${id}`)
+    return res.data.data
+  } catch (err) {
+    console.error("Error getting tarjet:", err)
+    throw err
+  }
 }
 
-// acreditamos el saldo
 export async function updateTarjetBalance(id, amount) {
-  const res = await fetch(`${API_URL}/tarjets/balance/${id}`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${getToken()}`
-    },
-    body: JSON.stringify({ amount })
-  });
-
-  const data = await res.json();
-
-  if (!res.ok) {
-    throw new Error(data.message || "Error al acreditar saldo");
+  try {
+    const res = await api.put(`/tarjets/balance/${id}`, { amount })
+    return res.data.data
+  } catch (err) {
+    console.error("Error updating balance:", err)
+    throw err
   }
-
-  return data.data;
 }
 
-
-// Crear tarjeta
-export const createTarjet = async (tarjetData) => {
-  const res = await fetch(`${API_URL}/tarjets`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${getToken()}`
-    },
-    body: JSON.stringify(tarjetData)
-  });
-
-  const data = await res.json();
-
-  if (!res.ok) {
-    throw new Error(data.message || "Error al crear tarjeta");
+export async function createTarjet(tarjetData) {
+  try {
+    const res = await api.post("/tarjets", tarjetData)
+    return res.data
+  } catch (err) {
+    console.error("Error creating tarjet:", err)
+    throw err
   }
-
-  return data;
-};
-
+}
 
 export async function getTarjetsByAccount(accountId) {
-  const token = localStorage.getItem("token");
-
-  const res = await fetch(`${API_URL}/tarjets/account/${accountId}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
-  if (!res.ok) {
-    throw new Error("Error al obtener tarjetas");
+  try {
+    const res = await api.get(`/tarjets/account/${accountId}`)
+    return res.data.data
+  } catch (err) {
+    console.error("Error getting tarjets:", err)
+    throw err
   }
-
-  const data = await res.json();
-  return data.data;
 }
 
-export function deleteTarjet(id) {
-  return api.put(`/tarjets/${id}/deactivate`)
-    .then(res => res.data)
-    .catch(err => {
-      console.error("Error al desactivar tarjeta:", err.response);
-      throw err;
-    });
+export async function deleteTarjet(id) {
+  try {
+    const res = await api.put(`/tarjets/${id}/deactivate`)
+    return res.data
+  } catch (err) {
+    console.error("Error deleting tarjet:", err)
+    throw err
+  }
 }

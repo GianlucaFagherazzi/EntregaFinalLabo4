@@ -52,7 +52,8 @@ export async function updateProduct(id, data) {
 
 export async function deleteProduct(id) {
   try {
-    return await api.put(`/products/${id}/deactivate`);
+    const res = await api.put(`/products/${id}/deactivate`);
+    return res.data.data;
   } catch (err) {
     console.error("Error deleting product", err);
     throw err;

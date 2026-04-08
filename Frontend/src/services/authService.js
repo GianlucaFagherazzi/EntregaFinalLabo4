@@ -1,32 +1,21 @@
+import api from "./api";
 
 export async function registerUser(userData) {
-  const response = await fetch("http://localhost:3000/api/users", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(userData),
-  });
-
-  if (!response.ok) {
-    throw new Error("Error al registrar el usuario");
+  try {
+    const res = await api.post("/users", userData)
+    return res.data
+  } catch (err) {
+    console.error("Error registering user:", err)
+    throw err
   }
-
-  return response.json();
 }
 
 export async function loginUser(credentials) {
-  const response = await fetch("http://localhost:3000/api/users/login", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(credentials),
-  });
-
-  if (!response.ok) {
-    throw new Error("Error al iniciar sesión");
+  try {
+    const res = await api.post("/users/login", credentials)
+    return res.data
+  } catch (err) {
+    console.error("Error al iniciar sesion:", err)
+    throw err
   }
-
-  return response.json();
 }

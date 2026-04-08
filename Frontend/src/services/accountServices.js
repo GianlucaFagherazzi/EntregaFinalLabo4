@@ -1,60 +1,33 @@
-const API_URL = "http://localhost:3000/api";
+import api from "./api"
 
-function getToken() {
-  return localStorage.getItem("token");
-}
-
-function getUser() {
-  return JSON.parse(localStorage.getItem("user"));
-}
-// mis cuentas (yo soy el usuario)
+// mis cuentas
 export async function getMyAccounts() {
-  const user = getUser();
-
-  const response = await fetch(`${API_URL}/accounts/my/${user.id}`, {
-    headers: {
-      "Authorization": `Bearer ${getToken()}`
-    }
-  });
-
-  if (!response.ok) {
-    throw new Error("Error fetching accounts");
+  try {
+    const user = JSON.parse(localStorage.getItem("user"))
+    const res = await api.get(`/accounts/my/${user.id}`)
+    return res.data.data
+  } catch (err) {
+    console.error("Error fetching accounts:", err)
+    throw err
   }
-
-  const data = await response.json();
-  return data.data;
 }
 
-// obtenoge el detalle de una cuenta por id
 export async function getAccountById(id) {
-  const response = await fetch(`${API_URL}/accounts/${id}`, {
-    headers: {
-      "Authorization": `Bearer ${getToken()}`
-    }
-  });
-
-  if (!response.ok) {
-    throw new Error("Error fetching account");
+  try {
+    const res = await api.get(`/accounts/${id}`)
+    return res.data.data
+  } catch (err) {
+    console.error("Error fetching account:", err)
+    throw err
   }
-
-  const data = await response.json();
-  return data.data;
 }
 
 export async function createAccount(accountData) {
-  const response = await fetch(`${API_URL}/accounts`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${getToken()}`
-    },
-    body: JSON.stringify(accountData)
-  });
-
-  if (!response.ok) {
-    throw new Error("Error creating account");
+  try {
+    const res = await api.post("/accounts", accountData)
+    return res.data
+  } catch (err) {
+    console.error("Error creating account:", err)
+    throw err
   }
-
-  return response.json();
 }
-
