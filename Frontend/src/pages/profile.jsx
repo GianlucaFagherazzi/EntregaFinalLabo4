@@ -1,19 +1,49 @@
+import { useParams } from "react-router-dom";
+import { getUserById } from "../services/usersServices";
+import { useEffect } from "react";
 
 import { useContext, useState } from "react";
 import { AuthContext } from "../context/authContext";
-import { updateUser, deactivateUser } from "../services/usersServices";
+import { updateUser, deactivateUser, activateUser } from "../services/usersServices";
 import ConfirmDialog from "../components/confirmDialog";
 
 import "../styles/profile.css";
 
 export default function Profile() {
-  const { user, updateUser: updateUserContext, logout } = useContext(AuthContext);
+  const { user, updateUser: updateUserContext, logout, isAdmin } = useContext(AuthContext);
+
+  const { id } = useParams();
+  const [profileUser, setProfileUser] = useState(null);
 
   const [editingField, setEditingField] = useState(null);
   const [value, setValue] = useState("");
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [showActivateConfirm, setShowActivateConfirm] = useState(false);
 
-  if (!user) return <p>No hay usuario autenticado</p>;
+  useEffect(() => {
+    console.log("id:", id);
+    console.log("isAdmin:", isAdmin);
+    console.log("user:", user);
+    console.log("profileUser:", profileUser);
+    if (!user) return;
+
+    async function loadUser() {
+      try {
+        if (id && isAdmin) {
+          const userData = await getUserById(id);
+          setProfileUser(userData);
+        } else {
+          setProfileUser(user);
+        }
+      } catch (error) {
+        alert("Error al cargar el usuario");
+      }
+    }
+
+    loadUser();
+  }, [id, user, isAdmin]);
+
+  if (!profileUser) return <p>Cargando...</p>;
 
   function startEdit(field, currentValue) {
     setEditingField(field);
@@ -22,17 +52,21 @@ export default function Profile() {
 
   async function saveEdit() {
     try {
-      const updated = await updateUser(user.id, {
+      const updated = await updateUser(profileUser.id, {
         [editingField]: value
       });
 
-      // actualizamos el contexto si NO es el password
-      if (editingField !== "password") {
+      setProfileUser(prev => ({
+        ...prev,
+        [editingField]: updated.data[editingField]
+      }));
+
+      // Solo actualizar contexto si edito MI usuario
+      if (!id && editingField !== "password") {
         updateUserContext({
           [editingField]: updated.data[editingField]
         });
       }
-
       // si es el password se cerrar sesión
       if (editingField === "password") {
         alert("Contraseña actualizada. Debes iniciar sesión nuevamente.");
@@ -50,13 +84,30 @@ export default function Profile() {
 
   async function handleDeleteAccount() {
     try {
-      await deactivateUser(user.id);
+      await deactivateUser(profileUser.id);
 
       alert("Tu cuenta fue desactivada correctamente.");
-      logout();
-      window.location.href = "/";
+      if (id) {
+        // Si es admin desactivando otra cuenta, lo vuelve a la lista de usuarios
+        window.location.href = "/users";
+      } else {
+        // Si es el usuario desactivando su propia cuenta, se cierra sesión
+        logout();
+        window.location.href = "/";
+      }
     } catch (err) {
       alert("Error al eliminar la cuenta");
+    }
+  }
+
+  async function handleActivateAccount() {
+    try {
+      const updatedUser = await activateUser(profileUser.id);
+      setProfileUser(updatedUser);
+      alert("Cuenta reactivada correctamente");
+      window.location.href = "/users";
+    } catch (err) {
+      alert("Error al reactivar la cuenta");
     }
   }
 
@@ -70,7 +121,7 @@ export default function Profile() {
 
   return (
     <div className="profile-container">
-      <h1>Mi Perfil</h1>
+      <h1>{id ? "Perfil del usuario" : "Mi Perfil"}</h1>
 
       <ul className="profile-list">
         {fields.map((field) => (
@@ -92,8 +143,8 @@ export default function Profile() {
               </>
             ) : (
               <>
-                <span className="profile-value">{user[field.key]}</span>
-                <button onClick={() => startEdit(field.key, user[field.key])}>
+                <span className="profile-value">{profileUser?.[field.key] ?? "-"}</span>
+                <button onClick={() => startEdit(field.key, profileUser[field.key])}>
                   Editar
                 </button>
               </>
@@ -114,7 +165,7 @@ export default function Profile() {
         {showDeleteConfirm && (
           <ConfirmDialog
             title="Eliminar cuenta"
-            message="⚠️ ¿Seguro que quiere eliminar su cuenta? No podrá acceder nunca más a ella."
+            message="¿Seguro que quiere eliminar su cuenta? Esta acción no se puede deshacer."
             confirmText="Eliminar"
             cancelText="Cancelar"
             onConfirm={handleDeleteAccount}
@@ -122,6 +173,23 @@ export default function Profile() {
           />
         )}
       </div>
+      {isAdmin && !profileUser.isActive && (
+        <div className="Activate-account-box">
+          <button onClick={() => setShowActivateConfirm(true)}>
+            Activar cuenta
+          </button>
+          {showActivateConfirm && (
+            <ConfirmDialog
+              title="Activar cuenta"
+              message="¿Seguro que quiere activar esta cuenta?"
+              confirmText="Activar"
+              cancelText="Cancelar"
+              onConfirm={handleActivateAccount}
+              onCancel={() => setShowActivateConfirm(false)}
+            />
+          )}
+        </div>
+      )}
     </div>
   );
 }

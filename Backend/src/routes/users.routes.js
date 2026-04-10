@@ -3,14 +3,18 @@ import { UserController } from '../controller/users.controller.js'
 import { validate } from '../middleware/validate.js'
 import { userSchema } from '../middleware/schemas/user.schema.js'
 import { authMiddleware } from '../middleware/auth.middleware.js'
+import { isAdmin } from '../middleware/admin.middleware.js'
 
 const router = express.Router()
 
 router.get('/', UserController.getAll);
 router.get('/:id', UserController.getById);
+router.get('/:id/parsed', UserController.parsedGetById);
 router.post('/', validate(userSchema.create), UserController.create);
 router.put('/:id', authMiddleware, validate(userSchema.update), UserController.update)
 router.post('/login', validate(userSchema.login), UserController.login);
-router.put('/:id/deactivate', UserController.softDelete);
+router.put('/:id/deactivate', authMiddleware, UserController.softDelete);
+router.put('/:id/activate', authMiddleware, isAdmin, UserController.reactivate);
+router.patch('/:id/role', authMiddleware, isAdmin, UserController.changeUserRole);
 
 export default router

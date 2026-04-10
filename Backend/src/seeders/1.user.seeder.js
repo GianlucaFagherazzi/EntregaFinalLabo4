@@ -14,14 +14,16 @@ export default {
         surname: 'Fagherazzi',
         email: 'gian@example.com',
         dni: "12345678",
-        password: hashedPassword
+        password: hashedPassword,
+        role: 'ADMIN'
       },
       {
         name: 'Leonardo',
         surname: 'Telez',
         email: 'Leo@example.com',
         dni: "87654321",
-        password: hashedPassword2
+        password: hashedPassword2,
+        role: 'USER'
       }
     ]);
   },

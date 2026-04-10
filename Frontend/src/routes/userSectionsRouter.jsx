@@ -9,7 +9,8 @@ import Favorites from "../pages/favorites";
 export function UserSectionsRoutes() {
   return (
     <>
-      <Route path="/profile" element={<Profile />} />
+      <Route path="/profile/:id?" element={<Profile />} />
+
       <Route path="/orders" element={<Orders />} />
       <Route path="/settings" element={<Settings />} />
       <Route path="/products/myProducts" element={<MyProducts />} />

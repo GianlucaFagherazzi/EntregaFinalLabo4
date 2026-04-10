@@ -19,6 +19,8 @@ const userSchema = {
         password: Joi.string().min(8).required().messages({
             "string.min": "La contraseña debe tener al menos 8 caracteres."
         }),
+
+        role: Joi.string().default('USER')
     }),
 
     login: Joi.object({

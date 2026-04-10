@@ -9,7 +9,7 @@ export default function Navbar() {
   const [search, setSearch] = useState("");
   const toggleMenu = () => setOpen(!open);
 
-  const { user, logout } = useContext(AuthContext);
+  const { user, logout, isAdmin } = useContext(AuthContext);
   const navigate = useNavigate();
 
   function handleLogout() {
@@ -26,84 +26,88 @@ export default function Navbar() {
   }
 
   return (
-  <nav className="navbar">
+    <nav className="navbar">
 
-    {/* BLOQUE IZQUIERDO: LOGO + BUSCADOR */}
-    <div className="navbar-left">
+      {/* BLOQUE IZQUIERDO: LOGO + BUSCADOR */}
+      <div className="navbar-left">
 
-      <div className="navbar__brand">
-        <Link to="/">MiWeb</Link>
+        <div className="navbar__brand">
+          <Link to="/">MiWeb</Link>
+        </div>
+
+        <form className="navbar-search" onSubmit={handleSearch}>
+          <input
+            type="text"
+            placeholder="Buscar productos..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+        </form>
+
       </div>
 
-      <form className="navbar-search" onSubmit={handleSearch}>
-        <input
-          type="text"
-          placeholder="Buscar productos..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-      </form>
+      {/* BOTÓN MOBILE */}
+      <button className="navbar__toggle" onClick={toggleMenu}>
+        {open ? <X /> : <Menu />}
+      </button>
 
-    </div>
+      {/* LINKS DERECHA */}
+      <ul className={`navbar__links ${open ? "open" : ""}`}>
 
-    {/* BOTÓN MOBILE */}
-    <button className="navbar__toggle" onClick={toggleMenu}>
-      {open ? <X /> : <Menu />}
-    </button>
-
-    {/* LINKS DERECHA */}
-    <ul className={`navbar__links ${open ? "open" : ""}`}>
-
-      <li>
-        <NavLink to="/categories" onClick={() => setOpen(false)}>Categoria</NavLink>
-      </li>
-
-      <li>
-        <NavLink to="/products" onClick={() => setOpen(false)}>Productos</NavLink>
-      </li>
-
-      <li>
-        <NavLink to="/users" onClick={() => setOpen(false)}>Usuarios</NavLink>
-      </li>
-
-      {!user ? (
-        <>
-          <li>
-            <NavLink to="/register" onClick={() => setOpen(false)}>Registrarse</NavLink>
-          </li>
-          <li>
-            <NavLink to="/login" onClick={() => setOpen(false)}>Login</NavLink>
-          </li>
-        </>
-      ) : (
-        <li className="navbar-user-dropdown">
-          <span className="navbar-user-name">👤 {user.name}</span>
-
-          <ul className="dropdown-menu">
-            <li><NavLink to="/profile">Mi perfil</NavLink></li>
-            <li><NavLink to="/orders">Mis compras</NavLink></li>
-            <li><NavLink to="/sales">Mis ventas</NavLink></li>
-            <li><NavLink to="/accounts">Mis cuentas</NavLink></li>
-            <li><NavLink to="/favorites">Favoritos</NavLink></li>
-            <li><NavLink to="/settings">Configuración</NavLink></li>
-            <li><NavLink to="/products/myProducts">Mis artículos</NavLink></li>
-            <li>
-              <button onClick={handleLogout} className="logout-btn">
-                Cerrar sesión
-              </button>
-            </li>
-          </ul>
+        <li>
+          <NavLink to="/products" onClick={() => setOpen(false)}>Productos</NavLink>
         </li>
-      )}
 
-      <li>
-        <NavLink to="/cart" onClick={() => setOpen(false)} className="cart-icon">
-          <ShoppingCart size={22} />
-        </NavLink>
-      </li>
+        {isAdmin && (
+          <li className="navbar-user-dropdown">
+            <span className="navbar-user-name">⚙️ Admin</span>
+            <ul className="dropdown-menu">
+              <li><NavLink to="/users">Usuarios</NavLink></li>
+              <li><NavLink to="/categories">Categorías</NavLink></li>
+              <li><NavLink to="/movementsControl">Movimientos</NavLink></li>
+            </ul>
+          </li>
+        )}
 
-    </ul>
-  </nav>
-);
+        {!user ? (
+          <>
+            <li>
+              <NavLink to="/register" onClick={() => setOpen(false)}>Registrarse</NavLink>
+            </li>
+            <li>
+              <NavLink to="/login" onClick={() => setOpen(false)}>Login</NavLink>
+            </li>
+          </>
+        ) : (
+          <>
+            <li className="navbar-user-dropdown">
+              <span className="navbar-user-name">👤 {user.name}</span>
+
+              <ul className="dropdown-menu">
+                <li><NavLink to="/profile">Mi perfil</NavLink></li>
+                <li><NavLink to="/orders">Mis compras</NavLink></li>
+                <li><NavLink to="/sales">Mis ventas</NavLink></li>
+                <li><NavLink to="/accounts">Mis cuentas</NavLink></li>
+                <li><NavLink to="/favorites">Favoritos</NavLink></li>
+                <li><NavLink to="/settings">Configuración</NavLink></li>
+                <li><NavLink to="/products/myProducts">Mis artículos</NavLink></li>
+                <li>
+                  <button onClick={handleLogout} className="logout-btn">
+                    Cerrar sesión
+                  </button>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <NavLink to="/cart" onClick={() => setOpen(false)} className="cart-icon">
+                <ShoppingCart />
+              </NavLink>
+            </li>
+          </>
+        )}
+
+      </ul>
+    </nav>
+  );
 
 }

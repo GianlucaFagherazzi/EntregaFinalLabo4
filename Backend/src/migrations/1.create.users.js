@@ -9,7 +9,8 @@ export default {
       email: { type: Sequelize.STRING, allowNull: false, unique: true },
       dni: { type: Sequelize.STRING, allowNull: false, unique: true },
       isActive: { type: Sequelize.BOOLEAN, defaultValue: true },
-      password: { type: Sequelize.STRING, allowNull: false }
+      password: { type: Sequelize.STRING, allowNull: false },
+      role: { type: Sequelize.STRING, defaultValue: 'USER' }
     });
   },
 

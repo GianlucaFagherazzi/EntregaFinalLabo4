@@ -4,6 +4,8 @@ export const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
+  const isAuthenticated = !!user;
+  const isAdmin = user?.role === "ADMIN";
 
   // Al recargar la página, se mantiene la sesión
   useEffect(() => {
@@ -19,8 +21,7 @@ export function AuthProvider({ children }) {
     }
     // Si no hay un usuario logeado o no tiene theme se usa la preferencia del sistema
     const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    const defaultTheme = prefersDark ? "dark" : "clean";
-    applyTheme(defaultTheme);
+    applyTheme(prefersDark ? "dark" : "clean");
   }, []);
 
   function login(userData) {
@@ -58,9 +59,11 @@ export function AuthProvider({ children }) {
     document.documentElement.setAttribute("data-theme", theme);
   }
 
+  
+
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, updateUser }}>
+    <AuthContext.Provider value={{ user, login, logout, updateUser, isAuthenticated, isAdmin }}>
       {children}
     </AuthContext.Provider>
   );

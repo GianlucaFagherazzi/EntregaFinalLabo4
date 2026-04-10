@@ -19,6 +19,15 @@ export const UserController = {
     }
   },
 
+  async parsedGetById(req, res, next) {
+    try {
+      const user = await UserService.parsedGetById(Number(req.params.id))
+      res.json({ success: true, data: user })
+    } catch (error) {
+      next(error)
+    }
+  },
+
   async create(req, res, next) {
     try {
       const newUser = await UserService.create(req.body)
@@ -46,10 +55,28 @@ export const UserController = {
     }
   },
 
+  async reactivate(req, res, next) {
+    try {
+      const result = await UserService.reActivate(Number(req.params.id));
+      res.status(200).json({ success: true, data: result });
+    } catch (error) {
+      next(error);
+    }
+  },
+
   async login(req, res, next) {
     try {
-      const { email, password } = req.body;  
-      const result = await UserService.login(email, password); 
+      const { email, password } = req.body;
+      const result = await UserService.login(email, password);
+      res.status(200).json({ success: true, data: result });
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  async changeUserRole(req, res, next) {
+    try {
+      const result = await UserService.changeUserRole(Number(req.params.id));
       res.status(200).json({ success: true, data: result });
     } catch (error) {
       next(error);

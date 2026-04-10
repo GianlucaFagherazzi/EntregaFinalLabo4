@@ -1,5 +1,5 @@
 
-import { User, Product, Account } from '../models/index.models.js';
+import { User } from '../models/index.models.js';
 import { AppError } from '../utils/app.error.js';
 import { Op } from 'sequelize';
 import bcrypt from 'bcryptjs';
@@ -31,7 +31,7 @@ async function hashPassword(password) {
 // Helper para generar JWT
 function generateToken(user) {
   return jwt.sign(
-    { id: user.id, email: user.email, name: user.name },
+    { id: user.id, email: user.email, name: user.name, role: user.role },
     process.env.JWT_SECRET,
     { expiresIn: process.env.JWT_EXPIRES_IN || '1h' }
   );
@@ -59,6 +59,19 @@ export const UserService = {
     }
   },
 
+  async parsedGetById(id) {
+    try {
+      const user = await User.findByPk(id, {
+        where: { isActive: true }
+      });
+      if (!user) throw new AppError('Usuario no encontrado', 404);
+      return { user: { id: user.id, name: user.name, surname: user.surname, email: user.email, role: user.role, dni: user.dni, isActive: user.isActive } };;
+    } catch (error) {
+      if (error instanceof AppError) throw error;
+      throw new AppError('Error al obtener el usuario', 500, error);
+    }
+  },
+
   async getByEmail(email) {
     try {
       const user = await User.findOne({ where: { email, isActive: true } });
@@ -79,6 +92,7 @@ export const UserService = {
         data.password = await hashPassword(data.password);
       }
 
+
       return await User.create(data);
     } catch (error) {
       if (error instanceof AppError) throw error;
@@ -88,8 +102,11 @@ export const UserService = {
 
   async update(id, data) {
     try {
-      const user = await User.findByPk(id);
-      if (!user) throw new AppError('Usuario no encontrado', 404);
+      const user = await this.getById(id);
+
+      if (user.role !== 'ADMIN' && user.id !== id) {
+        throw new AppError('No autorizado', 403);
+      }
 
       if (data.email && data.email !== user.email) await validateUniqueEmail(data.email, id);
       if (data.dni && data.dni !== user.dni) await validateUniqueDni(data.dni, id);
@@ -119,6 +136,20 @@ export const UserService = {
     }
   },
 
+  async reActivate(id) {
+    try {
+      const user = await this.getById(id);
+      if (!user) throw new AppError('Usuario no encontrado', 404);
+
+      await user.update({ isActive: true });
+
+      return { id: user.id, name: user.name, surname: user.surname, email: user.email, role: user.role, dni: user.dni, isActive: user.isActive };
+    } catch (error) {
+      if (error instanceof AppError) throw error;
+      throw new AppError('Error al reactivar usuario', 500, error);
+    }
+  },
+
   async login(email, password) {
     try {
       const user = await this.getByEmail(email);
@@ -127,10 +158,30 @@ export const UserService = {
       if (!validPassword) throw new AppError('Contraseña incorrecta', 401);
 
       const token = generateToken(user);
-      return { user: { id: user.id, name: user.name, surname: user.surname, email: user.email }, token };
+      return { user: { id: user.id, name: user.name, surname: user.surname, email: user.email, role: user.role, dni: user.dni, isActive: user.isActive }, token };
     } catch (error) {
       if (error instanceof AppError) throw error;
       throw new AppError('Error al iniciar sesión', 500, error);
+    }
+  },
+
+  async changeUserRole(id) {
+    try {
+      const user = await this.getById(id);
+
+      const newRole = user.role === 'ADMIN' ? 'USER' : 'ADMIN';
+
+      await user.update({ role: newRole });
+
+      return {
+        message: `Rol cambiado a ${newRole}`,
+        id,
+        role: newRole
+      };
+
+    } catch (error) {
+      if (error instanceof AppError) throw error;
+      throw new AppError('Error al cambiar el rol del usuario', 500, error);
     }
   }
 };
