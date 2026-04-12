@@ -5,5 +5,4 @@ function CategoriesCard({ category }) {
     </div>
   );
 }
-
 export default CategoriesCard;

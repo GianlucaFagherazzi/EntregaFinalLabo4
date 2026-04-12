@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getCategories } from "../../services/categoriesServices";
-import CategoriesCard from "../../components/Cards/categoriesCard";
+import CategoriesCard from "../../components/Cards/categoriesCard/categoriesCard";
+import "../../styles/categories.css";
 
 function Categories() {
   const [categories, setCategories] = useState([]);

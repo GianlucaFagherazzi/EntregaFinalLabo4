@@ -1,61 +1,60 @@
-/* mobile */
-
-.my-products-page {
+/* CONTENEDOR GENERAL */
+.products-page {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  justify-content: center;
   width: 100%;
-  min-height: calc(100vh - 64px);
-  gap: 1.5rem;
+  padding: 20px;
 }
 
-.my-products-sidebar {
+/* CONTENIDO */
+.products-container {
   width: 100%;
-  max-width: 420px;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius);
-  padding: 1.25rem;
-  box-shadow: var(--shadow);
+  max-width: 1200px;
 }
 
-.my-products-sidebar .create-btn {
-  display: block;
-  width: 100%;
-  text-align: center;
-  font-weight: 600;
-}
-
-.my-products-container {
-  width: 100%;
-}
-
-.my-products-title {
-  font-size: 1.4rem;
+/* TÍTULO */
+.products-title {
+  font-size: 1.6rem;
   font-weight: 700;
-  margin-bottom: 1.25rem;
+  margin-bottom: 15px;
 }
 
-.my-products-grid {
+/* BOTÓN ARRIBA (cuando hay productos) */
+.products-actions {
+  margin-bottom: 15px;
+}
+
+/* BOTÓN CREAR */
+.create-product-btn {
+  display: inline-block;
+}
+
+/* ESTADO VACÍO */
+.empty-state {
+  margin-top: 10px;
+}
+
+.empty-state p {
+  margin-bottom: 10px;
+  color: var(--color-text-secondary);
+}
+
+/* GRID MOBILE */
+.products-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1.25rem;
+  gap: 20px;
 }
 
-/* desktop */
-
+/* GRID DESKTOP */
 @media (min-width: 768px) {
-  .my-products-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-    align-items: stretch;
+  .products-grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   }
 
-  .my-products-grid .card {
-    width: auto !important;
-    max-width: none !important;
-    min-width: 0 !important;
-    grid-column: auto !important;
+  /* hace que las cards se adapten bien */
+  .products-grid .card {
+    width: 100%;
+    max-width: none;
   }
 }
-
