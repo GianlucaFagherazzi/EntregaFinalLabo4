@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
-import CategoriesCard from "../../components/Cards/categoriesCard";
 import { getCategories, createCategory, updateCategory, deleteCategory } from "../../services/categoriesServices";
 import Modal from "../../components/modal";
 import CategoryForm from "../../components/categoryForm";
-import { getCategories } from "../../services/categoriesServices";
 import CategoriesCard from "../../components/Cards/categoriesCard/categoriesCard";
 import "../../styles/categories.css";
 

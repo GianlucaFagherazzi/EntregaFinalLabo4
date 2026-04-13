@@ -9,8 +9,8 @@ const router = express.Router()
 
 router.get('/', CategoryController.getAll)
 router.get('/:id', CategoryController.getById)
-router.post('/', CategoryController.create)
-router.put('/:id', CategoryController.update)
-router.delete('/:id', CategoryController.delete)
+router.post('/', authMiddleware, isAdmin, validate(categorySchema.create), CategoryController.create)
+router.put('/:id', authMiddleware, isAdmin, validate(categorySchema.update), CategoryController.update)
+router.delete('/:id', authMiddleware, isAdmin, CategoryController.delete)
 
 export default router
