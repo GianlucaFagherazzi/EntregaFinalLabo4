@@ -1,4 +1,6 @@
-/* mobile */
+/* =========================
+   NAVBAR BASE (MOBILE FIRST)
+   ========================= */
 
 .navbar {
   display: flex;
@@ -27,7 +29,7 @@
   color: var(--color-text);
 }
 
-/* botón hamburguesa visible */
+/* botón hamburguesa */
 .navbar__toggle {
   display: block;
   background: none;
@@ -36,11 +38,14 @@
   cursor: pointer;
 }
 
+/* =========================
+   SEARCH
+   ========================= */
+
 .navbar-search {
   width: 100%;
 }
 
-/* search ocupa todo el ancho */
 .navbar-search input {
   width: calc(100% - 8px);
   margin-right: 8px;
@@ -49,11 +54,14 @@
   border: 1px solid var(--color-border);
   background: var(--color-surface);
   color: var(--color-text);
+  border-radius: 8px;
   box-sizing: border-box;
 }
 
+/* =========================
+   LINKS MOBILE (MENU)
+   ========================= */
 
-/* links desplegables */
 .navbar__links {
   display: none;
   flex-direction: column;
@@ -63,7 +71,7 @@
   margin: 0;
   background-color: var(--color-bg);
   border: 1px solid var(--color-border);
-  border-radius: 8px;
+  border-radius: 12px;
   box-shadow: var(--shadow);
   align-items: center;
   text-align: center;
@@ -79,13 +87,18 @@
   color: var(--color-text);
   padding: 0.4rem 0.8rem;
   border-radius: 8px;
+  transition: all 0.15s ease;
 }
 
 .navbar__links a:hover {
+  background: rgba(79,195,247,0.12);
   color: #4fc3f7;
 }
 
-/* usuario */
+/* =========================
+   USER SECTION
+   ========================= */
+
 .navbar-user {
   display: flex;
   align-items: center;
@@ -93,34 +106,107 @@
   font-weight: 500;
 }
 
-/* dropdown */
-.dropdown-menu {
-  position: static;
-  transform: none;
-  box-shadow: none;
-  border: 1px solid var(--color-border);
-  border-radius: 8px;
-  background-color: var(--color-surface);
-  padding: 6px 0;
-  display: none;
-  flex-direction: column;
-  gap: 0;
-  margin: 0;
-  list-style: none;
-  padding-left: 0;
-  margin-top: 8;
+/* contenedor dropdown */
+.navbar-user-dropdown {
+  position: relative;
 }
 
-.dropdown-menu li:hover a,
-.dropdown-menu li:hover button {
+/* =========================
+   DROPDOWN MENU PRO ✨
+   ========================= */
+
+.dropdown-menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+
+  min-width: 180px;
+  padding: 6px;
+
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+
+  box-shadow:
+    0 10px 25px rgba(0,0,0,0.25),
+    0 2px 6px rgba(0,0,0,0.15);
+
+  list-style: none;
+
+  opacity: 0;
+  transform: translateY(-10px) scale(0.98);
+  pointer-events: none;
+  transition: all 0.18s ease;
+  z-index: 1000;
+}
+
+/* flechita */
+.dropdown-menu::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  right: 14px;
+  width: 10px;
+  height: 10px;
+  background: var(--color-bg);
+  border-left: 1px solid var(--color-border);
+  border-top: 1px solid var(--color-border);
+  transform: rotate(45deg);
+}
+
+/* visible */
+.navbar-user-dropdown:hover .dropdown-menu {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+/* items dropdown */
+.dropdown-menu li {
+  width: 100%;
+}
+
+.dropdown-menu a,
+.dropdown-menu button {
+  width: 100%;
+  text-align: left;
+  padding: 10px 12px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: var(--color-text);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: all 0.15s ease;
+}
+
+.dropdown-menu a:hover,
+.dropdown-menu button:hover {
+  background: rgba(79,195,247,0.12);
   color: #4fc3f7;
 }
 
-.navbar-user-dropdown:hover .dropdown-menu {
-  display: flex;
+/* efecto click */
+.dropdown-menu a:active,
+.dropdown-menu button:active {
+  transform: scale(0.97);
 }
 
-/* desktop */
+/* separador opcional */
+.dropdown-divider {
+  height: 1px;
+  background: var(--color-border);
+  margin: 4px 6px;
+}
+
+/* =========================
+   DESKTOP
+   ========================= */
 
 @media (min-width: 768px) {
   .navbar {
@@ -152,22 +238,5 @@
 
   .navbar-search input {
     width: 300px;
-  }
-
-  .navbar-user-dropdown {
-    position: relative;
-  }
-
-  .dropdown-menu {
-    position: absolute;
-    top: 100%;
-    right: 0;
-    background-color: var(--color-bg);
-    border: 1px solid var(--color-border);
-    box-shadow: var(--shadow);
-    border-radius: 8px;
-    flex-direction: column;
-    min-width: 150px;
-    z-index: 1000;
   }
 }

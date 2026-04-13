@@ -8,6 +8,7 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
   const toggleMenu = () => setOpen(!open);
+  
 
   const { user, logout, isAdmin } = useContext(AuthContext);
   const navigate = useNavigate();
