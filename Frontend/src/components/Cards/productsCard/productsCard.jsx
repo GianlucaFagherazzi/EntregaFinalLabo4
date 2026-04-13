@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 
+
 export function ProductCard({ product, mode = "public", onDelete, user }) {
   const isOwnerView = mode === "owner";
   const isLogged = Boolean(user);
@@ -17,15 +18,15 @@ export function ProductCard({ product, mode = "public", onDelete, user }) {
 
         {product.User && (
           <Link to={`/users/${product.User.id}`} className="user-link">
-            {product.User.name}
+            Vendido por {product.User.name}
           </Link>
         )}
 
         {product.Category && (
-          <p className="category">{product.Category.name}</p>
+          <p className="category"> {product.Category.name}</p>
         )}
 
-        <p>{product.description}</p>
+        <p>Descripción: {product.description}</p>
       </div>
 
       <div className="product-details">

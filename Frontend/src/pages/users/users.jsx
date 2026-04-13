@@ -1,7 +1,8 @@
 
 import { useEffect, useState } from "react";
 import { getUsers } from "../../services/usersServices";
-import UsersCard from "../../components/Cards/usersCard";
+import UsersCard from "../../components/Cards/usersCard/usersCard";
+import "../../styles/user.css";
 
 function Users() {
   const [users, setUsers] = useState([]);

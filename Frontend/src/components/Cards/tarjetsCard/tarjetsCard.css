@@ -1,0 +1,10 @@
+.tarjet-card p {
+  margin: 6px 0;
+  font-size: 1.4rem;
+  color: var(--color-text-secondary);
+}
+
+.add h3 {
+  margin: 0 0 10px 0;
+  font-size: 1.5rem;
+}

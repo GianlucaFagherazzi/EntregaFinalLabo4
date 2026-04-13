@@ -1,8 +1,8 @@
 import { useEffect, useState, useContext } from "react";
 import { getProducts, deleteProduct } from "../../services/productsServices";
 import { ProductCard } from "../../components/Cards/productsCard/productsCard";
+import AddProductCard from "../../components/Cards/productsCard/addProductsCard";
 import { AuthContext } from "../../context/authContext";
-import { Link } from "react-router-dom";
 
 export default function MyProducts() {
   const { user } = useContext(AuthContext);
@@ -32,35 +32,33 @@ export default function MyProducts() {
 
   return (
     <div className="products-page">
-
-      <aside className="sidebar">
-        <div className="sidebar-filters">
-            <Link to="/products/create" className="btn create-product-btn">
-              + Crear producto
-            </Link>
-        </div>
-      </aside>
-
       <div className="products-container">
+
         <h1 className="products-title">Mis Productos</h1>
 
-        <div className="products-grid">
-          {products.length ? (
-            products.map(p => (
-              <ProductCard
-                key={p.id}
-                product={p}
-                mode="owner"
-                onDelete={handleDelete}
-              />
-            ))
-          ) : (
-            <p>No tenés productos cargados.</p>
-          )}
-        </div>
-      </div>
+        {/* mensaje si no hay productos */}
+        {products.length === 0 && (
+          <p className="empty-message">
+            No tenés productos cargados.
+          </p>
+        )}
 
+        {/* grid SIEMPRE visible */}
+        <div className="products-grid">
+          {products.map(p => (
+            <ProductCard
+              key={p.id}
+              product={p}
+              mode="owner"
+              onDelete={handleDelete}
+            />
+          ))}
+
+          {/* card de agregar producto */}
+          <AddProductCard />
+        </div>
+
+      </div>
     </div>
   );
-
 }

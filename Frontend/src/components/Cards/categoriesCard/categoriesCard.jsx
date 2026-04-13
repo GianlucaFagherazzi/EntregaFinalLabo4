@@ -10,5 +10,4 @@ function CategoriesCard({ category, onEdit, onDelete }) {
     </div>
   );
 }
-
 export default CategoriesCard;
