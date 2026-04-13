@@ -36,8 +36,9 @@ export function ProductCard({ product, mode = "public", onDelete, user }) {
       </div>
 
       <div className="card-actions">
-        <button className="btn">Ver detalle</button>
-
+        <Link to={`/products/${product.id}`} state={{ product }} className="btn">
+          Ver detalle
+        </Link>
         {/* COMPRA */}
         {isLogged && !isOwner && (
           <button className="btn btn-primary" onClick={handleAddToCart}>

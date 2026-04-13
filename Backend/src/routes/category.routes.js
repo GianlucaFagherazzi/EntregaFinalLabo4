@@ -1,5 +1,9 @@
 import express from 'express'
 import { CategoryController } from '../controller/categories.controller.js'
+import { authMiddleware } from '../middleware/auth.middleware.js'
+import { isAdmin } from '../middleware/admin.middleware.js'
+import { validate } from '../middleware/validate.js'
+import { categorySchema } from '../middleware/schemas/category.schema.js'
 
 const router = express.Router()
 

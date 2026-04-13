@@ -1,33 +1,99 @@
 import { useEffect, useState } from "react";
-import { getCategories } from "../../services/categoriesServices";
 import CategoriesCard from "../../components/Cards/categoriesCard";
+import { getCategories, createCategory, updateCategory, deleteCategory } from "../../services/categoriesServices";
+import Modal from "../../components/modal";
+import CategoryForm from "../../components/categoryForm";
 
 function Categories() {
   const [categories, setCategories] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingCategory, setEditingCategory] = useState(null);
+
+  async function loadCategories() {
+    try {
+      const data = await getCategories();
+      setCategories(data);
+    } catch (err) {
+      console.error("Error al cargar las categorias", err);
+    }
+  }
 
   useEffect(() => {
-    async function load() {
-      try {
-        const categories = await getCategories();
-        setCategories(categories);
-      } catch (err) {
-        console.error("Error al cargar las categorias", err);
-      }
-    }
-    load();
+    loadCategories();
   }, []);
+
+  function openCreateModal() {
+    setEditingCategory(null);
+    setIsModalOpen(true);
+  }
+
+  function handleEdit(category) {
+    setEditingCategory(category);
+    setIsModalOpen(true);
+  }
+
+  // guardar (crear o editar)
+  async function handleSubmitCategory(data) {
+    try {
+      if (editingCategory) {
+        await updateCategory(editingCategory.id, data);
+      } else {
+        await createCategory(data);
+      }
+
+      setIsModalOpen(false);
+      setEditingCategory(null);
+      await loadCategories();
+    } catch (err) {
+      console.error("Error guardando categoría", err);
+    }
+  }
+
+async function handleDelete(id) {
+  const confirmDelete = confirm("¿Seguro que querés eliminar?");
+  if (!confirmDelete) return;
+
+  try {
+    await deleteCategory(id);
+    await loadCategories();
+    alert("Categoría eliminada correctamente");
+  } catch (err) {
+    alert(err.message);
+  }
+}
 
   return (
     <div className="categories-container">
       <h1 className="categories-title">Listado de categorias</h1>
 
+      <button onClick={openCreateModal} className="btn-create">
+        Crear categoría
+      </button>
+
       <div className="categories-grid">
         {categories.map((c) => (
-          <CategoriesCard key={c.id} category={c} />
+          <CategoriesCard
+            key={c.id}
+            category={c}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+          />
         ))}
       </div>
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        title={editingCategory ? "Editar categoría" : "Nueva categoría"}
+      >
+        <CategoryForm
+          initialData={editingCategory}
+          onSubmit={handleSubmitCategory}
+          onCancel={() => setIsModalOpen(false)}
+        />
+      </Modal>
     </div>
   );
 }
+
 
 export default Categories;

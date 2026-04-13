@@ -21,7 +21,7 @@ export const CategoryService = {
 
   async getById(id) {
     try {
-      const category = await Category.findByPk( id );
+      const category = await Category.findByPk(id);
       if (!category) throw new AppError('Categoría no encontrada', 404);
       return category;
     } catch (error) {
@@ -60,10 +60,19 @@ export const CategoryService = {
   async delete(id) {
     try {
       const category = await this.getById(id);
-
       await category.destroy();
-      return { message: 'Categoría eliminada correctamente', categoryId: id };
+      return {
+        message: "Categoría eliminada correctamente",
+        categoryId: id,
+      };
     } catch (error) {
+      if (error.name === "SequelizeForeignKeyConstraintError") {
+        throw new AppError(
+          "No se puede eliminar la categoría porque tiene productos asociados",
+          409,
+          error
+        );
+      }
       if (error instanceof AppError) throw error;
       throw new AppError('Error al eliminar la categoría', 500, error);
     }

@@ -23,6 +23,7 @@ export async function getProducts(filters) {
 export async function getProductById(id) {
   try {
     const res = await api.get(`/products/${id}`);
+    console.log(`Fetched product ${id}:`, res.data.data);
     return res.data.data;
   } catch (err) {
     console.error(`Error fetching product ${id}:`, err);
