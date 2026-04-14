@@ -3,7 +3,8 @@ import MainLayout from "../layouts/mainLayout";
 import Home from "../pages/home";
 import { AuthRouter } from "./authRouter";
 import { ProductsRouter } from "./productsRouter";
-import ProtectedRoute from "../routes/protectedRouter";
+import { ProtectedProductsRouter } from "./protectedProductsRouter";
+import ProtectedRoute from "./protectedRouter";
 import { UserSectionsRoutes } from "./userSectionsRouter";
 import { AccountRouter } from "./accountRouter";
 import AdminRoute from "./adminRouter";
@@ -20,6 +21,7 @@ export function AppRouter() {
         <Route element={<ProtectedRoute />}>
           {UserSectionsRoutes()}
           {AccountRouter()}
+          {ProtectedProductsRouter()}
 
           <Route element={<AdminRoute />}>
             {AdminControlPanel()}

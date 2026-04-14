@@ -1,21 +1,32 @@
 import { useState, useEffect } from "react";
 
-function CategoryForm({ initialData, onSubmit, onCancel }) {
+function CategoryForm({ initialData, onSubmit, onCancel, error }) {
   const [name, setName] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (initialData) setName(initialData.name);
+    else setName("");
   }, [initialData]);
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
+    e.stopPropagation();
+
     if (!name.trim()) return;
-    onSubmit({ name });
+
+    try {
+      setLoading(true);
+      await onSubmit({ name: name.trim() });
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
-    <form onSubmit={handleSubmit} className="category-form">
+    <form onSubmit={handleSubmit} className="category-form" noValidate>
       <label>Nombre</label>
+
       <input
         type="text"
         value={name}
@@ -23,9 +34,18 @@ function CategoryForm({ initialData, onSubmit, onCancel }) {
         placeholder="Nombre de la categoría"
       />
 
+      {error && (
+        <div className="form-error">
+          {error}
+        </div>
+      )}
+
       <div className="form-buttons">
-        <button type="submit">Guardar</button>
-        <button type="button" onClick={onCancel}>
+        <button type="submit" disabled={loading}>
+          {loading ? "Guardando..." : "Guardar"}
+        </button>
+
+        <button type="button" onClick={onCancel} disabled={loading}>
           Cancelar
         </button>
       </div>

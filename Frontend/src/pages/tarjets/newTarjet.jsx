@@ -23,7 +23,7 @@ export default function NewTarjet() {
 
     const newTarjet = {
       number: form.number,
-      balance: Number(form.balance) || 0, 
+      balance: Number(form.balance) || 0,
       accountId: Number(accountId)
     };
 
@@ -40,19 +40,22 @@ export default function NewTarjet() {
       <h2>Nueva Tarjeta</h2>
 
       <form onSubmit={handleSubmit}>
+
+        <label for="tarjetNumber">Número de tarjeta</label>
         <input
+          id="tarjetNumber"
           type="text"
           name="number"
-          placeholder="Número de tarjeta"
           value={form.number}
           onChange={handleChange}
           required
         />
 
+        <label for="tarjetBalance">Balance</label>
         <input
+          id="tarjetBalance"
           type="number"
           name="balance"
-          placeholder="Balance inicial"
           value={form.balance}
           onChange={handleChange}
           required

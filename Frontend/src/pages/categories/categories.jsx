@@ -1,5 +1,10 @@
 import { useEffect, useState } from "react";
-import { getCategories, createCategory, updateCategory, deleteCategory } from "../../services/categoriesServices";
+import {
+  getCategories,
+  createCategory,
+  updateCategory,
+  deleteCategory
+} from "../../services/categoriesServices";
 import Modal from "../../components/modal";
 import CategoryForm from "../../components/categoryForm";
 import CategoriesCard from "../../components/Cards/categoriesCard/categoriesCard";
@@ -9,6 +14,7 @@ function Categories() {
   const [categories, setCategories] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingCategory, setEditingCategory] = useState(null);
+  const [formError, setFormError] = useState(null);
 
   async function loadCategories() {
     try {
@@ -25,17 +31,21 @@ function Categories() {
 
   function openCreateModal() {
     setEditingCategory(null);
+    setFormError(null); 
     setIsModalOpen(true);
   }
 
   function handleEdit(category) {
     setEditingCategory(category);
+    setFormError(null);
     setIsModalOpen(true);
   }
 
-  // guardar (crear o editar)
+  // guardar (crear o editar) con manejo de error del backend
   async function handleSubmitCategory(data) {
     try {
+      setFormError(null);
+
       if (editingCategory) {
         await updateCategory(editingCategory.id, data);
       } else {
@@ -46,22 +56,24 @@ function Categories() {
       setEditingCategory(null);
       await loadCategories();
     } catch (err) {
-      console.error("Error guardando categoría", err);
+      const backendMessage = err.response?.data?.error || "Error al guardar la categoría";
+
+      setFormError(backendMessage); 
     }
   }
 
-async function handleDelete(id) {
-  const confirmDelete = confirm("¿Seguro que querés eliminar?");
-  if (!confirmDelete) return;
+  async function handleDelete(id) {
+    const confirmDelete = confirm("¿Seguro que querés eliminar?");
+    if (!confirmDelete) return;
 
-  try {
-    await deleteCategory(id);
-    await loadCategories();
-    alert("Categoría eliminada correctamente");
-  } catch (err) {
-    alert(err.message);
+    try {
+      await deleteCategory(id);
+      await loadCategories();
+      alert("Categoría eliminada correctamente");
+    } catch (err) {
+      alert(err.message);
+    }
   }
-}
 
   return (
     <div className="categories-container">
@@ -81,6 +93,7 @@ async function handleDelete(id) {
           />
         ))}
       </div>
+
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
@@ -90,11 +103,11 @@ async function handleDelete(id) {
           initialData={editingCategory}
           onSubmit={handleSubmitCategory}
           onCancel={() => setIsModalOpen(false)}
+          error={formError}
         />
       </Modal>
     </div>
   );
 }
-
 
 export default Categories;
