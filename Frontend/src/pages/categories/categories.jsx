@@ -1,100 +1,65 @@
 import { useEffect, useState } from "react";
-import { getCategories, createCategory, updateCategory, deleteCategory } from "../../services/categoriesServices";
-import Modal from "../../components/modal";
-import CategoryForm from "../../components/categoryForm";
-import CategoriesCard from "../../components/Cards/categoriesCard/categoriesCard";
+import { useNavigate } from "react-router-dom";
+import { getCategories, deleteCategory } from "../../services/categoriesServices";
+import CategoryCard from "../../components/Cards/categoriesCard/categoriesCard.jsx";
+import AddCategoryCard from "../../components/Cards/categoriesCard/addCategoryCard.jsx";
 import "../../styles/categories.css";
 
-function Categories() {
+export default function Categories() {
   const [categories, setCategories] = useState([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editingCategory, setEditingCategory] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    loadCategories();
+  }, []);
 
   async function loadCategories() {
     try {
       const data = await getCategories();
       setCategories(data);
     } catch (err) {
-      console.error("Error al cargar las categorias", err);
+      console.error("Error al cargar categorías", err);
     }
   }
 
-  useEffect(() => {
-    loadCategories();
-  }, []);
+  async function handleDelete(id) {
+    const confirmed = confirm("¿Eliminar categoría?");
+    if (!confirmed) return;
 
-  function openCreateModal() {
-    setEditingCategory(null);
-    setIsModalOpen(true);
-  }
-
-  function handleEdit(category) {
-    setEditingCategory(category);
-    setIsModalOpen(true);
-  }
-
-  // guardar (crear o editar)
-  async function handleSubmitCategory(data) {
     try {
-      if (editingCategory) {
-        await updateCategory(editingCategory.id, data);
-      } else {
-        await createCategory(data);
-      }
-
-      setIsModalOpen(false);
-      setEditingCategory(null);
-      await loadCategories();
+      await deleteCategory(id);
+      setCategories(prev => prev.filter(c => c.id !== id));
     } catch (err) {
-      console.error("Error guardando categoría", err);
+      console.error("Error eliminando categoría", err);
     }
   }
-
-async function handleDelete(id) {
-  const confirmDelete = confirm("¿Seguro que querés eliminar?");
-  if (!confirmDelete) return;
-
-  try {
-    await deleteCategory(id);
-    await loadCategories();
-    alert("Categoría eliminada correctamente");
-  } catch (err) {
-    alert(err.message);
-  }
-}
 
   return (
-    <div className="categories-container">
-      <h1 className="categories-title">Listado de categorias</h1>
+    <div className="categories-page">
+      <div className="categories-container">
 
-      <button onClick={openCreateModal} className="btn-create">
-        Crear categoría
-      </button>
+        <h1 className="categories-title">Categorías</h1>
 
-      <div className="categories-grid">
-        {categories.map((c) => (
-          <CategoriesCard
-            key={c.id}
-            category={c}
-            onEdit={handleEdit}
-            onDelete={handleDelete}
-          />
-        ))}
+        {categories.length === 0 && (
+          <p className="empty-message">
+            No hay categorías creadas.
+          </p>
+        )}
+
+        <div className="categories-grid">
+          {categories.map(c => (
+            <CategoryCard
+              key={c.id}
+              category={c}
+              onEdit={() => navigate(`/categories/edit/${c.id}`)}
+              onDelete={() => handleDelete(c.id)}
+            />
+          ))}
+
+          <AddCategoryCard />
+        </div>
+
       </div>
-      <Modal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        title={editingCategory ? "Editar categoría" : "Nueva categoría"}
-      >
-        <CategoryForm
-          initialData={editingCategory}
-          onSubmit={handleSubmitCategory}
-          onCancel={() => setIsModalOpen(false)}
-        />
-      </Modal>
     </div>
   );
 }
-
-
-export default Categories;

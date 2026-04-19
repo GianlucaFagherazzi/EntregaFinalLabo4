@@ -1,0 +1,36 @@
+.category-card {
+  text-align: center;
+  gap: 12px;
+}
+
+.category-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+
+/* botones */
+.category-actions {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+}
+
+.category-actions button {
+  padding: 6px 8px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  background: var(--color-primary);
+  color: white;
+  transition: 0.2s;
+}
+
+.category-actions button:hover {
+  opacity: 0.85;
+}
+
+.category-actions .delete {
+  background: #e74c3c;
+}
