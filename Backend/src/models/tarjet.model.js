@@ -4,7 +4,8 @@ export default (sequelize, DataTypes) => {
     number: { type: DataTypes.STRING(19), allowNull: false },
     balance: { type: DataTypes.DOUBLE, allowNull: false },
     accountId: { type: DataTypes.INTEGER, allowNull: false },
-    isActive: { type: DataTypes.BOOLEAN, defaultValue: true }
+    isActive: { type: DataTypes.BOOLEAN, defaultValue: true },
+    isDefault: { type: DataTypes.BOOLEAN, defaultValue: false }
   }, {
     tableName: 'tarjets',
     timestamps: false

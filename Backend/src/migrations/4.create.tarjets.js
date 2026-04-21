@@ -7,8 +7,8 @@ export default {
       number: { type: Sequelize.STRING(19), allowNull: false },
       balance: { type: Sequelize.DOUBLE, allowNull: false },
       accountId: { type: Sequelize.INTEGER, allowNull: false, references: { model: 'accounts', key: 'id' }},
-      isActive: { type: Sequelize.BOOLEAN, defaultValue: true }
-      
+      isActive: { type: Sequelize.BOOLEAN, defaultValue: true },
+      isDefault: { type: Sequelize.BOOLEAN, defaultValue: false }
     });
   },
 

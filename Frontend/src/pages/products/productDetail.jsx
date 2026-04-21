@@ -4,10 +4,10 @@ import { AuthContext } from "../../context/authContext";
 
 function ProductDetail() {
   const { id } = useParams();
-  const { state } = useLocation();   // acá llega el producto
+  const { state } = useLocation(); 
   const { user } = useContext(AuthContext);
 
-  const product = state?.product; // puede venir o no
+  const product = state?.product; 
 
   useEffect(() => {
     window.scrollTo(0, 0);

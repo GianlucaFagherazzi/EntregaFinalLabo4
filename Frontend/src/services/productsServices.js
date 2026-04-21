@@ -2,7 +2,6 @@ import api from './api'
 
 export async function getProducts(filters) {
   try {
-    console.log('Fetching products with filters:', filters)
     const clean = Object.fromEntries(
       Object.entries(filters).filter(
         ([_, v]) => v !== null && v !== "" && v !== undefined
@@ -12,7 +11,6 @@ export async function getProducts(filters) {
     const params = new URLSearchParams(clean).toString()
     const res = await api.get(`/products?${params}`)
 
-    console.log('Fetched products:', res.data.data)
     return res.data.data
   } catch (err) {
     console.error('Error fetching products:', err)
@@ -23,7 +21,6 @@ export async function getProducts(filters) {
 export async function getProductById(id) {
   try {
     const res = await api.get(`/products/${id}`);
-    console.log(`Fetched product ${id}:`, res.data.data);
     return res.data.data;
   } catch (err) {
     console.error(`Error fetching product ${id}:`, err);

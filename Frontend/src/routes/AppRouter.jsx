@@ -9,6 +9,7 @@ import { UserSectionsRoutes } from "./userSectionsRouter";
 import { AccountRouter } from "./accountRouter";
 import AdminRoute from "./adminRouter";
 import { AdminControlPanel } from "./adminControlPanel";
+import { CartRouter } from "./cartRouter";
 
 export function AppRouter() {
   return (
@@ -22,6 +23,7 @@ export function AppRouter() {
           {UserSectionsRoutes()}
           {AccountRouter()}
           {ProtectedProductsRouter()}
+          {CartRouter()}
 
           <Route element={<AdminRoute />}>
             {AdminControlPanel()}

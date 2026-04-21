@@ -5,6 +5,8 @@ import movementRouter from './movements.routes.js'
 import productRouter from './products.routes.js'
 import tarjetRouter from './tarjets.routes.js'
 import userRouter from './users.routes.js'
+import cartRouter from './cart.routes.js'
+import checkout from './checkout.routes.js'
 
 const router = express.Router()
 
@@ -14,5 +16,7 @@ router.use('/movements', movementRouter)
 router.use('/products', productRouter)
 router.use('/tarjets', tarjetRouter)
 router.use('/users', userRouter)
+router.use('/cart', cartRouter)
+router.use('/checkout', checkout)
 
 export default router

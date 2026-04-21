@@ -2,16 +2,22 @@ import { useState, useContext } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { Menu, X, ShoppingCart, Search } from "lucide-react";
 import { AuthContext } from "../context/authContext";
+import { useCart } from "../context/cartContext";
 import "../styles/navbar.css";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
   const toggleMenu = () => setOpen(!open);
-  
 
   const { user, logout, isAdmin } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  const { cart = [] } = useCart();
+  const totalItems = (cart || []).reduce(
+    (acc, item) => acc + item.quantity,
+    0
+  );
 
   function handleLogout() {
     logout();
@@ -100,8 +106,9 @@ export default function Navbar() {
               </ul>
             </li>
             <li>
-              <NavLink to="/cart" onClick={() => setOpen(false)} className="cart-icon">
+              <NavLink to="/cart" className="cart-icon">
                 <ShoppingCart />
+                {totalItems > 0 && <span className="cart-badge">{totalItems}</span>}
               </NavLink>
             </li>
           </>

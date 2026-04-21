@@ -1,15 +1,20 @@
 import { Link } from "react-router-dom";
-
+import { useCart } from "../../../context/cartContext";
 
 export function ProductCard({ product, mode = "public", onDelete, user }) {
   const isOwnerView = mode === "owner";
   const isLogged = Boolean(user);
   const isOwner = user && product.User && user.id === product.User.id;
+  const { addToCart } = useCart();
 
-  function handleAddToCart() {
-    // acá después conectaremos la lógica real de carrito
-    alert(`Producto "${product.name}" agregado al carrito`);
+  async function handleAddToCart() {
+  try {
+    await addToCart(product.id, 1);
+    alert("Producto agregado al carrito 🛒");
+  } catch (err) {
+    alert("Error agregando al carrito");
   }
+}
 
   return (
     <div className="card">

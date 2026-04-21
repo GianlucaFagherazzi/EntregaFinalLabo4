@@ -9,6 +9,11 @@ import snapshotModel from './snapshot.model.js';
 import tarjetsModels from './tarjet.model.js';
 import UserModel from './user.model.js';
 
+//Import de carrito
+import CartModel from "./cart.model.js";
+import CartItemModel from "./cartItem.model.js";
+
+
 // Inicialización de modelos
 const Account = AccountModel(sequelize, DataTypes);
 const Category = CategorysModels(sequelize, DataTypes);
@@ -18,6 +23,11 @@ const Product = ProductModel(sequelize, DataTypes);
 const Snapshot = snapshotModel(sequelize, DataTypes);
 const Tarjet = tarjetsModels(sequelize, DataTypes);
 const User = UserModel(sequelize, DataTypes);
+
+// Inicializacion de carrito
+const Cart = CartModel(sequelize, DataTypes);
+const CartItem = CartItemModel(sequelize, DataTypes);
+
 
 // Relaciones
 
@@ -51,4 +61,14 @@ MovementUser.belongsTo(User, { foreignKey: 'userId', as: 'User'});
 Movement.hasOne(Snapshot, { foreignKey: 'movementId', as: 'Snapshot' });
 Snapshot.belongsTo(Movement, { foreignKey: 'movementId', as: 'Movement' });
 
-export { sequelize, User, Product, Movement, MovementUser, Snapshot, Account, Tarjet, Category };
+//Definimos las relaciones de los carritos
+User.hasOne(Cart, { foreignKey: "userId", as: "Cart" });
+Cart.belongsTo(User, { foreignKey: "userId", as: "User" });
+
+Cart.hasMany(CartItem, { foreignKey: "cartId", as: "Items", onDelete: "CASCADE" });
+CartItem.belongsTo(Cart, { foreignKey: "cartId", as: "Cart" });
+
+Product.hasMany(CartItem, { foreignKey: "productId", as: "CartItems" });
+CartItem.belongsTo(Product, { foreignKey: "productId", as: "Product" });
+
+export { sequelize, User, Product, Movement, MovementUser, Snapshot, Account, Tarjet, Category, Cart, CartItem };

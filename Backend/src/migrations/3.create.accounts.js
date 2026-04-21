@@ -6,7 +6,7 @@ export default {
       id: { type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true },
       cbu: { type: Sequelize.STRING, allowNull: false },
       isActive: { type: Sequelize.BOOLEAN, defaultValue: true },
-
+      isDefault: { type: Sequelize.BOOLEAN, defaultValue: false },
       userId: { type: Sequelize.INTEGER, allowNull: false, references: { model: 'users', key: 'id' }}
     });
   },

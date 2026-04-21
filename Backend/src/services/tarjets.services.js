@@ -61,7 +61,12 @@ export const TarjetService = {
         throw new AppError('Ya existe una tarjeta con ese número en la cuenta especificada', 400)
       }
 
-      return await Tarjet.create(data)
+      const tarjet = await Tarjet.create({
+        ...data,
+        isDefault: existingTarjets === 0
+      });
+
+      return tarjet;
 
     } catch (error) {
       if (error instanceof AppError) throw error
@@ -139,6 +144,30 @@ export const TarjetService = {
     } catch (error) {
       if (error instanceof AppError) throw error;
       throw new AppError('Error al desactivar la tarjeta', 500, error);
+    }
+  },
+
+  async getDefaultByAccountId(accountId) {
+    try {
+      const tarjet = await Tarjet.findOne({
+        where: {
+          accountId,
+          isDefault: true
+        }
+      });
+
+      if (!tarjet) {
+        throw new AppError(
+          "La cuenta del vendedor no tiene tarjeta por defecto",
+          400
+        );
+      }
+
+      return tarjet;
+
+    } catch (error) {
+      if (error instanceof AppError) throw error;
+      throw new AppError("Error al obtener la tarjeta por defecto", 500, error);
     }
   }
 

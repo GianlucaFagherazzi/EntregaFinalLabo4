@@ -44,7 +44,12 @@ export const AccountService = {
       await UserService.getById(data.userId);
       await validateCbuUnique(data.cbu, data.userId);
 
-      return await Account.create(data);
+      const account = await Account.create({
+        ...data,
+        isDefault: existingAccounts === 0 // primera cuenta es default
+      });
+      
+      return account
     } catch (error) {
       if (error instanceof AppError) throw error;
       throw new AppError('Error al crear la cuenta', 400, error);
@@ -92,6 +97,30 @@ export const AccountService = {
       });
     } catch (error) {
       throw new AppError('Error al obtener cuentas del usuario', 500, error);
+    }
+  },
+
+  async getDefaultByUserId(userId) {
+    try {
+      const account = await Account.findOne({
+        where: {
+          userId,
+          isDefault: true
+        }
+      });
+
+      if (!account) {
+        throw new AppError(
+          "El usuario vendedor no tiene una cuenta por defecto configurada",
+          400
+        );
+      }
+
+      return account;
+
+    } catch (error) {
+      if (error instanceof AppError) throw error;
+      throw new AppError("Error al obtener la cuenta por defecto", 500, error);
     }
   }
 

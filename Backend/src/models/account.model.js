@@ -3,7 +3,8 @@ export default (sequelize, DataTypes) => {
     id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
     cbu: { type: DataTypes.STRING, allowNull: false },
     isActive: { type: DataTypes.BOOLEAN, defaultValue: true },
-    userId: { type: DataTypes.INTEGER, allowNull: false }
+    userId: { type: DataTypes.INTEGER, allowNull: false },
+    isDefault: { type: DataTypes.BOOLEAN, defaultValue: false }
   }, {
     tableName: 'accounts',
     timestamps: false
