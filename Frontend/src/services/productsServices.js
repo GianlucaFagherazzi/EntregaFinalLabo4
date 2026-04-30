@@ -1,6 +1,6 @@
 import api from './api'
 
-export async function getProducts(filters) {
+export async function getProducts(filters = {}) {
   try {
     const clean = Object.fromEntries(
       Object.entries(filters).filter(

@@ -1,8 +1,9 @@
 import { useEffect, useState, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { createProduct, getProductById, updateProduct } from "../services/productsServices";
+import { createProduct, getProductById, updateProduct,} from "../services/productsServices";
 import { getCategories } from "../services/categoriesServices";
 import { AuthContext } from "../context/authContext";
+import "../styles/productForm.css";
 
 export default function ProductForm() {
   const { id } = useParams();
@@ -17,40 +18,44 @@ export default function ProductForm() {
     description: "",
     price: "",
     stock: "",
-    categoryId: ""
+    categoryId: "",
   });
-  const [categories, setCategories] = useState([]);
 
+  const [categories, setCategories] = useState([]);
 
   useEffect(() => {
     loadCategories();
-
-    if (isEdit) {
-      loadProduct();
-    }
+    if (isEdit) loadProduct();
   }, [id]);
 
   async function loadCategories() {
-    const cats = await getCategories();
-    setCategories(cats);
+    try {
+      const cats = await getCategories();
+      setCategories(cats);
+    } catch (err) {
+      console.error("Error cargando categorías", err);
+    }
   }
 
   async function loadProduct() {
-    const product = await getProductById(id);
-    setForm({
-      name: product.name,
-      description: product.description,
-      price: product.price,
-      stock: product.stock,
-      categoryId: product.categoryId ?? ""
-    });
+    try {
+      const product = await getProductById(id);
+      setForm({
+        name: product.name || "",
+        description: product.description || "",
+        price: product.price || "",
+        stock: product.stock || "",
+        categoryId: product.categoryId ?? "",
+      });
+    } catch (err) {
+      console.error("Error cargando producto", err);
+    }
   }
-
 
   function handleChange(e) {
     setForm({
       ...form,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   }
 
@@ -65,7 +70,7 @@ export default function ProductForm() {
         price: Number(form.price),
         stock: Number(form.stock),
         categoryId: Number(form.categoryId),
-        userId: user.id
+        userId: user.id,
       };
 
       if (isEdit) {
@@ -83,41 +88,93 @@ export default function ProductForm() {
     }
   }
 
-
   return (
-    <div className="form-container">
-      <h1>{isEdit ? "Editar producto" : "Crear producto"}</h1>
+    <div className="form-page">
+      <div className="form-card">
 
-      {error && <p className="error">{error}</p>}
+        <h1 className="form-title">
+          {isEdit ? "Editar producto" : "Crear producto"}
+        </h1>
 
-      <form onSubmit={handleSubmit}>
-        <input name="name" placeholder="Nombre" value={form.name} onChange={handleChange} required />
-        <textarea name="description" placeholder="Descripción" value={form.description} onChange={handleChange} />
-        <input type="number" name="price" placeholder="Precio" value={form.price} onChange={handleChange} required />
-        <input type="number" name="stock" placeholder="Stock" value={form.stock} onChange={handleChange} required />
-        <select
-          name="categoryId"
-          value={form.categoryId}
-          onChange={handleChange}
-          required
-        >
-          <option value="">Seleccionar categoría</option>
-          {categories.map(cat => (
-            <option key={cat.id} value={cat.id}>
-              {cat.name}
-            </option>
-          ))}
-        </select>
+        {error && <p className="error">{error}</p>}
 
-        <button className="btn" disabled={loading}>
-          {loading
-            ? "Guardando..."
-            : isEdit
+        <form className="form-grid" onSubmit={handleSubmit}>
+
+          {/* NOMBRE */}
+          <div className="form-group">
+            <label>Nombre</label>
+            <input
+              name="name"
+              value={form.name}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          {/* DESCRIPCIÓN */}
+          <div className="form-group">
+            <label>Descripción</label>
+            <textarea
+              name="description"
+              value={form.description}
+              onChange={handleChange}
+            />
+          </div>
+
+          {/* PRECIO + STOCK */}
+          <div className="form-row">
+            <div className="form-group">
+              <label>Precio</label>
+              <input
+                type="number"
+                name="price"
+                value={form.price}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Stock</label>
+              <input
+                type="number"
+                name="stock"
+                value={form.stock}
+                onChange={handleChange}
+                required
+              />
+            </div>
+          </div>
+
+          {/* CATEGORÍA */}
+          <div className="form-group">
+            <label>Categoría</label>
+            <select
+              name="categoryId"
+              value={form.categoryId}
+              onChange={handleChange}
+              required
+            >
+              <option value="">Seleccionar categoría</option>
+              {categories.map((cat) => (
+                <option key={cat.id} value={cat.id}>
+                  {cat.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* BOTÓN */}
+          <button className="submit-btn" disabled={loading}>
+            {loading
+              ? "Guardando..."
+              : isEdit
               ? "Guardar cambios"
               : "Crear producto"}
-        </button>
+          </button>
 
-      </form>
+        </form>
+      </div>
     </div>
   );
 }

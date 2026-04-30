@@ -1,0 +1,50 @@
+.home-page {
+  padding: 2rem;
+}
+
+.home-title {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 4rem;
+}
+
+.empty-state img {
+  width: clamp(200px, 60vw, 500px);
+  height: auto;
+  margin-bottom: 1rem;
+}
+
+.ver-mas-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 3rem;
+}
+
+.ver-mas-btn {
+  padding: 0.9rem 2rem;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 8px;
+  background-color: var(--color-primary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.ver-mas-btn:hover {
+  transform: scale(1.05);
+}
