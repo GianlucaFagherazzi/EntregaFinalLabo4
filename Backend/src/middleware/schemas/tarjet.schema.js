@@ -13,6 +13,7 @@ const tarjetSchema = {
       }),
 
     balance: Joi.number()
+    .positive()
       .required(),
 
     accountId: Joi.number()

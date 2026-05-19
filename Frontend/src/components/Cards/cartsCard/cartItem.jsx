@@ -5,7 +5,13 @@ export default function CartItem({ item }) {
 
   const { Product: product, quantity } = item;
 
+  console.log("CartItem:", item);
+
   function increase() {
+    if (quantity >= product.stock) {
+      alert("No hay más stock disponible");
+      return;
+    }
     addToCart(product.id, 1);
   }
 
@@ -19,16 +25,16 @@ export default function CartItem({ item }) {
 
   return (
     <div className="cart-item">
-      <img src={product.imageUrl} alt={product.title} />
+      <img src={product.imageUrl} alt={product.name} />
 
       <div className="cart-item-info">
-        <h3>{product.title}</h3>
+        <h3>{product.name}</h3>
         <p>${product.price.toLocaleString()}</p>
 
         <div className="cart-quantity">
-          <button onClick={decrease}>-</button>
+          <button onClick={decrease}> - </button>
           <span>{quantity}</span>
-          <button onClick={increase}>+</button>
+          <button onClick={increase} disabled={quantity >= product.stock}> + </button>
         </div>
       </div>
 

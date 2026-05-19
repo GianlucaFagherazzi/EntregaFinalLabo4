@@ -4,6 +4,10 @@ import * as cartService from "../services/cartServices";
 
 export const CartContext = createContext();
 
+function normalizeCart(cartResponse) {
+  return [...(cartResponse?.Items ?? [])];
+}
+
 export function CartProvider({ children }) {
   const [cart, setCart] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -13,7 +17,7 @@ export function CartProvider({ children }) {
   async function loadCart() {
     try {
       const data = await cartService.getMyCart();
-      setCart(data?.Items || []);
+      setCart(normalizeCart(data));
     } catch (err) {
       if (err.response?.status !== 401) {
         console.error("Error cargando carrito", err);
@@ -36,17 +40,17 @@ export function CartProvider({ children }) {
 
   async function addToCart(productId, quantity = 1) {
     const updatedCart = await cartService.addItem(productId, quantity);
-    setCart(updatedCart.Items);
+    setCart(normalizeCart(updatedCart));
   }
 
   async function removeFromCart(productId) {
     const updatedCart = await cartService.removeItem(productId);
-    setCart(updatedCart.Items);
+    setCart(normalizeCart(updatedCart));
   }
 
   async function clearCart() {
     await cartService.clearCart();
-    setCart([]);
+    await loadCart(); // asegura sync 
   }
 
   return (

@@ -1,0 +1,37 @@
+.checkout-grid {
+  max-width: 1000px;
+  margin: auto;
+  padding: 40px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+}
+
+.checkout-summary,
+.checkout-payment {
+  border: 1px solid #ddd;
+  padding: 25px;
+  border-radius: 10px;
+}
+
+.checkout-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+select {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+}
+
+.checkout-btn {
+  width: 100%;
+  padding: 15px;
+  background: black;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+}

@@ -44,11 +44,18 @@ export const AccountService = {
       await UserService.getById(data.userId);
       await validateCbuUnique(data.cbu, data.userId);
 
+      const existingAccounts = await Account.count({
+        where: {
+          userId: data.userId,
+          isActive: true
+        }
+      });
+
       const account = await Account.create({
         ...data,
         isDefault: existingAccounts === 0 // primera cuenta es default
       });
-      
+
       return account
     } catch (error) {
       if (error instanceof AppError) throw error;
@@ -122,6 +129,28 @@ export const AccountService = {
       if (error instanceof AppError) throw error;
       throw new AppError("Error al obtener la cuenta por defecto", 500, error);
     }
-  }
+  },
 
-};
+  async setDefault(accountId, userId) {
+    try {
+      await Account.update(
+        { isDefault: false },
+        { where: { userId } }
+      );
+
+      const account = await this.getById(accountId);
+
+      if (account.userId !== userId)
+        throw new AppError("La cuenta no pertenece al usuario", 403);
+
+      await account.update({ isDefault: true });
+
+      return account;
+    }
+    catch (error) {
+      if (error instanceof AppError) throw error;
+      throw new AppError("Error al configurar la cuenta por defecto", 500, error);
+    }
+
+  }
+}

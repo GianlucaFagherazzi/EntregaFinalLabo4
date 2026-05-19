@@ -49,32 +49,15 @@ export const TarjetController = {
     }
   },
 
-  async updateBalance(req, res) {
+  async updateBalance(req, res, next) {
     try {
-      const { id } = req.params;
+      const tarjetId = Number(req.params.id);
       const { amount } = req.body;
 
-      if (!amount || amount <= 0) {
-        return res.status(400).json({ message: "Monto inválido" });
-      }
-
-      const tarjet = await Tarjet.findByPk(id);
-
-      if (!tarjet) {
-        return res.status(404).json({ message: "Tarjeta no encontrada" });
-      }
-
-      tarjet.balance = Number(tarjet.balance) + Number(amount);
-      await tarjet.save();
-
-      res.json({
-        message: "Saldo acreditado correctamente",
-        data: tarjet
-      });
-
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: "Error interno del servidor" });
+      const tarjet = await TarjetService.updateBalance(tarjetId, amount);
+      res.json({ success: true, message: "Saldo acreditado correctamente", data: tarjet });
+    } catch (err) {
+      next(err);
     }
   },
 
@@ -85,6 +68,17 @@ export const TarjetController = {
     } catch (err) {
       next(err);
     }
-  }
+  },
+
+  async setDefault(req, res, next) {
+    try {
+      const tarjetId = Number(req.params.id);
+      const { accountId } = req.body;
+      const tarjet = await TarjetService.setDefault(tarjetId, accountId);
+      res.json({ success: true, message: "Tarjeta establecida como predeterminada", data: tarjet });
+    } catch (err) {
+      next(err);
+    }
+  },
 
 };

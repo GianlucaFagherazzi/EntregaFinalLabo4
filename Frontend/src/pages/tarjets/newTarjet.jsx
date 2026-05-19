@@ -8,7 +8,6 @@ export default function NewTarjet() {
 
   const [form, setForm] = useState({
     number: "",
-    balance: 0
   });
 
   const handleChange = (e) => {
@@ -23,7 +22,7 @@ export default function NewTarjet() {
 
     const newTarjet = {
       number: form.number,
-      balance: Number(form.balance) || 0,
+      balance: 0,
       accountId: Number(accountId)
     };
 
@@ -31,7 +30,7 @@ export default function NewTarjet() {
       await createTarjet(newTarjet);
       navigate(`/accounts/${accountId}`);
     } catch (err) {
-      alert("Error al crear tarjeta");
+      alert("Error al crear tarjeta: " + err.response.data.error);
     }
   }
 
@@ -47,16 +46,6 @@ export default function NewTarjet() {
           type="text"
           name="number"
           value={form.number}
-          onChange={handleChange}
-          required
-        />
-
-        <label for="tarjetBalance">Balance</label>
-        <input
-          id="tarjetBalance"
-          type="number"
-          name="balance"
-          value={form.balance}
           onChange={handleChange}
           required
         />

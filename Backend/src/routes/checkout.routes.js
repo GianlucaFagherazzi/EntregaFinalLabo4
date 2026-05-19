@@ -7,6 +7,6 @@ import { validate } from '../middleware/validate.js'
 
 const router = express.Router()
 
-router.post( "/checkout", authMiddleware, validate(checkoutSchema.create), CheckoutController.checkout );
+router.post( "/", authMiddleware, validate(checkoutSchema.create), CheckoutController.checkout );
 
 export default router

@@ -46,20 +46,40 @@ export const TarjetService = {
 
   async create(data) {
     try {
-      // normalizar número: quitar espacios y asegurar string
+      if (!data.number) {
+        throw new AppError('El número de tarjeta es obligatorio', 400);
+      }
+
+      // normalizar número (quitar espacios)
       data.number = String(data.number).replace(/\s+/g, '');
+
+      // validar que sean solo números
+      if (!/^\d+$/.test(data.number)) {
+        throw new AppError('La tarjeta solo puede contener números', 400);
+      }
 
       // Verificar existencia de la cuenta
       await AccountService.getById(data.accountId)
 
       // verificar duplicados en la misma cuenta
       const existing = await Tarjet.findOne({
-        where: { number: data.number, accountId: data.accountId, isActive: true }
-      })
+        where: {
+          number: data.number,
+          accountId: data.accountId,
+          isActive: true
+        }
+      });
 
       if (existing) {
         throw new AppError('Ya existe una tarjeta con ese número en la cuenta especificada', 400)
       }
+
+      const existingTarjets = await Tarjet.count({
+        where: {
+          accountId: data.accountId,
+          isActive: true
+        }
+      });
 
       const tarjet = await Tarjet.create({
         ...data,
@@ -114,13 +134,48 @@ export const TarjetService = {
 
   async updateBalance(tarjetId, amount, options = {}) {
     try {
+      // validar existencia
+      if (amount === undefined || amount === null) {
+        throw new AppError("El monto es obligatorio", 400);
+      }
+
+      // convertir a número
+      const parsedAmount = Number(amount);
+
+      // validar número válido
+      if (Number.isNaN(parsedAmount)) {
+        throw new AppError("El monto debe ser un número válido", 400);
+      }
+
+      // no permitir negativos
+      if (parsedAmount < 0) {
+        throw new AppError("No se pueden cargar montos negativos", 400);
+      }
+
+      // no permitir cero
+      if (parsedAmount === 0) {
+        throw new AppError("El monto debe ser mayor a 0", 400);
+      }
+
+      // limitar monto máximo por operación (ajustable)
+      const MAX_TOPUP = 1_000_000; // 1 millón
+      if (parsedAmount > MAX_TOPUP) {
+        throw new AppError(
+          `El monto máximo por carga es ${MAX_TOPUP.toLocaleString()}`,
+          400
+        );
+      }
+
+      // redondear a 2 decimales (evitar floats raros)
+      const safeAmount = Number(parsedAmount.toFixed(2));
+
       const tarjet = await Tarjet.findByPk(tarjetId, {
         transaction: options.transaction || null,
       });
 
       if (!tarjet) throw new AppError("Tarjeta no encontrada", 404);
 
-      const nuevoBalance = Number(tarjet.balance) + Number(amount);
+      const nuevoBalance = Number(tarjet.balance) + safeAmount;
 
       await tarjet.update(
         { balance: nuevoBalance },
@@ -128,6 +183,7 @@ export const TarjetService = {
       );
 
       return tarjet;
+
     } catch (error) {
       if (error instanceof AppError) throw error;
       throw new AppError("Error al actualizar el balance de la tarjeta", 500, error);
@@ -168,6 +224,29 @@ export const TarjetService = {
     } catch (error) {
       if (error instanceof AppError) throw error;
       throw new AppError("Error al obtener la tarjeta por defecto", 500, error);
+    }
+  },
+
+  async setDefault(tarjetId, accountId) {
+    try {
+      // quitar default a todas las tarjetas de la cuenta
+      await Tarjet.update(
+        { isDefault: false },
+        { where: { accountId } }
+      );
+
+      const tarjet = await this.getById(tarjetId);
+
+      if (tarjet.accountId !== accountId) {
+        throw new AppError("La tarjeta no pertenece a la cuenta", 403);
+      }
+
+      await tarjet.update({ isDefault: true });
+
+      return tarjet;
+    } catch (error) {
+      if (error instanceof AppError) throw error;
+      throw new AppError("Error al establecer tarjeta por defecto", 500, error);
     }
   }
 

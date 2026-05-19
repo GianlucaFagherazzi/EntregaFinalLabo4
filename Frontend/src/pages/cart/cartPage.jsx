@@ -6,10 +6,10 @@ import "./cart.css";
 export default function CartPage() {
   const { cart, loading, clearCart } = useCart();
 
-  const totalPrice = cart.reduce(
-    (acc, item) => acc + item.quantity * item.Product.price,
-    0
-  );
+const totalPrice = cart.reduce(
+  (acc, item) => acc + item.quantity * item.Product.price,
+  0
+);
 
   if (loading) return <p className="cart-loading">Cargando carrito...</p>;
 
