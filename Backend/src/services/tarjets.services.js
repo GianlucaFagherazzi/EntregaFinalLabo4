@@ -132,7 +132,7 @@ export const TarjetService = {
     }
   },
 
-  async updateBalance(tarjetId, amount, options = {}) {
+  async topUpBalance(tarjetId, amount, options = {}) {
     try {
       // validar existencia
       if (amount === undefined || amount === null) {
@@ -188,6 +188,26 @@ export const TarjetService = {
       if (error instanceof AppError) throw error;
       throw new AppError("Error al actualizar el balance de la tarjeta", 500, error);
     }
+  },
+
+  async chargeBalance(tarjetId, amount, options = {}) {
+    if (amount <= 0) throw new AppError("Monto inválido", 400);
+
+    const tarjet = await Tarjet.findByPk(tarjetId, { transaction: options.transaction });
+    if (!tarjet) throw new AppError("Tarjeta no encontrada", 404);
+
+    if (tarjet.balance < amount) {
+      throw new AppError("Fondos insuficientes", 400);
+    }
+
+    const nuevoBalance = Number(tarjet.balance) - Number(amount.toFixed(2));
+
+    await tarjet.update(
+      { balance: nuevoBalance },
+      { transaction: options.transaction }
+    );
+
+    return tarjet;
   },
 
   async softDelete(id) {

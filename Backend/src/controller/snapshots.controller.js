@@ -26,5 +26,19 @@ export const SnapshotController = {
     } catch (err) {
       next(err);
     }
+  },
+
+  async getMyPurchases(req, res, next) {
+    try {
+      const data = await SnapshotService.getMyPurchases(req.user.id);
+      res.json(data);
+    } catch (err) { next(err); }
+  },
+
+  async getMySales(req, res, next) {
+    try {
+      const data = await SnapshotService.getMySales(req.user.id);
+      res.json(data);
+    } catch (err) { next(err); }
   }
 };

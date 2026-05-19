@@ -109,9 +109,19 @@ export const MovementService = {
         );
       }
 
-      // Se actualizan los balances de las tarjetas
-      await TarjetService.updateBalance(buyerTarjet.id, buyerTarjet.balance - totalAmount, { transaction: t });
-      await TarjetService.updateBalance(sellerTarjet.id, sellerTarjet.balance + totalAmount, { transaction: t });
+      // comprador paga
+      await TarjetService.chargeBalance(
+        buyerTarjet.id,
+        totalAmount,
+        { transaction: t }
+      );
+
+      // vendedor cobra
+      await TarjetService.topUpBalance(
+        sellerTarjet.id,
+        totalAmount,
+        { transaction: t }
+      );
 
       // Actualizar stock del producto
       await ProductService.decreaseStock(product.id, data.quantity, { transaction: t });
@@ -119,6 +129,8 @@ export const MovementService = {
       // Crear snapshot del movimiento
       await SnapshotService.create({
         movementId: movement.id,
+        buyerId: buyer.userId,
+        sellerId: seller.userId,
         buyerName: `${buyerUser.name} ${buyerUser.surname}`,
         sellerName: `${sellerUser.name} ${sellerUser.surname}`,
         productName: product.name,

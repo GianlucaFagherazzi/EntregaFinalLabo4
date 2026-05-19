@@ -54,7 +54,7 @@ export const TarjetController = {
       const tarjetId = Number(req.params.id);
       const { amount } = req.body;
 
-      const tarjet = await TarjetService.updateBalance(tarjetId, amount);
+      const tarjet = await TarjetService.topUpBalance(tarjetId, amount);
       res.json({ success: true, message: "Saldo acreditado correctamente", data: tarjet });
     } catch (err) {
       next(err);

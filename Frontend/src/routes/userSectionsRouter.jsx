@@ -1,10 +1,10 @@
 import { Route, Navigate } from "react-router-dom";
 import Profile from "../pages/profile";
-import Orders from "../pages/orders";
 import Settings from "../pages/settings";
 import MyProducts from "../pages/products/myProducts";
-import Sales from "../pages/sales";
 import Favorites from "../pages/favorites";
+import Sales from "../pages/users/salesPage";
+import Orders from "../pages/users/purchasesPage";
 
 export function UserSectionsRoutes() {
   return (

@@ -1,0 +1,23 @@
+.snapshots-container {
+  padding: 40px;
+}
+
+.snapshots-table {
+  margin-top: 20px;
+  border: 1px solid #ddd;
+}
+
+.snapshots-header,
+.snapshot-row {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr 1fr 1fr 0.5fr 0.8fr 0.8fr;
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+}
+
+.snapshots-header {
+  font-weight: bold;
+}
+
+.snapshot-row:hover {
+}

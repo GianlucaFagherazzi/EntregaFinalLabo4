@@ -6,7 +6,12 @@ import { isAdmin } from '../middleware/admin.middleware.js';
 const router = express.Router()
 
 router.get('/', authMiddleware, SnapshotController.getAll);
+
+router.get("/my-purchases", authMiddleware, SnapshotController.getMyPurchases);
+router.get("/my-sales", authMiddleware, SnapshotController.getMySales);
+
 router.get('/:id', authMiddleware, SnapshotController.getById);
+
 router.post('/', authMiddleware, isAdmin, SnapshotController.create);
 
 export default router

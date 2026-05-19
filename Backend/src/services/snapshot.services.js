@@ -31,4 +31,26 @@ export const SnapshotService = {
       throw new AppError('Error al crear el snapshot', 400, error);
     }
   },
+
+  async getMyPurchases(userId) {
+    try {
+      return Snapshot.findAll({
+        where: { buyerId: userId },
+        order: [["date", "DESC"]]
+      });
+    } catch (error) {
+      throw new AppError('Error al obtener las compras', 500, error);
+    }
+  },
+
+  async getMySales(userId) {
+    try {
+      return Snapshot.findAll({
+        where: { sellerId: userId },
+        order: [["date", "DESC"]]
+      });
+    } catch (error) {
+      throw new AppError('Error al obtener las ventas', 500, error);
+    }
+  }
 };

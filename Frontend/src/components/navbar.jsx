@@ -71,7 +71,7 @@ export default function Navbar() {
             <ul className="dropdown-menu">
               <li><NavLink to="/users">Usuarios</NavLink></li>
               <li><NavLink to="/categories">Categorías</NavLink></li>
-              <li><NavLink to="/movementsControl">Movimientos</NavLink></li>
+              <li><NavLink to="/snapshots">Movimientos</NavLink></li>
             </ul>
           </li>
         )}
@@ -95,8 +95,8 @@ export default function Navbar() {
                 <li><NavLink to="/orders">Mis compras</NavLink></li>
                 <li><NavLink to="/sales">Mis ventas</NavLink></li>
                 <li><NavLink to="/accounts">Mis cuentas</NavLink></li>
-                <li><NavLink to="/favorites">Favoritos</NavLink></li>
-                <li><NavLink to="/settings">Configuración</NavLink></li>
+                {/* <li><NavLink to="/favorites">Favoritos</NavLink></li> */}
+                {/* <li><NavLink to="/settings">Configuración</NavLink></li> */}
                 <li><NavLink to="/products/myProducts">Mis artículos</NavLink></li>
                 <li>
                   <button onClick={handleLogout} className="logout-btn">

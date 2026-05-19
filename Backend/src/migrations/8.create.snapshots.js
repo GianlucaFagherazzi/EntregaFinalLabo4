@@ -5,6 +5,8 @@ export default {
         await queryInterface.createTable('snapshots', {
             id: { type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true },
             movementId: { type: Sequelize.INTEGER, allowNull: false },
+            buyerId: { type: Sequelize.INTEGER, allowNull: false },
+            sellerId: { type: Sequelize.INTEGER, allowNull: false },
             buyerName: { type: Sequelize.STRING, allowNull: false },
             sellerName: { type: Sequelize.STRING, allowNull: false },
             productName: { type: Sequelize.STRING, allowNull: false },

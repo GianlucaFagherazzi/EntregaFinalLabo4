@@ -37,10 +37,9 @@ export default function TarjetDetail() {
   // logica para eliminar la tarjeta
   async function handleDeleteTarjet() {
     try {
-      console.log(id);
       await deleteTarjet(id);  
       alert("Tarjeta eliminada con éxito.");
-      window.location.href = "/tarjetas";  // redirige al listado de tarjetas
+      window.location.href = "/accounts";  // redirige al listado de cuentas
     } catch (err) {
       alert("Error al eliminar la tarjeta");
     } finally {
