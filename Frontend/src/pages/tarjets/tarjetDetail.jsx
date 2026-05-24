@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getTarjetById, updateTarjetBalance, deleteTarjet } from "../../services/tarjetServices";
 import ConfirmDialog from "../../components/confirmDialog";
+import "./tarjetDetail.css";
 
 export default function TarjetDetail() {
   const { id } = useParams();
@@ -51,48 +52,22 @@ export default function TarjetDetail() {
   if (!tarjet) return <p>Cargando...</p>;
 
   return (
-    <div>
+    <div className="tarjet-detail-container">
       <h2>Datos de la Tarjeta</h2>
 
-      <p><b>Número:</b> {tarjet.number}</p>
-      <p><b>Balance actual:</b> ${tarjet.balance}</p>
+      <div className="tarjet-detail-info">
+        <p><b>Número:</b> {tarjet.number}</p>
+        <p><b>Balance actual:</b> ${tarjet.balance.toLocaleString()}</p>
+      </div>
 
-      <button onClick={handleAcreditar}>Acreditar saldo</button>
-
-      {showConfirm && (
-        <ConfirmDialog
-          title="Acreditar saldo"
-          message={
-            <>
-              <p>Ingrese el monto a acreditar:</p>
-              <input
-                type="number"
-                value={monto}
-                onChange={(e) => setMonto(e.target.value)}
-                style={{ width: "100%", marginTop: "10px" }}
-              />
-            </>
-          }
-          confirmText="Acreditar"
-          cancelText="Cancelar"
-          onConfirm={handleAcreditar}
-          onCancel={() => setShowConfirm(false)}
-        />
-      )}
-
-      {/* ConfirmDialog para eliminar tarjeta */}
-      <button 
-        onClick={() => setShowDeleteConfirm(true)} 
-          style={{
-            marginTop: "20px",
-            backgroundColor: "red",
-            color: "white",
-            padding: "10px",
-            border: "none"
-          }}
-        >
-        Eliminar tarjeta
-      </button>
+      <div className="tarjet-detail-actions">
+        <button className="btn-acreditar" onClick={handleAcreditar}>
+          Acreditar saldo
+        </button>
+        <button className="btn-eliminar" onClick={() => setShowDeleteConfirm(true)}>
+          Eliminar tarjeta
+        </button>
+      </div>
 
       {showDeleteConfirm && (
         <ConfirmDialog

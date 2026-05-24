@@ -1,16 +1,72 @@
+/* ── Contenedor principal ── */
 .account-detail-container {
-  padding: 30px;
-  color: rgb(255, 255, 255);
+  background: color-mix(in srgb, var(--color-accent) 30%, transparent);
+  max-width: 860px;
+  margin: 2rem auto;
+  padding: 2rem 1.5rem;
+  border-radius: 25px;
 }
 
+/* ── Título ── */
+.account-detail-container h2 {
+  font-size: 30px;
+  font-weight: 500;
+  margin: 0 0 1.25rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 5px solid #1f1919;
+  color: #000000;
+  text-align: center;
+}
+
+/* ── Subtítulo tarjetas ── */
+.account-detail-container h3 {
+  font-size: 20px;
+  font-weight: 500;
+  color: #000000;
+  margin: 2rem 0 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #1f1919;
+}
+
+/* ── Info de la cuenta ── */
 .account-detail-info {
-  margin-bottom: 30px;
-  font-size: 18px;
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
+.account-detail-info p {
+  font-size: 16px;
+  color: #000000;
+  margin: 0;
+  padding: 10px 14px;
+  background: color-mix(in srgb, #1f1919 6%, transparent);
+  border-radius: 8px;
+  border-left: 4px solid #1f1919;
+}
+
+.account-detail-info p b {
+  font-weight: 600;
+  margin-right: 6px;
+}
+
+/* ── Grid de tarjetas (se mantiene la distribución original) ── */
 .cards-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 24px;
   padding: 10px 0;
+}
+
+/* ── Responsive ── */
+@media (max-width: 480px) {
+  .account-detail-container {
+    margin: 1rem;
+    padding: 1.5rem 1rem;
+  }
+
+  .cards-grid {
+    grid-template-columns: 1fr;
+  }
 }

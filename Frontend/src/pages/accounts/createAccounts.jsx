@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { createAccount } from "../../services/accountServices";
 import { AuthContext } from "../../context/authContext";
+import "./createAccounts.css";
 
 export default function CreateAccount() {
   const { user } = useContext(AuthContext);
@@ -34,7 +35,7 @@ export default function CreateAccount() {
   }
 
   return (
-    <div>
+    <div className="create-account-container">
       <h2>Crear Cuenta</h2>
 
       <form onSubmit={handleSubmit}>

@@ -29,11 +29,13 @@ export default function AccountDetail() {
   if (!account) return <p>Loading...</p>;
 
   return (
-    <div>
+    <div className="account-detail-container">
       <h2>Detalle de cuenta</h2>
 
-      <p><b>Número de cuenta:</b> {account.id}</p>
-      <p><b>CBU:</b> {account.cbu}</p>
+      <div className="account-detail-info">
+        <p><b>Número de cuenta:</b> {account.id}</p>
+        <p><b>CBU:</b> {account.cbu}</p>
+      </div>
 
       <h3>Tarjetas asociadas</h3>
 
@@ -41,7 +43,6 @@ export default function AccountDetail() {
         {tarjets.map(t => (
           <TarjetItem key={t.id} tarjet={t} />
         ))}
-
         <AddTarjet accountId={account.id} onCreated={loadTarjets} />
       </div>
     </div>

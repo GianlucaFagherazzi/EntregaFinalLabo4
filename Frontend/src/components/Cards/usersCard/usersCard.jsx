@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import "./userCard.css";
+import "../../../styles/buttons.css";
 
 function UsersCard({ user }) {
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ function UsersCard({ user }) {
         {user.isActive ? "Activo" : "Inactivo"}
       </p>
       <button
-        className="card-button"
+        className="btn"
         onClick={() => navigate(`/profile/${user.id}`)}
       >
         Editar usuario

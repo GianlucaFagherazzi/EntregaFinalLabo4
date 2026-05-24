@@ -1,0 +1,67 @@
+/* ── Contenedor principal ── */
+.create-account-container {
+  background: color-mix(in srgb, var(--color-accent) 30%, transparent);
+  max-width: 480px;
+  margin: 4rem auto;
+  padding: 2.5rem 2rem;
+  border-radius: 25px;
+  text-align: center;
+}
+
+/* ── Título ── */
+.create-account-container h2 {
+  font-size: 30px;
+  font-weight: 500;
+  margin: 0 0 0.5rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 5px solid #1f1919;
+  color: #000000;
+}
+
+/* ── Subtexto explicativo ── */
+.create-account-container p {
+  font-size: 14px;
+  color: #666;
+  margin: 1rem 0 2rem;
+  line-height: 1.6;
+}
+
+/* ── Formulario ── */
+.create-account-container form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* ── Botón ── */
+.create-account-container button[type="submit"] {
+  background: #1f1919;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 13px 40px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  letter-spacing: 0.02em;
+  transition: background 0.15s, transform 0.1s;
+  width: 100%;
+  max-width: 280px;
+}
+
+.create-account-container button[type="submit"]:hover {
+  background: #3a2e2e;
+}
+
+.create-account-container button[type="submit"]:active {
+  transform: scale(0.98);
+}
+
+/* ── Responsive ── */
+@media (max-width: 480px) {
+  .create-account-container {
+    margin: 2rem 1rem;
+    padding: 2rem 1.25rem;
+  }
+}

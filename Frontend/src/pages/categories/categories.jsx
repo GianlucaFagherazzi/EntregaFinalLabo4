@@ -79,7 +79,7 @@ function Categories() {
     <div className="categories-container">
       <h1 className="categories-title">Listado de categorias</h1>
 
-      <button onClick={openCreateModal} className="btn-create">
+      <button onClick={openCreateModal} className="btn">
         Crear categoría
       </button>
 
