@@ -7,9 +7,9 @@ import { isAdmin } from '../middleware/admin.middleware.js'
 
 const router = express.Router()
 
-router.get('/', UserController.getAll);
-router.get('/:id', UserController.getById);
-router.get('/:id/parsed', UserController.parsedGetById);
+router.get('/', authMiddleware, isAdmin, UserController.getAll);
+router.get('/:id', authMiddleware, UserController.getById);
+router.get('/:id/parsed', authMiddleware, UserController.parsedGetById);
 router.post('/', validate(userSchema.create), UserController.create);
 router.put('/:id', authMiddleware, validate(userSchema.update), UserController.update)
 router.post('/login', validate(userSchema.login), UserController.login);

@@ -158,7 +158,7 @@ export const TarjetService = {
       }
 
       // limitar monto máximo por operación (ajustable)
-      const MAX_TOPUP = 1_000_000; // 1 millón
+      const MAX_TOPUP = 100_000_000; // 1 millón
       if (parsedAmount > MAX_TOPUP) {
         throw new AppError(
           `El monto máximo por carga es ${MAX_TOPUP.toLocaleString()}`,

@@ -61,7 +61,6 @@ MovementUser.belongsTo(User, { foreignKey: 'userId', as: 'User'});
 Movement.hasOne(Snapshot, { foreignKey: 'movementId', as: 'Snapshot' });
 Snapshot.belongsTo(Movement, { foreignKey: 'movementId', as: 'Movement' });
 
-//Definimos las relaciones de los carritos
 User.hasOne(Cart, { foreignKey: "userId", as: "Cart" });
 Cart.belongsTo(User, { foreignKey: "userId", as: "User" });
 

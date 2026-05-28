@@ -1,537 +1,386 @@
-# TRABAJO FINAL LABORATORIO IV - GIANLUCA FAGHERAZZI & TELEZ LEONARDO
+# Plataforma Web de Compra y Venta
 
-# TABLA DE CONTENIDO
-- [Introduccion](#Introducción)
-- [Instalacion](#Instalación)
-- [Ejecucion](#Ejecución)
-- [Backend&Database](#Backend&Database)
-- [Endpoints](#Endpoints)
-- [Flujo_de_Logica](#Flujo_de_Logica)
-- [Flujo_de_un_endpoint](#Flujo_de_un_endpoint)
 
-## INTRODUCCIÓN
-Este proyecto consiste en el desarrollo de una aplicación web orientada a la compra y venta de productos, implementada bajo una arquitectura cliente-servidor. El backend fue desarrollado como un servicio REST, encargado de la gestión de usuarios, productos, cuentas y operaciones asociadas, mientras que el frontend permite la interacción del usuario a través de una interfaz gráfica intuitiva y dinámica.
+Aplicación web orientada a la compra y venta de productos, desarrollada bajo una arquitectura cliente-servidor de 3 capas.
 
-La aplicación contempla funcionalidades como el registro e inicio de sesión de usuarios, la visualización y administración de productos, la gestión de cuentas personales, y operaciones básicas asociadas a dichas cuentas. Asimismo, se implementan mecanismos de autenticación y autorización mediante tokens, garantizando la seguridad en las operaciones sensibles del sistema.
+---
 
-El sistema simula el funcionamiento básico de una plataforma de comercio electrónico, permitiendo a los usuarios interactuar tanto como compradores como vendedores. En futuras versiones se prevé la incorporación de nuevas funcionalidades, tales como mejoras en la gestión de ventas, favoritos, reportes y optimización de la experiencia de usuario.
+# Vista Previa
 
-## INSTALACIÓN
-Para ejecutar este proyecto, es necesario contar con un entorno de desarrollo preparado para el frontend.
+![Preview](./docs/preview.png)
 
-Una vez descargado el proyecto, desde la carpeta correspondiente al frontend se deben instalar las dependencias ejecutando el siguiente comando en la terminal backend y en la terminal frontend:
-- npm install (Para instalar todas als dependencias)
-- npm run reset (Comando personalizado de sequelize para borrar todas las migraciones anteriores y crear nuevas con datos de ejemplo)
+---
 
-El proyecto requiere que se cree un esquema en mysql (Puede ser workbench, xampp, etc), en el cual sequelize va a sincronizar los datos de las tablas.
+# Tabla de Contenidos
 
-Posteriormente se debera configurar el .env en el cual debera introducir la configuracion de acceso de su base de datos mySQL, y se debera configurar la ruta de acceso de la api y su password de acceso para el JWT (utilizar template de referencia).
+* [Introducción](#introducción)
+* [Funcionalidades](#funcionalidades)
+* [Arquitectura del Sistema](#arquitectura-del-sistema)
+* [Tecnologías Utilizadas](#tecnologías-utilizadas)
+* [Estructura del Proyecto](#estructura-del-proyecto)
+* [Base de Datos](#base-de-datos)
+* [Seguridad Implementada](#seguridad-implementada)
+* [Instalación y Ejecución](#instalación-y-ejecución)
+* [Docker](#docker)
+* [Despliegue](#despliegue)
+* [Colección Postman](#colección-postman)
+* [Arquitectura Backend](#arquitectura-backend)
+* [Arquitectura Frontend](#arquitectura-frontend)
+* [Buenas Prácticas Aplicadas](#buenas-prácticas-aplicadas)
+* [Aprendizajes](#aprendizajes)
+* [Integrantes](#integrantes)
 
-  Ejemplo de un .env del backend
-  ```
-  PORT=3000
-  HOST=http://localhost
-  DB_NAME=tpfinal
-  DB_USER=root
-  DB_PASS=12346
-  DB_HOST=localhost
-  DB_PORT=3306
-  JWT_SECRET=viva_la_seguridad
-  JWT_EXPIRES_IN=10h
-  ```
+---
 
-Ejemplo de un .env del frontend (en el cual se configurara la ruta de acceso a la api)
-  ```
-  VITE_API_URL=http://localhost:3000
-  ```
+# Introducción
 
+Plataforma web de comercio electrónico desarrollada como proyecto integrador, permitiendo a los usuarios interactuar tanto como compradores como vendedores.
 
+El sistema fue desarrollado aplicando conocimientos relacionados con:
 
-## EJECUCIÓN
+* Desarrollo Backend
+* Desarrollo Frontend
+* APIs REST
+* Arquitectura de Software
+* Persistencia de Datos
+* Seguridad y Autenticación
+* Dockerización
+* Despliegue Cloud
 
-Luego para iniciar la aplicacion, ejecutar el siguiene comando en la terminal backend y en la terminal frontend:
-- npm run dev
+---
 
-La api quedara funcionando en el puerto que configures en el .env, o por defecto en el 3000.
-Podran acceder a la api y testearla desde:
-- 🧪 Postman
-- 🌐 http://localhost:3000
+# Funcionalidades
 
-La aplicación frontend quedara disponible por defecto en:
-- 🌐 http://localhost:5173
+* Registro e inicio de sesión
+* Autenticación JWT
+* Gestión de productos
+* Sistema de carrito de compras
+* Gestión de cuentas y tarjetas
+* Historial de movimientos
+* Relación comprador-vendedor
+* Soft delete de entidades
+* Validaciones backend/frontend
+* API RESTful
 
+---
 
-## BACKEND & DATABASE
-Implementaciones a futuro:
+# Arquitectura del Sistema
 
-El backend expone una API REST que se encuentra desplegada en la web y conectada a una base de datos remota.
-Dicha API es consumida exclusivamente por el frontend de la aplicación o mediante herramientas de prueba como Postman, no requiriendo instalación ni ejecución local para su funcionamiento.
+La aplicación fue desarrollada utilizando una arquitectura cliente-servidor de 3 capas:
 
-## ENDPOINTS
-## 1. obtener todos los usuarios
-Acutalmente desde el frontend cualquiera puede acceder a la lista de todos los usuarios, pero en el futuro esta funcion solamente la tendra el usuario administrador de la pagina.
+```
+Frontend (React)
+        ↓ HTTP / JSON
+Backend API REST (Node.js + Express)
+        ↓ Sequelize ORM
+Base de Datos (PostgreSQL)
+```
 
-Si se accede desde Postman, el Endpoint es el siguiente:
+## Capas del Sistema
 
-  - GET /api/users
+### Capa de Presentación
 
-  - ### Respuesta esperada
+Implementada mediante React.js.
 
-    Devuelve una lista con todos los usuarios registrados.
+Responsable de:
 
-## 2. crear usuario
-Desde el frontend se podra realizar esta operación mediante el boton registrarse.
-Si se accede desde Postman, el endpoint es el siguiente.
+* Renderizar la interfaz gráfica
+* Gestionar navegación
+* Consumir la API REST
 
-  - POST /api/users
+### Capa de Lógica de Negocio
 
-  - ### Campos del JSON
+Implementada mediante Node.js y Express.js.
 
-    | Campo | Tipo | Obligatorio | Descripción |
-    |--------|------|-------------|-------------|
-    | dni | String | ✅ | DNI del usuario |
-    | name | String | ✅ | Nombre |
-    | username | String | ✅ | Apellido |
-    | email | String | ✅ | email del usuario |
-    | password | String | ✅ | contraseña |
+Responsable de:
 
-  - ### Valores válidos para password y dni
-    Las contraseñas pueden tener cualquier tipo de caracter, la unica limitacion es que deben tener un maximo de 8 caracteres.
-    Los DNI aunque son string, deben ser introducidos como números de 8 caracteres positivos.
+* Procesar requests HTTP
+* Gestionar autenticación
+* Aplicar reglas de negocio
+* Coordinar operaciones CRUD
 
-  - ### Ejemplo
+### Capa de Datos
 
-    ``` json
-    {
-      "dni": "10000011",
-      "name": "Leonardo",
-      "surname": "Telez",
-      "email": "leo@gmail.com",
-      "password": "prueba desde postman"
-    }
-    ```
+Implementada mediante PostgreSQL y Sequelize ORM.
 
-## 3. obtener usuario por ID
+Responsable de:
 
-  - **Endpoint:**   GET /api/users/{id}
+* Persistencia de información
+* Relaciones entre entidades
+* Integridad de datos
 
-  - ### Respuesta esperada
+---
 
-    Devuelve todos los datos del usuario registrado.
+# Tecnologías Utilizadas
 
-## 4. "eliminar" usuario
-Por razones de integridad de la información y prevención de errores, los usuarios no pueden ser eliminados permanentemente del sistema. Los datos asociados a los usuarios son utilizados por otras entidades dentro del sistema, y su pérdida podría generar inconsistencias. En lugar de realizar una eliminación física de los registros, se emplea un soft delete, el cual consiste en modificar el valor de un atributo del usuario, sin eliminar sus datos. En este caso, se cambia el valor del atributo "isActive" de true a false, lo que desactiva la cuenta del usuario y le impide acceder a ella. Sin embargo, los datos del usuario permanecen almacenados en la base de datos, garantizando la preservación de la información para futuros análisis o referencias.
+## Frontend
 
-Para realizar esta operacion desde el backend se puede hacer por medio del boton eliminar cuenta, presente en la pagina profile.
+* React.js
+* React Router DOM
+* Axios
+* Context API
+* Vite
 
-Desde postman se puede realizar a travez del siguiente endpoint: PUT /api/users/{serId}/deactivate
+## Backend
 
-## 5. obtener todas las cuentas
-  Esto permitirá obtener un listado de todas las cuentas bancarias que hay registradas en el sistema. El resultado será una lista en la que se mensionara el:
-  - ID de la cuenta.
-  - cbu.
-  - Estado: si la cuenta esta activa será (true) si está desactivada será (false).
+* Node.js
+* Express.js
+* Sequelize ORM
+* JWT
+* Bcrypt
+* Joi
 
-  Para acceder desde postman es a travez del siguiente endpoint:
-  - POST /api/accounts
+## Base de Datos
 
-## 6. obtener una cuenta por ID
+* PostgreSQL
 
-  - **Endpoint:**   GET /api/accounts/{id}
+## Herramientas
 
-  - ### Respuesta esperada
+* Git
+* GitHub
+* Postman
+* Docker
+* Render
 
-    Devuelve todos los datos de la cuenta registrada.
+---
 
-## 7. Crear una cuenta
-  Desde el frontend se podra crear una cuenta desde la pagina accecible a travez del menú desplegable del usuario.
-  Desde postman se podra crear desde el siguiente endpoint:
-  - POST /api/accounts
+# Estructura del Proyecto
 
-  - ### Campos del JSON
-  Desde el front el cbu se generará de forma aleatoria, pero desde Postman el usuario deberá introducir un número de 12 digitos.
+## Backend
 
-    | Campo | Tipo | Obligatorio | Descripción |
-    |--------|------|-------------|-------------|
-    | cbu | string | ✅ | cbu de identificación |
-    | userId | int | ✅ | Id del usuarios dueño de la cuenta |
+```
+backend/
+└── src/
+    ├── controllers/
+    ├── middleware/
+    ├── models/
+    ├── routes/
+    ├── services/
+    └── utils/
+```
 
-  - ### Ejemplo
+## Frontend
 
-    ``` json
-    {
-      "cbu": "123456789123",
-      "userId": 1
-    }
-    ```
+```
+frontend/
+└── src/
+    ├── components/
+    ├── context/
+    ├── layouts/
+    ├── pages/
+    ├── routes/
+    └── services/
+```
 
-## 8. eliminar una cuenta
-Al igual que ocurre con los usuarios, las cuentas no pueden eliminarse de forma definitiva por razones de integridad de los datos. Por este motivo, se utiliza nuevamente el soft delete, que consiste en cambiar el valor del atributo isActive de la cuenta de true a false. De esta manera, la cuenta queda inhabilitada sin perder la información asociada.
+---
 
-Esta accion por el momento solo se puede realizar a traves de Postman con el siguiente endpoint: PUT /api/accounts/{accountId}/deactivate
+# Base de Datos
 
-## 9. obtener todas las tarjetas
-  Esto solo es posible desde Postman a traves del siguiente endpoint:
-  - GET /api/tarjets
+La aplicación utiliza PostgreSQL junto con Sequelize ORM para la administración de modelos y relaciones.
 
-  - ### Respuesta esperada
+## Entidades Principales
 
-    Devuelve una lista con todas las tarjetas registradas indicando su estado (activa/desactivada) y el id del usuario al que pertenece.
+* Usuarios
+* Cuentas
+* Tarjetas
+* Productos
+* Categorías
+* Movimientos
+* Carritos
+* Items de carrito
 
-## 10. Crear una tarjeta
-  - - **Endpoint:**   POST /api/tarjets
+## Relaciones
 
-  - ### Campos del JSON
+* Un usuario puede tener múltiples cuentas
+* Un usuario puede publicar múltiples productos
+* Un producto pertenece a una categoría
+* Un movimiento involucra comprador y vendedor
+* Un usuario posee un único carrito
 
-    | Campo | Tipo | Obligatorio | Descripción |
-    |--------|------|-------------|-------------|
-    | number | string | ✅ | numero de identificación |
-    | balance | int | ✅ | monto inicial |
-    | accountId | int | ✅ | Id de la cuenta |
+## Diagrama ER
 
-  - ### Valores válidos para number
-    El número de tarjeta a pesar de que estan declarados como string, cuando se crea, debe ser un numero entero de 16 digitos
+![Diagrama ER](./docs/diagrama-ER.png)
 
-  - ### Valor valido para accountId
-    El id de cuenta debe pertenecer a una cuenta existente. No se podrá crear una tarjeta asociada a una cuenta inexistente.
+## Diagrama Caso De Uso
 
-  - ### Ejemplo
+![Diagrama ER](./docs/diagrama-Caso-de-Uso.png)
 
-    ``` json
-    {
-      "number": "1111222233337536",
-      "balance": 100,
-      "accountId": 1
-    }
-    ```
 
-# 11. eliminar una tarjeta
-Las tarjetas tampoco se eliminan de forma definitiva del sistema, ya que su información puede estar vinculada a movimientos y otras entidades. Para preservar la integridad de los datos, se aplica un soft delete que cambia el atributo isActive de true a false, dejando la tarjeta inhabilitada sin perder su información.
+---
 
-Por el momento esta acción solo es posible desde Postman a traves del siguiente endpoint:  PUT /api/tarjets/{tarjetId}/deactivate
+# Seguridad Implementada
 
-## 12. obtener todos los productos
+* Hash de contraseñas mediante bcrypt
+* Autenticación JWT
+* Middlewares de autorización
+* Validaciones con Joi
+* Protección de rutas privadas
+* Variables de entorno
+* Soft delete
 
-  - **Endpoint:**   GET /api/products
+---
 
-  - ### Respuesta esperada
+# Instalación y Ejecución
 
-    Devuelve una lista con todos los productos publicados por usuarios registrados.
+## Clonar Repositorio
 
-## 13. crear un producto
-  
-  - **Endpoint**    POST /api/products
+``` 
+git clone https://github.com/GianlucaFagherazzi/EntregaFinalLabo4.git
+```
 
-  - ### Campos del JSON
+---
 
-    | Campo | Tipo | Obligatorio | Descripción |
-    |--------|------|-------------|-------------|
-    | name | string | ✅ | nombre |
-    | description | int | ❌ | descrición |
-    | price | int | ✅ | precio unitario |
-    | stock | int | ✅ | stock disponible |
-    | userId | int | ✅ | Id del usuario (vendedor) |
-    | categoryId | int | ✅ | Id de la categoria |
+## Variables de Entorno Backend
 
-  - ### Coasa a tener en cuenta
-    La descripción del producto NO es obligatoria, es opcional.
-    Los datos de (userId y de categoryId) deben existir.
+```
+PORT=3000
 
-  - ### Ejemplo
+DB_NAME=tpfinal
+DB_USER=postgres
+DB_PASS=12346
+DB_HOST=db
+DB_PORT=5432
 
-    ``` json
-    {
-      "name": "remeras",
-      "description": "",
-      "price": 500,
-      "stock": 100,
-      "userId": 1,
-      "categoryId": 1
-    }
-    ```
-## 14. eliminar un producto
-Los productos tampoco se eliminan de forma definitiva del sistema, ya que su información puede estar vinculada a ventas, movimientos u otras entidades. Para preservar la integridad de los datos, se aplica un soft delete que cambia el atributo isActive de true a false, dejando el producto inhabilitado sin perder su información.
+JWT_SECRET=secret
+JWT_EXPIRES_IN=10h
+```
 
-Por el momento esta acción solo es posible desde Postman a traves del siguiente endpoint:  PUT /api/products/{productId}/deactivate
+---
 
-## 15. obtener todas las categorias
+## Variables de Entorno Frontend
 
-  - **Endpoint:**   GET /api/categories
+```
+VITE_API_URL=http://localhost:3000
+```
 
-  - ### Respuesta esperada
+---
 
-    Devuelve una lista con todas las categorias registradas.
+# Docker
 
-## 16. crear una categoria
-  
-  - **Endpoint**    POST /api/categories
+## Ejecutar Contenedores
 
-  - ### Campos del JSON
+```
+docker compose up --build
+```
 
-    | Campo | Tipo | Obligatorio | Descripción |
-    |--------|------|-------------|-------------|
-    | name | string | ✅ | nombre |
+## Detener Contenedores
 
-  - ### Ejemplo
+```
+docker compose down
+```
 
-    ``` json
-    {
-      "name": "ropa"
-    }
-    ```
-## 17. eliminar una categoria
-Las categoria a diferencia de las demas entidades si pueden ser eliminadas de forma permanente, ya que no representa ningun riego para la integridad.
+---
 
-Por el momento esta acción solo es posible desde Postman a traves del siguiente endpoint:  DELETE /api/categories/{categoryId}
+# Despliegue
 
-## 18. obtener todos los movimientos
+## Frontend
 
-  - **Endpoint:**   GET /api/movements
+```
+https://entregafinallabo4-1.onrender.com
+```
 
-  - ### Respuesta esperada
+## Backend
 
-    Devuelve una lista con todos los movimietnos (transacciones) realizadas por usuarios registrados.
+```
+https://entregafinallabo4.onrender.com
+```
 
-## 19. crear un movimiento
-  
-  - **Endpoint**    POST /api/movements
+---
 
-  - ### Campos del JSON
-  - **Objeto principal**
+# Colección Postman
 
-    | Campo | Tipo | Obligatorio | Descripción |
-    |--------|------|-------------|-------------|
-    | productId | string | ✅ | Id del producto |
-    | quantity | int | ✅ | Cantidad del producto |
-    | movementUsers | array | ✅ | Usuarios involucrados en el movimiento |
+La colección Postman se encuentra incluida dentro del repositorio:
 
-    **Usuarios del arreglo**
-    | Campo | Tipo | Obligatorio | Descripción |
-    |--------|------|-------------|-------------|
-    | userId | string | ✅ | Id del producto |
-    | accountId | int | ✅ | Id de la cuenta asociada|
-    | tarjetId | int | ✅ | Id de la tarjeta asociada |
-    | rol | string | ✅ | Rol del usuario en el movimiento (buyer o seller)|
+```
+/docs/postman_collection.json
+```
 
+Incluye:
 
-  - ### Cosas a tener en cuenta
-    - El producto (productId) debe existir.
-    - La cantidad (quantity) debe ser mayor a 0.
-    - El array movementUsers:
-      - Debe contener un usuario con rol buyer.
-      - Debe contener un usuario con rol seller.
-    - Los datos de:
-      - userId
-      - accountId
-      - tarjetId
-      - deben existir y estar relacionados correctamente.
-    - El stock del producto se validará según la cantidad solicitada.
+* Endpoints
+* Requests de ejemplo
+* Respuestas de ejemplo
+* Autenticación JWT
+* Operaciones CRUD
 
-  - ### Ejemplo
+---
 
-    ``` json
-    {
-      "productId": 2,
-      "quantity": 1,
-      "movementUsers": [
-        {
-          "userId": 2,
-          "accountId": 2,
-          "tarjetId": 2,
-          "rol": "buyer"
-        },
-        {
-          "userId": 1,
-          "accountId": 1,
-          "tarjetId": 1,
-          "rol": "seller"
-        }
-      ]
-    }
-    ```
+# Arquitectura Backend
 
+El backend sigue una arquitectura en capas:
 
-## FLUJO DE LÓGICA DEL BACKEND
- El backend sigue una arquitectura en capas, inpirada de aplicaciones REST con Node.js + Express + Sequelize.
- Está escho de esta manera, porque de esta forma permite una correcta separación de responsabilidades, facilitando el mantenimiento, la escalabilidad y la comprensión del sistema.
+```
+Request
+   ↓
+Routes
+   ↓
+Middlewares
+   ↓
+Controllers
+   ↓
+Services
+   ↓
+Models
+   ↓
+Database
+   ↓
+Response
+```
 
- El flujo general de una solicitud dentro del backend es el siguiente:
+---
 
- Request → Routes → Middlewares → Controllers → Services → Models → Base de datos → Response
+# Arquitectura Frontend
 
- A continuacion se desscribe el rol de cada componente dentro de la estructura del proyecto.
-     
-    Punto de entrada
+El frontend sigue una estructura modular:
 
-    El archivo index.js es el punto de inicio de la aplicación. Allí se configura el servidor Express, se cargan los middlewares globales (como el manejo de JSON y CORS), se registran las rutas principales y se inicia la escucha del servidor en el puerto configurado mediante variables de entorno.
-__    
+```text id="vqmbz6"
+Usuario
+   ↓
+Routes
+   ↓
+Layouts
+   ↓
+Pages
+   ↓
+Components
+   ↓
+Services
+   ↓
+Backend API
+   ↓
+UI
+```
 
-    Configuración (src/config)
+---
 
-    Este directorio contiene la configuración de la conexión a la base de datos mediante Sequelize
-__
+# Buenas Prácticas Aplicadas
 
-    Rutas (src/routes)
+* Arquitectura modular
+* Separación de responsabilidades
+* Código reutilizable
+* Manejo centralizado de errores
+* Validaciones backend/frontend
+* Soft delete
+* JWT Authentication
+* Deploy Cloud
 
-    Las rutas definen los endpoints REST disponibles en la aplicación. Cada ruta se encarga únicamente de recibir la solicitud HTTP y redirigirla al controlador correspondiente. En esta capa no se implementa lógica de negocio.
+---
 
-    Ejemplo de endpoints:
+# Aprendizajes
 
-    Creación y gestión de usuarios
+Durante el desarrollo del proyecto se trabajó con:
 
-    Gestión de cuentas y tarjetas
+* Arquitectura cliente-servidor
+* Diseño de APIs REST
+* Persistencia con Sequelize ORM
+* Dockerización
+* Deploy en Render
+* Manejo de autenticación JWT
+* Gestión de estados globales en React
 
-    Operaciones de compra, venta y movimientos
-__
+---
 
-    Middlewares (src/middleware)
+# Integrantes
 
-    Los middlewares actúan como capas intermedias entre las rutas y los controladores. Se utilizan principalmente para:
-
-    Autenticación y autorización mediante JWT
-
-    Validaciones de datos
-
-    Manejo de errores
-
-    Un ejemplo clave es el middleware de autenticación, que valida el token enviado en los headers y adjunta la información del usuario a la solicitud.
-__
-
-    Controladores (src/controller)
-
-    Los controladores reciben las solicitudes ya validadas y se encargan de:
-
-    Procesar los datos de entrada (params, body, query)
-
-    Invocar los servicios correspondientes
-
-    Retornar las respuestas HTTP al cliente
-
-    Esta capa no contiene lógica compleja, sino que delega dichas responsabilidades a los servicios.
-__
-
-    Servicios (src/services)
-
-    La capa de servicios contiene la lógica de negocio de la aplicación. Aquí se implementan reglas como:
-
-    Validación de permisos del usuario
-
-    Operaciones sobre cuentas y tarjetas
-
-    Soft delete de registros
-
-    Control de estados y relaciones entre entidades
-
-    Los servicios interactúan directamente con los modelos para acceder a la base de datos.
-__
-
-    Modelos (src/models)
-
-    Los modelos representan las entidades del sistema y su persistencia en la base de datos. Utilizando Sequelize, se definen las tablas, sus campos y las relaciones entre ellas (usuarios, cuentas, productos, movimientos, etc.).
-__
-
-    Migraciones y Seeders
-
-    migrations: permiten versionar la estructura de la base de datos y mantener consistencia entre entornos.
-
-    seeders: se utilizan para cargar datos iniciales o de prueba en la base de datos.
-
-## FLUJO DE LÓGICA DEL FRONTEND
-El frontend del proyecto está desarrollado con React utilizando Vite como herramienta de construcción. Al igual que el backend, la aplicación sigue una estructura modular que separa la lógica, las vistas y los servicios, permitiendo una navegación clara y un mantenimiento sencillo.
-
-El flujo general de la aplicación es el siguiente:
-
-Usuario → Rutas → Layouts → Páginas → Componentes → Servicios → Backend → Response → UI
-
-A continuacion se desscribe el rol de cada componente dentro de la estructura del proyecto.
-
-    Punto de entrada
-
-    El archivo main.jsx es el punto de entrada de la aplicación. Allí se inicializa React, se monta el componente principal App.jsx y se configuran los proveedores globales, como el contexto de autenticación.
-
-    El archivo App.jsx define la estructura general de la aplicación y centraliza el sistema de rutas.
-__
-
-    Rutas (src/routes)
-
-    Este directorio contiene la definición de las rutas del frontend utilizando react-router-dom. Aquí se establecen:
-
-    Rutas públicas (login, registro)
-
-    Rutas protegidas (acceso solo para usuarios autenticados)
-
-    Redirecciones y control de acceso
-
-    Las rutas determinan qué página se renderiza según la URL actual.
-__
-
-    Layouts (src/layouts)
-
-    Los layouts definen la estructura visual compartida entre múltiples páginas, como:
-
-    main
-
-    products
-
-    algunas carts
-
-    Esto permite reutilizar la misma disposición visual sin duplicar código en cada página.
-__
-
-    Páginas (src/pages)
-
-    Las páginas representan las vistas principales del sistema. Cada página corresponde a una funcionalidad específica, por ejemplo:
-
-    Inicio de sesión
-
-    Perfil de usuario
-
-    Listado de cuentas
-
-    Detalle de una cuenta o tarjeta
-
-    Creación y edición de entidades
-
-    Las páginas orquestan componentes, y servicios para mostrar información y responder a las acciones del usuario.
-__
-
-    Componentes (src/components)
-
-    Los componentes son piezas reutilizables de la interfaz de usuario, como:
-
-    Tarjetas (cards)
-
-    Formularios
-
-    Botones
-
-    Diálogos de confirmación
-
-    Estos componentes reciben datos mediante props y notifican eventos a las páginas que los utilizan.
-__
-
-    Contextos (src/context)
-
-    El contexto se utiliza para manejar estado global, principalmente la autenticación del usuario. Aquí se almacenan datos como:
-
-    Usuario autenticado
-
-    Esto evita el uso excesivo de props y permite acceder a la información global desde cualquier parte de la aplicación.
-__
-
-    Servicios (src/services)
-
-    La capa de servicios es responsable de la comunicación con el backend. Aquí se definen las funciones que realizan peticiones HTTP (GET, POST, PUT, DELETE/soft delete) utilizando fetch o axios.
-
-    Cada servicio se encarga de una entidad específica (usuarios, cuentas, tarjetas, productos, etc.).
-__
-
-    Estilos (src/styles)
-
-    Aquí se encuentran los archivos CSS que definen la apariencia visual de la aplicación.
-__
-
-    Seguridad y comunicación
-
-    El frontend no accede directamente a la base de datos. Todas las operaciones se realizan a través del backend mediante solicitudes HTTP.
-    El token JWT se almacena localmente y se envía en los headers para acceder a rutas protegidas.
+* Gianluca Fagherazzi
+* Leonardo Telez
