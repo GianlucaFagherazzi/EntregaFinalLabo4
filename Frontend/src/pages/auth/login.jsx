@@ -2,6 +2,8 @@ import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/authContext";
 import { loginUser } from "../../services/authService";
+import "../../styles/generalContainer.css"
+import "../../styles/buttons.css"
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -30,8 +32,8 @@ function Login() {
   }
 
   return (
-    <div className="form">
-      <h1>Iniciar sesión</h1>
+    <div className="general-container auth-container">
+      <h2>Iniciar sesión</h2>
 
       <form onSubmit={handleSubmit} className="auth-form">
         <input

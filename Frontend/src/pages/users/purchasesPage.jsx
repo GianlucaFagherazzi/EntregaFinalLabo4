@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getMyPurchases } from "../../services/snapshotService";
 import "../../styles/orders.css";
+import "../../styles/generalContainer.css";
 
 
 export default function PurchasesPage() {
@@ -20,8 +21,8 @@ export default function PurchasesPage() {
   }
 
   return (
-    <div className="orders-container">
-      <h1>Mis compras</h1>
+    <div className="general-container">
+      <h2>Mis compras</h2>
 
       {orders.length === 0 ? (
         <p>No realizaste compras aún</p>

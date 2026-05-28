@@ -16,17 +16,6 @@
   line-height: 1.4;
 }
 
-.user-link {
-  font-size: 1.2rem;
-  font-weight: 500;
-  color: var(--color-primary);
-  text-decoration: none;
-}
-
-.user-link:hover {
-  text-decoration: underline;
-}
-
 .category {
   display: inline-block;
   width: fit-content;

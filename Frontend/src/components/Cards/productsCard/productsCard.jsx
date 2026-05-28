@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 import { useCart } from "../../../context/cartContext";
+import "./productCards.css";
+import "../../../styles/buttons.css";
 
 export function ProductCard({ product, mode = "public", onDelete, user }) {
   const isOwnerView = mode === "owner";
@@ -22,9 +24,7 @@ export function ProductCard({ product, mode = "public", onDelete, user }) {
         <h2>{product.name}</h2>
 
         {product.User && (
-          <Link to={`/users/${product.User.id}`} className="user-link">
-            Vendido por {product.User.name}
-          </Link>
+          <p className="seller"> Vendido por {product.User.name} </p>
         )}
 
         {product.Category && (

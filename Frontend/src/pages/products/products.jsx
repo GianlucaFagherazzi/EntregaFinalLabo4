@@ -3,6 +3,7 @@ import { getProducts } from "../../services/productsServices";
 import { ProductCard } from "../../components/Cards/productsCard/productsCard.jsx";
 import { AuthContext } from "../../context/authContext";
 import Filters from "../../components/filters.jsx";
+import "../../styles/generalContainer.css";
 
 function Products() {
   const { user } = useContext(AuthContext);
@@ -27,14 +28,14 @@ function Products() {
   }, [filterData]);
 
   return (
-    <div className="products-page">
+    <div className="general-container products-page">
 
       <aside className="sidebar">
         <Filters onFilterChange={setFilterData} />
       </aside>
 
       <div className="products-container">
-        <h1 className="products-title">Listado de productos</h1>
+        <h2 className="products-title">Listado de productos</h2>
 
         <div className="products-grid">
           {products.map((p) => (

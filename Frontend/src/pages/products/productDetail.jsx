@@ -1,6 +1,9 @@
 import { useParams, useLocation } from "react-router-dom";
 import { useEffect, useContext } from "react";
 import { AuthContext } from "../../context/authContext";
+import "../../styles/buttons.css";
+import "../../styles/generalContainer.css";
+
 
 function ProductDetail() {
   const { id } = useParams();
@@ -21,8 +24,8 @@ function ProductDetail() {
   const isOwner = user && product.User && user.id === product.User.id;
 
   return (
-    <div className="product-detail">
-      <h1>{product.name}</h1>
+    <div className="general-container product-detail">
+      <h2>{product.name}</h2>
 
       <p><strong>Vendedor:</strong> {product.User?.name}</p>
       <p><strong>Categoría:</strong> {product.Category?.name}</p>

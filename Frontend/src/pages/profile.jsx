@@ -8,6 +8,7 @@ import { updateUser, deactivateUser, activateUser } from "../services/usersServi
 import ConfirmDialog from "../components/confirmDialog";
 
 import "../styles/profile.css";
+import "../styles/generalContainer.css";
 
 export default function Profile() {
   const { user, updateUser: updateUserContext, logout, isAdmin } = useContext(AuthContext);
@@ -120,8 +121,8 @@ export default function Profile() {
   ];
 
   return (
-    <div className="profile-container">
-      <h1>{id ? "Perfil del usuario" : "Mi Perfil"}</h1>
+    <div className="general-container profile-container">
+      <h2>{id ? "Perfil del usuario" : "Mi Perfil"}</h2>
 
       <ul className="profile-list">
         {fields.map((field) => (
