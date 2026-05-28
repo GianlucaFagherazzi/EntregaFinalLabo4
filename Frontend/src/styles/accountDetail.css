@@ -1,16 +1,33 @@
-.account-detail-container {
-  padding: 30px;
-  color: rgb(255, 255, 255);
+
+/* ── Subtítulo tarjetas ── */
+.account-detail-container h3 {
+  font-size: 20px;
+  font-weight: 500;
+  color: #000000;
+  margin: 2rem 0 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #1f1919;
 }
 
+/* ── Info de la cuenta ── */
 .account-detail-info {
-  margin-bottom: 30px;
-  font-size: 18px;
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-.cards-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 24px;
-  padding: 10px 0;
+.account-detail-info p {
+  font-size: 16px;
+  color: #000000;
+  margin: 0;
+  padding: 10px 14px;
+  background: color-mix(in srgb, #1f1919 6%, transparent);
+  border-radius: 8px;
+  border-left: 4px solid #1f1919;
+}
+
+.account-detail-info p b {
+  font-weight: 600;
+  margin-right: 6px;
 }

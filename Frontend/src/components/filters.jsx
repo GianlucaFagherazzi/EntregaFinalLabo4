@@ -67,7 +67,7 @@ export default function Filters({ onFilterChange }) {
             <br />
             <div className="filters-actions">
                 <button className="btn" onClick={apply}>Aplicar</button>
-                <button className="btn btn-secondary" onClick={clear}>Limpiar</button>
+                <button className="btn" onClick={clear}>Limpiar</button>
             </div>
 
         </div>

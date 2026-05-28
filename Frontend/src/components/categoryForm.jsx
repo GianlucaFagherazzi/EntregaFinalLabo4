@@ -40,12 +40,12 @@ function CategoryForm({ initialData, onSubmit, onCancel, error }) {
         </div>
       )}
 
-      <div className="form-buttons">
-        <button type="submit" disabled={loading}>
+      <div className="buttons">
+        <button type="submit" className="btn" disabled={loading}>
           {loading ? "Guardando..." : "Guardar"}
         </button>
 
-        <button type="button" onClick={onCancel} disabled={loading}>
+        <button type="button" className="btn" onClick={onCancel} disabled={loading}>
           Cancelar
         </button>
       </div>

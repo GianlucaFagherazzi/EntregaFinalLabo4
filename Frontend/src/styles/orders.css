@@ -1,0 +1,126 @@
+/* ── Contenedor principal ── */
+.orders-container {
+  background: color-mix(in srgb, var(--color-accent) 30%, transparent);
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  border-radius: 25px;
+}
+
+/* ── Título ── */
+.orders-container h1 {
+  font-size: 30px;
+  font-weight: 500;
+  margin: 0 0 1.25rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 5px solid #1f1919;
+  color: #000000;
+  text-align: center;
+}
+
+/* ── Sin compras ── */
+.orders-container > p {
+  text-align: center;
+  color: #888;
+  font-size: 15px;
+  padding: 4rem 2rem;
+  border: 1px dashed #ddd;
+  border-radius: 12px;
+  margin-top: 1rem;
+}
+
+/* ── Card de orden ── */
+.order-card {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto auto auto auto;
+  gap: 0 1.5rem;
+  padding: 1.5rem 0;
+  border-bottom: 2px solid #1f1919;
+}
+
+.order-card:last-child {
+  border-bottom: none;
+}
+
+/* ── Nombre del producto ── */
+.order-card h3 {
+  font-size: 25px;
+  font-weight: 500;
+  margin: 0 0 8px;
+  color: #000000;
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.order-card p{
+  font-size: 20px;
+  color: #000000;
+}
+
+/* ── Vendedor ── */
+.order-card p:nth-child(2) {
+  margin: 0 0 4px;
+  grid-column: 1;
+  grid-row: 2;
+}
+
+/* ── Cantidad ── */
+.order-card p:nth-child(3) {
+  margin: 0 0 8px;
+  grid-column: 1;
+  grid-row: 3;
+}
+
+/* ── Monto ── */
+.order-card p:nth-child(4) {
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin: 0;
+  grid-column: 2;
+  grid-row: 1;
+  text-align: right;
+  align-self: start;
+}
+
+/* ── Tarjeta ── */
+.order-card p:nth-child(5) {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #666666;
+  background: #f7f7f7;
+  border: 1px solid #000000;
+  border-radius: 6px;
+  padding: 3px 10px;
+  width: fit-content;
+  grid-column: 1;
+  grid-row: 4;
+  margin: 0;
+}
+
+/* ── Fecha ── */
+.order-card small {
+  font-size: 20px;
+  color: #000000;
+  grid-column: 2;
+  grid-row: 2;
+  text-align: right;
+  align-self: start;
+  letter-spacing: 0.01em;
+}
+
+/* ── Responsive ── */
+@media (max-width: 480px) {
+  .order-card {
+    grid-template-columns: 1fr;
+  }
+
+  .order-card p:nth-child(4),
+  .order-card small {
+    grid-column: 1;
+    grid-row: auto;
+    text-align: left;
+    font-size: 16px;
+  }
+}

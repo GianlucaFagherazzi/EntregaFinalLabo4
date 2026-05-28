@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { getUsers } from "../../services/usersServices";
 import UsersCard from "../../components/Cards/usersCard/usersCard";
-import "../../styles/user.css";
+import "../../styles/generalContainer.css";
 
 function Users() {
   const [users, setUsers] = useState([]);
@@ -20,10 +20,10 @@ function Users() {
   }, []);
 
   return (
-    <div className="users-container">
-      <h1 className="users-title">Listado de usuarios</h1>
+    <div className="general-container">
+      <h2>Listado de usuarios</h2>
 
-      <div className="users-grid">
+      <div className="cards-grid">
         {users.map((u) => (
           <UsersCard key={u.id} user={u} />
         ))}

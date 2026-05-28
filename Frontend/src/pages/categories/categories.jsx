@@ -9,6 +9,7 @@ import Modal from "../../components/modal";
 import CategoryForm from "../../components/categoryForm";
 import CategoriesCard from "../../components/Cards/categoriesCard/categoriesCard";
 import "../../styles/categories.css";
+import "../../styles/generalContainer.css";
 
 function Categories() {
   const [categories, setCategories] = useState([]);
@@ -76,14 +77,10 @@ function Categories() {
   }
 
   return (
-    <div className="categories-container">
-      <h1 className="categories-title">Listado de categorias</h1>
+    <div className="general-container">
+      <h2>Listado de categorias</h2>
 
-      <button onClick={openCreateModal} className="btn-create">
-        Crear categoría
-      </button>
-
-      <div className="categories-grid">
+      <div className="cards-grid">
         {categories.map((c) => (
           <CategoriesCard
             key={c.id}
@@ -106,6 +103,10 @@ function Categories() {
           error={formError}
         />
       </Modal>
+      
+      <button onClick={openCreateModal} className="btn create-btn">
+        Crear categoría
+      </button>
     </div>
   );
 }

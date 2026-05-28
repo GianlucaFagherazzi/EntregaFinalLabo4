@@ -3,6 +3,8 @@ import { getProducts, deleteProduct } from "../../services/productsServices";
 import { ProductCard } from "../../components/Cards/productsCard/productsCard";
 import AddProductCard from "../../components/Cards/productsCard/addProductsCard";
 import { AuthContext } from "../../context/authContext";
+import "../../styles/generalContainer.css";
+
 
 export default function MyProducts() {
   const { user } = useContext(AuthContext);
@@ -31,10 +33,9 @@ export default function MyProducts() {
   }
 
   return (
-    <div className="products-page">
-      <div className="products-container">
+    <div className="general-container">
 
-        <h1 className="products-title">Mis Productos</h1>
+        <h2 className="products-title">Mis Productos</h2>
 
         {/* mensaje si no hay productos */}
         {products.length === 0 && (
@@ -58,7 +59,6 @@ export default function MyProducts() {
           <AddProductCard />
         </div>
 
-      </div>
     </div>
   );
 }

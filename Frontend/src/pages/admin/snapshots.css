@@ -1,23 +1,86 @@
-.snapshots-container {
-  padding: 40px;
-}
 
+/* ── Tabla ── */
 .snapshots-table {
-  margin-top: 20px;
-  border: 1px solid #ddd;
+  display: flex;
+  flex-direction: column;
 }
 
-.snapshots-header,
+/* ── Header de la tabla ── */
+.snapshots-header {
+  display: grid;
+  grid-template-columns: 1.8fr 1fr 1fr 1.2fr 0.5fr 0.8fr 0.8fr;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  background: #1f1919;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+}
+
+.snapshots-header span {
+  font-size: 20px;
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* ── Fila de snapshot ── */
 .snapshot-row {
   display: grid;
-  grid-template-columns: 1.3fr 1fr 1fr 1fr 0.5fr 0.8fr 0.8fr;
-  padding: 12px;
-  border-bottom: 1px solid #eee;
+  grid-template-columns: 1.8fr 1fr 1fr 1.2fr 0.5fr 0.8fr 0.8fr;
+  gap: 1rem;
+  padding: 1rem;
+  border-bottom: 2px solid #1f1919;
+  align-items: center;
+  transition: background 0.12s;
 }
 
-.snapshots-header {
-  font-weight: bold;
+.snapshot-row:last-child {
+  border-bottom: none;
 }
 
 .snapshot-row:hover {
+  background: color-mix(in srgb, #1f1919 15%, transparent);
+  border-radius: 8px;
+}
+
+.snapshot-row span {
+  font-size: 20px;
+  color: #000000;
+}
+
+/* ── Monto resaltado ── */
+.snapshot-row span:nth-child(6) {
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+/* ── Tarjeta ── */
+.snapshot-row span:nth-child(7) {
+  display: inline-flex;
+  align-items: center;
+  color: #666666;
+  background: #f7f7f7;
+  border: 1px solid #000000;
+  border-radius: 6px;
+  padding: 3px 10px;
+  font-size: 20px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .snapshots-header {
+    display: none;
+  }
+
+  .snapshot-row {
+    grid-template-columns: 1fr;
+    gap: 4px;
+    padding: 1rem 0;
+  }
+
+  .snapshot-row span {
+    font-size: 20px;
+  }
 }

@@ -17,15 +17,16 @@
 
 .btn:hover {
   background-color: var(--color-primary-hover);
+  color: rgb(238, 238, 238);
   transform: translateY(-1px);
-}
-
-.btn.outline {
-  background: transparent;
-  color: var(--color-primary);
 }
 
 .btn.outline:hover {
   background: var(--color-primary);
-  color: white;
+  color: rgb(255, 0, 0);
+}
+
+.buttons {
+  display: flex;
+  gap: 0.5rem;
 }
