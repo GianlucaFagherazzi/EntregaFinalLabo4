@@ -5,6 +5,7 @@ import { getTarjetsByAccount } from "../../services/tarjetServices";
 import TarjetItem from "../../components/Cards/tarjetsCard/tarjetItem";
 import AddTarjet from "../../components/Cards/tarjetsCard/addTarjet";
 import "../../styles/accountDetail.css";
+import "../../styles/generalContainer.css";
 
 export default function AccountDetail() {
   const { id } = useParams();
@@ -29,7 +30,7 @@ export default function AccountDetail() {
   if (!account) return <p>Loading...</p>;
 
   return (
-    <div className="account-detail-container">
+    <div className="general-container">
       <h2>Detalle de cuenta</h2>
 
       <div className="account-detail-info">

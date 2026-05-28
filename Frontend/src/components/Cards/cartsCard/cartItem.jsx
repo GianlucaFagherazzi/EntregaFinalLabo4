@@ -1,4 +1,5 @@
 import { useCart } from "../../../context/cartContext";
+import "../../../styles/buttons.css";
 
 export default function CartItem({ item }) {
   const { removeFromCart, addToCart } = useCart();
@@ -43,10 +44,10 @@ export default function CartItem({ item }) {
       </div>
 
       <button
-        className="cart-remove"
+        className="btn"
         onClick={() => removeFromCart(product.id)}
       >
-
+        Remove
       </button>
     </div>
   );
