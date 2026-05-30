@@ -1,11 +1,78 @@
-.add h3 {
-  font-size: 1.5rem;
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Sora:wght@400;500;600&display=swap');
+
+/* Línea de acento superior */
+.account-card {
+  position: relative;
+  overflow: hidden;
 }
 
-.account-card h3 {
-  font-size: 1.5rem;
+.account-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #000000, #27ff23);
 }
 
-.account-card p {
-  font-size: 1.2rem;
+/* Header: número de cuenta + badge */
+.account-card .ac-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.account-card .card-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--color-primary) 70%, black);
+  border: 1px solid rgba(26, 40, 35, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+}
+
+.account-card .ac-label {
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.account-card .ac-badge {
+  font-weight: 500;
+  padding: 2px 7px;
+  border-radius: 20px;
+  background: color-mix(in srgb, var(--color-primary) 80%, black);
+  color: #0fff47;
+  border: 0.5px solid rgba(29, 158, 117, 0.35);
+}
+
+/* Número / nombre principal */
+.account-card .ac-number {
+  font-weight: 600;
+  margin: 0 0 12px;
+}
+
+/* Separador */
+.account-card .ac-divider {
+  height: 4px;
+  background: var(--color-text-secondary);
+  margin: 0 0 10px;
+}
+
+/* CBU */
+.account-card .ac-cbu-label {
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin: 0 0 3px;
+}
+
+.account-card .ac-cbu {
+  font-family: 'DM Mono', monospace;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
