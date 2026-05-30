@@ -10,8 +10,8 @@ export default {
       stock: { type: Sequelize.DOUBLE, allowNull: false },
       isActive: { type: Sequelize.BOOLEAN, defaultValue: true },
 
-      userId: { type: Sequelize.INTEGER, allowNull: false, references: { model: 'users', key: 'id' }},
-      categoryId: { type: Sequelize.INTEGER, allowNull: false, references: { model: 'category', key: 'id', onDelete: 'SET NULL' }},
+      userId: { type: Sequelize.INTEGER, allowNull: false, references: { model: 'users', key: 'id' } },
+      categoryId: { type: Sequelize.INTEGER, allowNull: true, references: { model: 'category', key: 'id' }, onDelete: 'SET NULL' },
     });
   },
 

@@ -13,14 +13,23 @@ export default function AccountDetail() {
   const [tarjets, setTarjets] = useState([]);
 
   async function loadTarjets() {
-    const data = await getTarjetsByAccount(id);
-    setTarjets(data);
+    try {
+      const data = await getTarjetsByAccount(id);
+      setTarjets(data);
+    } catch (err) {
+      console.error("Error cargando tarjetas:", err);
+    }
   }
 
   useEffect(() => {
     async function loadAccount() {
-      const data = await getAccountById(id);
-      setAccount(data);
+      try {
+        const data = await getAccountById(id);
+        console.log(data);
+        setAccount(data);
+      } catch (err) {
+        console.error("Error cargando cuenta:", err);
+      }
     }
 
     loadAccount();

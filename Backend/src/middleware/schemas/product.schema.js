@@ -32,9 +32,8 @@ const productSchema = {
             "any.required": "El ID de usuario es obligatorio."
         }),
 
-        categoryId: Joi.number().required().integer().messages({
+        categoryId: Joi.number().integer().optional().allow(null).messages({
             "number.base": "El ID de la categoria debe ser un número.",
-            "any.required": "El ID de la categoría es obligatorio."
         }),
     }),
 
@@ -44,7 +43,7 @@ const productSchema = {
         price: Joi.number().positive(),
         stock: Joi.number().integer().min(0),
         userId: Joi.number(),
-        categoryId: Joi.number(),
+        categoryId: Joi.number().optional().allow(null),
     }).min(1).messages({
         "object.min": "Debes enviar al menos un campo para actualizar."
     })

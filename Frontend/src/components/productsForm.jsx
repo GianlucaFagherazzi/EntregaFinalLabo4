@@ -1,6 +1,6 @@
 import { useEffect, useState, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { createProduct, getProductById, updateProduct,} from "../services/productsServices";
+import { createProduct, getProductById, updateProduct, } from "../services/productsServices";
 import { getCategories } from "../services/categoriesServices";
 import { AuthContext } from "../context/authContext";
 import "../styles/productForm.css";
@@ -69,7 +69,9 @@ export default function ProductForm() {
         ...form,
         price: Number(form.price),
         stock: Number(form.stock),
-        categoryId: Number(form.categoryId),
+        categoryId: form.categoryId
+          ? Number(form.categoryId)
+          : null,
         userId: user.id,
       };
 
@@ -153,9 +155,8 @@ export default function ProductForm() {
               name="categoryId"
               value={form.categoryId}
               onChange={handleChange}
-              required
             >
-              <option value="">Seleccionar categoría</option>
+              <option value="" >Seleccionar categoría</option>
               {categories.map((cat) => (
                 <option key={cat.id} value={cat.id}>
                   {cat.name}
@@ -169,8 +170,8 @@ export default function ProductForm() {
             {loading
               ? "Guardando..."
               : isEdit
-              ? "Guardar cambios"
-              : "Crear producto"}
+                ? "Guardar cambios"
+                : "Crear producto"}
           </button>
 
         </form>

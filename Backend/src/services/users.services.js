@@ -92,6 +92,8 @@ export const UserService = {
         data.password = await hashPassword(data.password);
       }
 
+      data.role = 'USER'; // Aseguro que el rol por defecto sea USER
+
       return await User.create(data);
     } catch (error) {
       if (error instanceof AppError) throw error;

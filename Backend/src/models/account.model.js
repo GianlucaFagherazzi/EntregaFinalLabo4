@@ -1,7 +1,7 @@
 export default (sequelize, DataTypes) => {
   const Account = sequelize.define('Account', {
     id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
-    cbu: { type: DataTypes.STRING, allowNull: false },
+    cbu: { type: DataTypes.STRING(22), allowNull: false, unique: true },
     isActive: { type: DataTypes.BOOLEAN, defaultValue: true },
     userId: { type: DataTypes.INTEGER, allowNull: false },
     isDefault: { type: DataTypes.BOOLEAN, defaultValue: false }

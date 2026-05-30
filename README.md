@@ -295,6 +295,8 @@ La colección Postman se encuentra incluida dentro del repositorio:
 /docs/postman_collection.json
 ```
 
+Ingrese a postman, seleccione archivo, importar, y seleccione el archivo postman_collection.json
+
 Incluye:
 
 * Endpoints

@@ -22,7 +22,6 @@ export default function NewTarjet() {
 
     const newTarjet = {
       number: form.number,
-      balance: 0,
       accountId: Number(accountId)
     };
 

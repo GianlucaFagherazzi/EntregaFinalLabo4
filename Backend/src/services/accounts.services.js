@@ -15,21 +15,40 @@ async function validateCbuUnique(cbu, userId, excludeId = null) {
 export const AccountService = {
   async getAll() {
     try {
-      return await Account.findAll({
-        where: { isActive: true }
-      });
+      return await Account.findAll();
     } catch (error) {
       throw new AppError('Error al obtener las cuentas', 500, error);
     }
   },
 
-  async getById(id) {
+  async findById(id) {
+    const account = await Account.findOne({
+      where: {
+        id,
+        isActive: true
+      }
+    });
+
+    if (!account) {
+      throw new AppError('Cuenta no encontrada', 404);
+    }
+
+    return account;
+  },
+
+  async getById(id, user) {
     try {
-      const account = await Account.findOne({
-        where: { id, isActive: true }
-      });
-      if (!account) throw new AppError('Cuenta no encontrada', 404);
+      const account = await this.findById(id);
+
+      const isOwner = account.userId === user.id;
+      const isAdmin = user.role === "admin";
+
+      if (!isOwner && !isAdmin) {
+        throw new AppError('No autorizado', 403);
+      }
+
       return account;
+
     } catch (error) {
       if (error instanceof AppError) throw error;
       throw new AppError('Error al obtener la cuenta', 500, error);
@@ -38,11 +57,7 @@ export const AccountService = {
 
   async create(data) {
     try {
-      if (!data.cbu) throw new AppError('El CBU es obligatorio', 400);
-      if (!data.userId) throw new AppError('El usuario es obligatorio', 400);
-
       await UserService.getById(data.userId);
-      await validateCbuUnique(data.cbu, data.userId);
 
       const existingAccounts = await Account.count({
         where: {
@@ -53,32 +68,15 @@ export const AccountService = {
 
       const account = await Account.create({
         ...data,
-        isDefault: existingAccounts === 0 // primera cuenta es default
+        cbu: await generateCBU(),
+        isDefault: existingAccounts === 0
       });
 
-      return account
+      return account;
+
     } catch (error) {
       if (error instanceof AppError) throw error;
       throw new AppError('Error al crear la cuenta', 400, error);
-    }
-  },
-
-  async update(id, data) {
-    try {
-      const account = await this.getById(id);
-
-      // Validar usuario si el usuario existe
-      await UserService.getById(data.userId ?? account.userId);
-
-      // Validar CBU único si se cambia
-      if (data.cbu && data.cbu !== account.cbu) {
-        await validateCbuUnique(data.cbu, data.userId ?? account.userId, id);
-      }
-
-      return await account.update(data);
-    } catch (error) {
-      if (error instanceof AppError) throw error;
-      throw new AppError('Error al actualizar la cuenta', 400, error);
     }
   },
 

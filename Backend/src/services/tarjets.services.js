@@ -59,7 +59,7 @@ export const TarjetService = {
       }
 
       // Verificar existencia de la cuenta
-      await AccountService.getById(data.accountId)
+      await AccountService.findById(data.accountId)
 
       // verificar duplicados en la misma cuenta
       const existing = await Tarjet.findOne({
@@ -83,6 +83,7 @@ export const TarjetService = {
 
       const tarjet = await Tarjet.create({
         ...data,
+        balance: 0,
         isDefault: existingTarjets === 0
       });
 

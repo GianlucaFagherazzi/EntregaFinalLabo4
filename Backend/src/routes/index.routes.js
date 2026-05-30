@@ -2,7 +2,6 @@ import express from 'express'
 import accountRouter from './accounts.routes.js'
 import categoryRouter from './category.routes.js'
 import movementRouter from './movements.routes.js'
-// import MovementUserRouter from './movementUsers.routes.js'
 import snapshotRouter from './snapshots.routes.js'
 import productRouter from './products.routes.js'
 import tarjetRouter from './tarjets.routes.js'
@@ -12,15 +11,14 @@ import checkout from './checkout.routes.js'
 
 const router = express.Router()
 
-router.use('/accounts', accountRouter)
-router.use('/categories', categoryRouter)
-router.use('/movements', movementRouter)
-// router.use('/movement-users', MovementUserRouter)
-router.use('/snapshots', snapshotRouter)
-router.use('/products', productRouter)
-router.use('/tarjets', tarjetRouter)
-router.use('/users', userRouter)
-router.use('/cart', cartRouter)
-router.use('/checkout', checkout)
+router.use('/accounts', accountRouter) //Listo
+router.use('/categories', categoryRouter) //Listo
+router.use('/movements', movementRouter) //Listo
+router.use('/snapshots', snapshotRouter) //Listo
+router.use('/products', productRouter) //Listo
+router.use('/tarjets', tarjetRouter) //Listo, falta validar que el usuario que hace las peticiones, sea el dueño de la cuenta a la que pertenece la tarjeta
+router.use('/users', userRouter) //Listo
+router.use('/cart', cartRouter) //Listo
+router.use('/checkout', checkout) //Listo
 
 export default router
