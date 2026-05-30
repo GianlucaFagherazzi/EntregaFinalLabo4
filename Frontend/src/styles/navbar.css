@@ -49,10 +49,6 @@
   cursor: pointer;
 }
 
-/* =========================
-   SEARCH
-   ========================= */
-
 .navbar-search {
   width: 100%;
 }
@@ -218,6 +214,12 @@
   height: 1px;
   background: var(--color-border);
   margin: 4px 6px;
+}
+
+.cart-icon {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
 }
 
 /* =========================

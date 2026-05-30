@@ -31,11 +31,12 @@ export function ProductCard({ product, mode = "public", onDelete, user }) {
           <p className="category"> {product.Category.name}</p>
         )}
 
-        <p>Descripción: {product.description}</p>
+        <p className="description">Descripción: {product.description}</p>
       </div>
 
       <div className="product-details">
-        <p className="product-price">Precio: ${product.price}</p>
+        <p className="product-price">Precio: </p>
+        <p className="price">${Number(product.price).toLocaleString("es-AR")}</p>
         <p className="product-stock">
           <strong>Stock:</strong> {product.stock}
         </p>
