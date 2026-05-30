@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { registerUser } from "../../services/authService";
+import "../../styles/generalContainer.css"
+import "../../styles/buttons.css"
 
 function Register() {
   const [name, setName] = useState("");
@@ -39,8 +41,8 @@ function Register() {
   }
 
   return (
-    <div className="form">
-      <h1>Registrarse</h1>
+    <div className="general-container auth-container">
+      <h2>Registrarse</h2>
 
       {success && <p className="success-message">{success}</p>}
 

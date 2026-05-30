@@ -1,0 +1,11 @@
+.new-tarjet-container {
+  max-width: 480px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 480px) {
+  .new-tarjet-container {
+    margin: 2rem 1rem;
+    padding: 2rem 1.25rem;
+  }
+}

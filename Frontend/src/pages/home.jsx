@@ -5,6 +5,8 @@ import { ProductCard } from "../components/Cards/productsCard/productsCard.jsx";
 import { AuthContext } from "../context/authContext";
 import pngMacotaTriste from "../../public/MascotaTriste.png";
 import "../styles/home.css";
+import "../styles/generalContainer.css";
+import "../styles/buttons.css";
 
 export default function Home() {
   const { user } = useContext(AuthContext);
@@ -28,8 +30,8 @@ export default function Home() {
 
   console.log("home renderizando");
   return (
-    <div className="home-page">
-      <h1 className="home-title">Últimas novedades</h1>
+    <div className="general-container home-page">
+      <h2 className="home-title">Últimas novedades</h2>
 
       {products.length === 0 ? (
         <div className="empty-state">
@@ -37,7 +39,7 @@ export default function Home() {
         </div>
       ) : (
         <>
-          <div className="products-grid">
+          <div className="cards-grid products-grid">
             {products.map((p) => (
               <ProductCard key={p.id} product={p} user={user} />
             ))}
@@ -45,7 +47,7 @@ export default function Home() {
 
           <div className="ver-mas-container">
             <button
-              className="ver-mas-btn"
+              className="btn"
               onClick={() => navigate("/products")}
             >
               Ver todos los productos

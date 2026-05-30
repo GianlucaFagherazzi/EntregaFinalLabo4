@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getMySales } from "../../services/snapshotService";
-// import "./orders.css";
+import "../../styles/orders.css";
+import "../../styles/generalContainer.css";
 
 export default function SalesPage() {
   const [sales, setSales] = useState([]);
@@ -19,8 +20,8 @@ export default function SalesPage() {
   }
 
   return (
-    <div className="orders-container">
-      <h1>Mis ventas</h1>
+    <div className="general-container">
+      <h2>Mis ventas</h2>
 
       {sales.length === 0 && <p>No realizaste ventas aún</p>}
 

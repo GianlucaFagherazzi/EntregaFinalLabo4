@@ -1,7 +1,7 @@
 .general-container {
   background: color-mix(in srgb, var(--color-accent) 30%, transparent);
-  /*max-width: 860px;*/
-  max-width: 1000px;
+  width: 90%;
+  max-width: 1400px;
   margin: 2rem auto;
   padding: 2rem 1.5rem;
   border-radius: 25px;
@@ -16,23 +16,29 @@
   border-bottom: 5px solid #1f1919;
   color: #000000;
   text-align: center;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
+
 
 .cards-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  margin: 20px auto;
+  grid-template-columns: repeat(3, 1fr);
   gap: 24px;
-  padding: 10px 0;
+  width: 100%;
+  box-sizing: border-box
 }
 
 /* ── Responsive ── */
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   .general-container {
-    margin: 1rem;
+    width: 100%;
+    margin: 1rem auto;
     padding: 1.5rem 1rem;
-  }
-
-  .cards-grid {
-    grid-template-columns: 1fr;
+    border-radius: 25px;
+    box-sizing: border-box;
   }
 }
