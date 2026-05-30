@@ -12,10 +12,6 @@ const tarjetSchema = {
         'string.pattern.base': 'El número de tarjeta debe contener solo números.'
       }),
 
-    balance: Joi.number()
-    .positive()
-      .required(),
-
     accountId: Joi.number()
       .integer()
       .positive()
@@ -27,9 +23,6 @@ const tarjetSchema = {
       .pattern(/^\d+$/)
       .min(6)
       .max(19)
-      .optional(),
-
-    balance: Joi.number()
       .optional(),
 
     accountId: Joi.number()

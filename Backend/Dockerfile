@@ -9,9 +9,9 @@ COPY . .
 
 RUN apt-get update && apt-get install -y postgresql-client
 
-RUN chmod +x wait-for-postgres.sh
-RUN chmod +x start.sh
+RUN chmod +x scripts/wait-for-postgres.sh
+RUN chmod +x scripts/start.sh
 
 EXPOSE 3000
 
-CMD ["./start.sh"]
+CMD ["./scripts/start.sh"]

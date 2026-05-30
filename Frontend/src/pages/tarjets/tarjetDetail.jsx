@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import { getTarjetById, updateTarjetBalance, deleteTarjet } from "../../services/tarjetServices";
 import ConfirmDialog from "../../components/confirmDialog";
 import "./tarjetDetail.css";
+import "../../styles/buttons.css";
+import "../../styles/generalContainer.css";
 
 export default function TarjetDetail() {
   const { id } = useParams();
@@ -52,7 +54,7 @@ export default function TarjetDetail() {
   if (!tarjet) return <p>Cargando...</p>;
 
   return (
-    <div className="tarjet-detail-container">
+    <div className="general-container tarjet-detail-container">
       <h2>Datos de la Tarjeta</h2>
 
       <div className="tarjet-detail-info">
@@ -61,10 +63,10 @@ export default function TarjetDetail() {
       </div>
 
       <div className="tarjet-detail-actions">
-        <button className="btn-acreditar" onClick={handleAcreditar}>
+        <button className="btn" onClick={handleAcreditar}>
           Acreditar saldo
         </button>
-        <button className="btn-eliminar" onClick={() => setShowDeleteConfirm(true)}>
+        <button className="btn" onClick={() => setShowDeleteConfirm(true)}>
           Eliminar tarjeta
         </button>
       </div>
@@ -72,7 +74,7 @@ export default function TarjetDetail() {
       {showDeleteConfirm && (
         <ConfirmDialog
           title="Eliminar tarjeta"
-          message="⚠️ ¿Está seguro que quiere eliminar esta tarjeta? No podrá acceder a ella nuevamente."
+          message="¿Está seguro que quiere eliminar esta tarjeta? No podrá acceder a ella nuevamente."
           confirmText="Eliminar"
           cancelText="Cancelar"
           onConfirm={handleDeleteTarjet}

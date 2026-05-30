@@ -92,6 +92,7 @@ export const UserService = {
         data.password = await hashPassword(data.password);
       }
 
+      data.role = 'USER'; // Aseguro que el rol por defecto sea USER
 
       return await User.create(data);
     } catch (error) {
@@ -126,6 +127,10 @@ export const UserService = {
   async softDelete(id) {
     try {
       const user = await this.getById(id);
+
+      if (user.role !== 'ADMIN' && user.id !== id) {
+        throw new AppError('No autorizado', 403);
+      }
 
       await user.update({ isActive: false });
       return { message: 'Usuario desactivado correctamente', id };

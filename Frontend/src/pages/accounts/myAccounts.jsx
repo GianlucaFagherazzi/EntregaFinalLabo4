@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getMyAccounts } from "../../services/accountServices";
 import AccountCard from "../../components/Cards/accountsCard/accountCard";
-import "../../styles/myAccounts.css";
+import "../../styles/generalContainer.css";
 
 export default function MyAccounts() {
   const [accounts, setAccounts] = useState([]);
@@ -18,7 +18,7 @@ export default function MyAccounts() {
   }, []);
 
   return (
-    <div className="my-accounts-container">
+    <div className="general-container">
       <h2>Mis cuentas</h2>
 
       <div className="cards-grid">

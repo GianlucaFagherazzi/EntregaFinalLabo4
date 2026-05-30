@@ -15,6 +15,7 @@ export async function getMyAccounts() {
 export async function getAccountById(id) {
   try {
     const res = await api.get(`/accounts/${id}`)
+    console.log("Account data:", res.data)
     return res.data.data
   } catch (err) {
     console.error("Error fetching account:", err)

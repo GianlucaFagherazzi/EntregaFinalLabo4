@@ -59,7 +59,7 @@ export const TarjetService = {
       }
 
       // Verificar existencia de la cuenta
-      await AccountService.getById(data.accountId)
+      await AccountService.findById(data.accountId)
 
       // verificar duplicados en la misma cuenta
       const existing = await Tarjet.findOne({
@@ -83,6 +83,7 @@ export const TarjetService = {
 
       const tarjet = await Tarjet.create({
         ...data,
+        balance: 0,
         isDefault: existingTarjets === 0
       });
 
@@ -158,7 +159,7 @@ export const TarjetService = {
       }
 
       // limitar monto máximo por operación (ajustable)
-      const MAX_TOPUP = 1_000_000; // 1 millón
+      const MAX_TOPUP = 100_000_000; // 1 millón
       if (parsedAmount > MAX_TOPUP) {
         throw new AppError(
           `El monto máximo por carga es ${MAX_TOPUP.toLocaleString()}`,

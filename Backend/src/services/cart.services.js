@@ -4,6 +4,7 @@ import { Cart, CartItem, Product } from '../models/index.models.js';
 export const CartService = {
 	async getMyCart(userId) {
 		try {
+
 			const cart = await Cart.findOne({
 				where: { userId },
 				include: [{

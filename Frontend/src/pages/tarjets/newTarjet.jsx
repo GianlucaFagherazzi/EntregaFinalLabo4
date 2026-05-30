@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { createTarjet } from "../../services/tarjetServices";
+import "../../styles/buttons.css";
+import "../../styles/generalContainer.css";
+import "./newTarjet.css";
 
 export default function NewTarjet() {
   const { accountId } = useParams();
@@ -22,7 +25,6 @@ export default function NewTarjet() {
 
     const newTarjet = {
       number: form.number,
-      balance: 0,
       accountId: Number(accountId)
     };
 
@@ -35,7 +37,7 @@ export default function NewTarjet() {
   }
 
   return (
-    <div className="new-tarjet-container">
+    <div className="general-container new-tarjet-container">
       <h2>Nueva Tarjeta</h2>
 
       <form onSubmit={handleSubmit}>
@@ -50,7 +52,7 @@ export default function NewTarjet() {
           required
         />
 
-        <button type="submit">Crear Tarjeta</button>
+        <button className="btn btn-primary" type="submit">Crear Tarjeta</button>
       </form>
     </div>
   );

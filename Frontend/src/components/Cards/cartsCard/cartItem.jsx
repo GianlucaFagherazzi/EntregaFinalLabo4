@@ -1,4 +1,5 @@
 import { useCart } from "../../../context/cartContext";
+import "../../../styles/buttons.css";
 
 export default function CartItem({ item }) {
   const { removeFromCart, addToCart } = useCart();
@@ -25,7 +26,11 @@ export default function CartItem({ item }) {
 
   return (
     <div className="cart-item">
-      <img src={product.imageUrl} alt={product.name} />
+      <img
+        className="item-img"
+        src={product.imageUrl || "/NotFound.png"}
+        alt={product.name}
+      />
 
       <div className="cart-item-info">
         <h3>{product.name}</h3>
@@ -43,10 +48,10 @@ export default function CartItem({ item }) {
       </div>
 
       <button
-        className="cart-remove"
+        className="btn"
         onClick={() => removeFromCart(product.id)}
       >
-
+        Remove
       </button>
     </div>
   );

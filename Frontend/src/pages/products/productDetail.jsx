@@ -1,13 +1,30 @@
 import { useParams, useLocation } from "react-router-dom";
 import { useEffect, useContext } from "react";
 import { AuthContext } from "../../context/authContext";
+import { useCart } from "../../context/cartContext";
+
+import "../../styles/buttons.css";
+import "../../styles/generalContainer.css";
+
 
 function ProductDetail() {
   const { id } = useParams();
-  const { state } = useLocation(); 
+  const { state } = useLocation();
   const { user } = useContext(AuthContext);
+  const { addToCart } = useCart();
+  const isLogged = Boolean(user);
 
-  const product = state?.product; 
+
+  async function handleAddToCart() {
+    try {
+      await addToCart(product.id, 1);
+      alert("Producto agregado al carrito 🛒");
+    } catch (err) {
+      alert("Error agregando al carrito");
+    }
+  }
+
+  const product = state?.product;
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -21,8 +38,8 @@ function ProductDetail() {
   const isOwner = user && product.User && user.id === product.User.id;
 
   return (
-    <div className="product-detail">
-      <h1>{product.name}</h1>
+    <div className="general-container product-detail">
+      <h2>{product.name}</h2>
 
       <p><strong>Vendedor:</strong> {product.User?.name}</p>
       <p><strong>Categoría:</strong> {product.Category?.name}</p>
@@ -32,8 +49,8 @@ function ProductDetail() {
       <h2>Precio: ${product.price}</h2>
       <p>Stock disponible: {product.stock}</p>
 
-      {!isOwner && user && (
-        <button className="btn btn-primary">
+      {isLogged && !isOwner && (
+        <button className="btn btn-primary" onClick={handleAddToCart}>
           Agregar al carrito
         </button>
       )}

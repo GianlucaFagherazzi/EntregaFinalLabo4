@@ -3,7 +3,7 @@ set -e
 
 echo "Esperando PostgreSQL..."
 
-./wait-for-postgres.sh db
+./scripts/wait-for-postgres.sh db
 
 echo "Ejecutando migraciones..."
 npm run migrate

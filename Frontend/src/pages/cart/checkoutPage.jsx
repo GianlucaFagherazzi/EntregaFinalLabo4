@@ -5,6 +5,7 @@ import { checkoutRequest } from "../../services/checkoutService";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../../context/cartContext";
 import "./checkout.css";
+import "../../styles/generalContainer.css";
 
 export default function CheckoutPage() {
   const navigate = useNavigate();
@@ -84,7 +85,7 @@ export default function CheckoutPage() {
   if (!cart) return <h2>Cargando checkout...</h2>;
 
   return (
-    <div className="checkout-grid">
+    <div className="general-container checkout-container">
 
       {/* RESUMEN */}
       <div className="checkout-summary">

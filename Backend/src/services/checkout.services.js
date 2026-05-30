@@ -36,7 +36,7 @@ export const CheckoutService = {
       }
 
       // Obtener datos del comprador
-      const buyerAccount = await AccountService.getById(accountId);
+      const buyerAccount = await AccountService.findById(accountId);
       const buyerTarjet = await TarjetService.getById(tarjetId);
 
       // Validar ownership del comprador

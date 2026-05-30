@@ -33,34 +33,10 @@ export const MovementService = {
     }
   },
 
-  async getAllMovementsByProductId(productId) { },
-
-  async getAllMovementsByUserId(userId) { },
-
-  async getAllMovementsByTarjetId(tarjetId) { },
-
   async create(data) {
     const t = await sequelize.transaction();
 
     try {
-      /*{
-      "productId": 2,
-      "quantity": 1,
-      "movementUsers": [
-        {
-          "userId": 2,
-          "accountId": 2,
-          "tarjetId": 2,
-          "rol": "buyer"
-        },
-        {
-          "userId": 1,
-          "accountId": 1,
-          "tarjetId": 1,
-          "rol": "seller"
-        }
-      ]
-    }*/
       const buyer = data.movementUsers.find(mu => mu.rol === "buyer");
       const seller = data.movementUsers.find(mu => mu.rol === "seller");
 
@@ -73,9 +49,9 @@ export const MovementService = {
       validateOwnership(product, 'userId', seller.userId, 'El producto no pertenece al vendedor especificado');
 
       // Se validan las cuentas asociadas a los usuarios
-      const buyerAccount = await AccountService.getById(buyer.accountId);
+      const buyerAccount = await AccountService.findById(buyer.accountId);
       validateOwnership(buyerAccount, 'userId', buyer.userId, 'La cuenta del comprador no pertenece al usuario especificado');
-      const sellerAccount = await AccountService.getById(seller.accountId);
+      const sellerAccount = await AccountService.findById(seller.accountId);
       validateOwnership(sellerAccount, 'userId', seller.userId, 'La cuenta del vendedor no pertenece al usuario especificado');
 
       // Se validan las tarjetas asociadas a los usuarios

@@ -2,27 +2,15 @@
   padding: 2rem;
 }
 
-.categories-container {
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.categories-title {
-  font-size: 2rem;
-  margin-bottom: 1.5rem;
-  text-align: center;
-}
-
-.categories-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 1.5rem;
-  justify-items: center;
-}
-
 /* mensaje vacío */
 .empty-message {
   text-align: center;
   margin-bottom: 1rem;
   opacity: 0.7;
+}
+
+/* ── Botón crear categoría ── */
+.create-btn {
+  display: block !important;
+  margin: 1.5rem auto;
 }

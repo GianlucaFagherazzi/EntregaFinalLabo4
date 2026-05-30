@@ -1,21 +1,6 @@
 /* ── Contenedor principal ── */
 .tarjet-detail-container {
-  background: color-mix(in srgb, var(--color-accent) 30%, transparent);
   max-width: 480px;
-  margin: 2rem auto;
-  padding: 2rem 1.5rem;
-  border-radius: 25px;
-}
-
-/* ── Título ── */
-.tarjet-detail-container h2 {
-  font-size: 30px;
-  font-weight: 500;
-  margin: 0 0 1.25rem;
-  padding-bottom: 1.25rem;
-  border-bottom: 5px solid #1f1919;
-  color: #000000;
-  text-align: center;
 }
 
 /* ── Info de la tarjeta ── */
@@ -94,9 +79,12 @@
 }
 
 /* ── Responsive ── */
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   .tarjet-detail-container {
+    max-width: 100%;
     margin: 1rem;
-    padding: 1.5rem 1rem;
+    width: calc(100% - 2rem);
+    border-radius: 25px;
+    box-sizing: border-box;
   }
 }

@@ -12,8 +12,25 @@ export const AccountController = {
 
   async getById(req, res, next) {
     try {
-      const account = await AccountService.getById(Number(req.params.id));
+      const account = await AccountService.getById(req.params.id, req.user);
       res.json({ success: true, data: account });
+    } catch (err) {
+      next(err);
+    }
+  },
+
+  async getById(req, res, next) {
+    try {
+      const account = await AccountService.getById(
+        Number(req.params.id),
+        req.user
+      );
+
+      res.json({
+        success: true,
+        data: account
+      });
+
     } catch (err) {
       next(err);
     }
@@ -23,15 +40,6 @@ export const AccountController = {
     try {
       const newAccount = await AccountService.create(req.body);
       res.status(201).json({ success: true, data: newAccount });
-    } catch (err) {
-      next(err);
-    }
-  },
-
-  async update(req, res, next) {
-    try {
-      const updated = await AccountService.update(Number(req.params.id), req.body);
-      res.json({ success: true, data: updated });
     } catch (err) {
       next(err);
     }

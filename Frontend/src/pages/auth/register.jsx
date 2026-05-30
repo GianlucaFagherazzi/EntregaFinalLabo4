@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { registerUser } from "../../services/authService";
+import "../../styles/generalContainer.css"
+import "../../styles/buttons.css"
 
 function Register() {
   const [name, setName] = useState("");
@@ -33,14 +35,18 @@ function Register() {
       }, 1500);
 
     } catch (error) {
-      alert("Error al registrar usuario ");
+      const msg =
+        error.response?.data?.error ??
+        error.message;
+
+      alert(msg);
       console.error(error);
     }
   }
 
   return (
-    <div className="form">
-      <h1>Registrarse</h1>
+    <div className="general-container auth-container">
+      <h2>Registrarse</h2>
 
       {success && <p className="success-message">{success}</p>}
 

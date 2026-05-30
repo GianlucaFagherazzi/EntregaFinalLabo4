@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import CartItem from "../../components/Cards/cartsCard/cartItem";
 import "./cart.css";
 import "../../styles/buttons.css";
+import "../../styles/generalContainer.css";
 
 export default function CartPage() {
   const { cart, loading, clearCart } = useCart();
@@ -15,16 +16,16 @@ const totalPrice = cart.reduce(
   if (loading) return <p className="cart-loading">Cargando carrito...</p>;
 
   return (
-    <div className="cart-wrap">
+    <div className="general-container">
       <div className="cart-header">
-        <h1>Mi carrito</h1>
+        <h2>Mi carrito</h2>
         <span className="cart-count-badge">{cart.length} productos</span>
       </div>
 
       {cart.length === 0 ? (
         <div className="cart-empty">
           <p>No tenés productos en el carrito 😢</p>
-          <Link to="/products" className="btn-browse">Ver productos</Link>
+          <Link to="/products" className="btn">Ver productos</Link>
         </div>
       ) : (
         <div className="cart-layout">
@@ -50,7 +51,7 @@ const totalPrice = cart.reduce(
               <i className="ti ti-lock" aria-hidden="true" />
               Finalizar compra
             </Link>
-            <button className="btn-clear" onClick={clearCart}>Vaciar carrito</button>
+            <button className="btn empty-btn" onClick={clearCart}>Vaciar carrito</button>
           </div>
         </div>
       )}

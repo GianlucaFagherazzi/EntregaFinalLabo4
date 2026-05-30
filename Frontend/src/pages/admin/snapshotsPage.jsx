@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getSnapshots } from "../../services/snapshotService";
 import "./snapshots.css";
+import "../../styles/generalContainer.css";
 
 export default function SnapshotsPage() {
   const [snapshots, setSnapshots] = useState([]);
@@ -24,8 +25,8 @@ export default function SnapshotsPage() {
   if (loading) return <h2>Cargando snapshots...</h2>;
 
   return (
-    <div className="snapshots-container">
-      <h1>Historial de Compras</h1>
+    <div className="general-container">
+      <h2>Historial de Compras</h2>
 
       <div className="snapshots-table">
         <div className="snapshots-header">

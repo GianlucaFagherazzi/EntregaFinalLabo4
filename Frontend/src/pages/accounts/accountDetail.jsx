@@ -5,6 +5,7 @@ import { getTarjetsByAccount } from "../../services/tarjetServices";
 import TarjetItem from "../../components/Cards/tarjetsCard/tarjetItem";
 import AddTarjet from "../../components/Cards/tarjetsCard/addTarjet";
 import "../../styles/accountDetail.css";
+import "../../styles/generalContainer.css";
 
 export default function AccountDetail() {
   const { id } = useParams();
@@ -12,14 +13,23 @@ export default function AccountDetail() {
   const [tarjets, setTarjets] = useState([]);
 
   async function loadTarjets() {
-    const data = await getTarjetsByAccount(id);
-    setTarjets(data);
+    try {
+      const data = await getTarjetsByAccount(id);
+      setTarjets(data);
+    } catch (err) {
+      console.error("Error cargando tarjetas:", err);
+    }
   }
 
   useEffect(() => {
     async function loadAccount() {
-      const data = await getAccountById(id);
-      setAccount(data);
+      try {
+        const data = await getAccountById(id);
+        console.log(data);
+        setAccount(data);
+      } catch (err) {
+        console.error("Error cargando cuenta:", err);
+      }
     }
 
     loadAccount();
@@ -29,7 +39,7 @@ export default function AccountDetail() {
   if (!account) return <p>Loading...</p>;
 
   return (
-    <div className="account-detail-container">
+    <div className="general-container">
       <h2>Detalle de cuenta</h2>
 
       <div className="account-detail-info">
