@@ -12,6 +12,25 @@ async function validateCbuUnique(cbu, userId, excludeId = null) {
   if (exists) throw new AppError(`El usuario ya tiene una cuenta con el CBU "${cbu}"`, 409);
 }
 
+async function generateCBU() {
+  let cbu;
+  let exists = true;
+
+  while (exists) {
+    cbu = '';
+
+    for (let i = 0; i < 22; i++) {
+      cbu += Math.floor(Math.random() * 10);
+    }
+
+    exists = await Account.findOne({
+      where: { cbu }
+    });
+  }
+
+  return cbu;
+}
+
 export const AccountService = {
   async getAll() {
     try {
