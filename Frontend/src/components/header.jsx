@@ -12,14 +12,14 @@ function Header() {
 
       {!user ? (
         <div className="header-logout">
-          <Link to="/" className="navbar__brand">
+          <Link to="/" className="logo-link">
             <img className="logo" src="Logo.png" alt="Logo" />
             <h1>My Store</h1>
           </Link>
         </div>
       ) : (
         <div className="header-logged">
-          <Link to="/" className="navbar__brand">
+          <Link to="/" className="logo-link">
             <img className="logo" src="Logo.png" alt="Logo" />
             <h1>My Store</h1>
           </Link>

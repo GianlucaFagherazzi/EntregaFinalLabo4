@@ -10,13 +10,13 @@ export function ProductCard({ product, mode = "public", onDelete, user }) {
   const { addToCart } = useCart();
 
   async function handleAddToCart() {
-  try {
-    await addToCart(product.id, 1);
-    alert("Producto agregado al carrito 🛒");
-  } catch (err) {
-    alert("Error agregando al carrito");
+    try {
+      await addToCart(product.id, 1);
+      alert("Producto agregado al carrito 🛒");
+    } catch (err) {
+      alert("Error agregando al carrito");
+    }
   }
-}
 
   return (
     <div className="card">
