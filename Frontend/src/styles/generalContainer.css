@@ -25,10 +25,9 @@
 
 .cards-grid {
   display: grid;
-  align-items: center;
+  margin: 20px auto;
   grid-template-columns: repeat(3, 1fr);
   gap: 24px;
-  padding: 10px;
   width: 100%;
   box-sizing: border-box
 }
@@ -37,27 +36,9 @@
 @media (max-width: 768px) {
   .general-container {
     width: 100%;
-    margin: 1rem 0;
+    margin: 1rem auto;
     padding: 1.5rem 1rem;
     border-radius: 25px;
     box-sizing: border-box;
-  }
-}
-
-@media (max-width: 1024px) {
-  .cards-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 768px) {
-  .cards-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 480px) {
-  .cards-grid {
-    grid-template-columns: 1fr;
   }
 }

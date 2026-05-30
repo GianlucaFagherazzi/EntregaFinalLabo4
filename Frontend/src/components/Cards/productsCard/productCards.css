@@ -3,7 +3,9 @@
   flex-direction: column;
   justify-content: space-between;
   gap: 12px;
-  min-width: 0; /* ← evita que la card desborde su columna */
+  min-width: 0;
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .product-info h2 {
