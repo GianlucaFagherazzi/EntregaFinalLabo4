@@ -1,10 +1,74 @@
-.tarjet-card p {
-  margin: 6px 0;
-  font-size: 1.4rem;
-  color: var(--color-text-secondary);
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Sora:wght@400;500;600&display=swap');
+
+.tarjet-card {
+  position: relative;
+  overflow: hidden;
 }
 
-.add h3 {
-  margin: 0 0 10px 0;
-  font-size: 1.5rem;
+.tarjet-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #000000, #0d573e);
+}
+
+.tarjet-card .tc-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.tarjet-card .tc-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--color-primary) 70%, black);
+  border: 1px solid rgba(29, 158, 117, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+
+}
+
+.tarjet-card .tc-badge {
+  font-weight: 500;
+  padding: 2px 7px;
+  border-radius: 20px;
+  background: color-mix(in srgb, var(--color-primary) 80%, black);
+  color: #0fff47;
+  border: 0.5px solid rgba(29, 158, 117, 0.35);
+}
+
+.tarjet-card .tc-id {
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin: 0 0 4px;
+}
+
+.tarjet-card .tc-number {
+  font-family: 'DM Mono', monospace;
+  letter-spacing: 0.08em;
+  margin: 0 0 12px;
+}
+
+.tarjet-card .tc-divider {
+  height: 0.5px;
+  background: var(--color-text-secondary);
+  margin: 0 0 10px;
+}
+
+.tarjet-card .tc-balance-label {
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin: 0 0 3px;
+}
+
+.tarjet-card .tc-balance {
+  font-weight: 600;
+  margin: 0;
 }

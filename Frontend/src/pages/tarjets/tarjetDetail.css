@@ -13,7 +13,6 @@
 
 .tarjet-detail-info p {
   font-size: 16px;
-  color: #000000;
   margin: 0;
   padding: 10px 14px;
   background: color-mix(in srgb, #1f1919 6%, transparent);
@@ -33,48 +32,7 @@
   gap: 10px;
 }
 
-.btn-acreditar {
-  width: 100%;
-  padding: 13px 0;
-  background: #1f1919;
-  color: #ffffff;
-  border: none;
-  border-radius: 8px;
-  font-size: 15px;
-  font-weight: 500;
-  cursor: pointer;
-  letter-spacing: 0.02em;
-  transition: background 0.15s, transform 0.1s;
-}
-
-.btn-acreditar:hover {
-  background: #3a2e2e;
-}
-
 .btn-acreditar:active {
-  transform: scale(0.98);
-}
-
-.btn-eliminar {
-  width: 100%;
-  padding: 13px 0;
-  background: transparent;
-  color: #c0392b;
-  border: 2px solid #c0392b;
-  border-radius: 8px;
-  font-size: 15px;
-  font-weight: 500;
-  cursor: pointer;
-  letter-spacing: 0.02em;
-  transition: background 0.15s, color 0.15s, transform 0.1s;
-}
-
-.btn-eliminar:hover {
-  background: #c0392b;
-  color: #ffffff;
-}
-
-.btn-eliminar:active {
   transform: scale(0.98);
 }
 

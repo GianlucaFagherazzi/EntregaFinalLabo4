@@ -11,10 +11,16 @@ export default function TarjetItem({ tarjet }) {
   }
 
   return (
-    <div className="card tarjet-card" onClick={handleClick}>
-      <p><b>Tarjeta Nº:</b> {tarjet.id}</p>
-      <p><b>Número:</b> {tarjet.number}</p>
-      <p><b>Saldo:</b> ${tarjet.balance}</p>
+    <div className="card tarjet-card" onClick={() => navigate(`/tarjets/${tarjet.id}`)}>
+      <div className="tc-header">
+        <div className="tc-icon">💳</div>
+        <span className="tc-badge">Activa</span>
+      </div>
+      <p className="tc-id">Tarjeta N° {tarjet.id}</p>
+      <p className="tc-number">{tarjet.number}</p>
+      <div className="tc-divider" />
+      <p className="tc-balance-label">Saldo disponible</p>
+      <p className="tc-balance">${tarjet.balance.toLocaleString()}</p>
     </div>
   );
 }
