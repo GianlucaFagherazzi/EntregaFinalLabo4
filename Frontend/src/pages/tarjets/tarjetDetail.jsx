@@ -74,7 +74,7 @@ export default function TarjetDetail() {
       {showDeleteConfirm && (
         <ConfirmDialog
           title="Eliminar tarjeta"
-          message="⚠️ ¿Está seguro que quiere eliminar esta tarjeta? No podrá acceder a ella nuevamente."
+          message="¿Está seguro que quiere eliminar esta tarjeta? No podrá acceder a ella nuevamente."
           confirmText="Eliminar"
           cancelText="Cancelar"
           onConfirm={handleDeleteTarjet}

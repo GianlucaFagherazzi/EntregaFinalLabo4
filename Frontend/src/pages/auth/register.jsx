@@ -35,7 +35,11 @@ function Register() {
       }, 1500);
 
     } catch (error) {
-      alert("Error al registrar usuario ");
+      const msg =
+        error.response?.data?.error ??
+        error.message;
+
+      alert(msg);
       console.error(error);
     }
   }

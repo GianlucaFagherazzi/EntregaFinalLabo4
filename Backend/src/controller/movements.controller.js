@@ -4,7 +4,7 @@ export const MovementController = {
   async getAll(req, res, next) {
     try {
       const movements = await MovementService.getAll();
-      res.json({ success: true, data: movements });
+      res.status(200).json({ success: true, data: movements });
     } catch (err) {
       next(err);
     }
@@ -13,7 +13,7 @@ export const MovementController = {
   async getById(req, res, next) {
     try {
       const movement = await MovementService.getById(Number(req.params.id));
-      res.json({ success: true, data: movement });
+      res.status(200).json({ success: true, data: movement });
     } catch (err) {
       next(err);
     }

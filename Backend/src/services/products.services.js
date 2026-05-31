@@ -40,7 +40,6 @@ export const ProductService = {
     }
   },
 
-
   async getById(id) {
     try {
       const product = await Product.findByPk(id, {
@@ -88,7 +87,7 @@ export const ProductService = {
       // Resolver usuario final (si no viene, queda el actual)
       const finalUserId = data.userId ?? product.userId
 
-      // Validar nombre SOLO si cambia realmente
+      // Validar nombre SOLO si cambia
       if (data.name && data.name !== product.name) {
         await validateProductNameUnique(data.name, finalUserId, id)
       }

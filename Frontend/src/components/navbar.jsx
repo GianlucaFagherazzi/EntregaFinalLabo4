@@ -35,12 +35,7 @@ export default function Navbar() {
   return (
     <nav className="navbar">
 
-      {/* BLOQUE IZQUIERDO: LOGO + BUSCADOR */}
       <div className="navbar-left">
-
-        <div className="navbar__brand">
-          <Link to="/">MiWeb</Link>
-        </div>
 
         <form className="navbar-search" onSubmit={handleSearch}>
           <input

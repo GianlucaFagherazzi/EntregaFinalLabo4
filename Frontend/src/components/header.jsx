@@ -1,4 +1,5 @@
 import { useContext } from "react";
+import { Link } from "react-router-dom";
 import { AuthContext } from "../context/authContext";
 import ThemeSelector from "../components/themeSelector";
 import "../styles/header.css";
@@ -11,13 +12,17 @@ function Header() {
 
       {!user ? (
         <div className="header-logout">
-          <img className="logo" src="Logo.png" alt="Logo" />
-          <h1>My Store</h1>
+          <Link to="/" className="logo-link">
+            <img className="logo" src="Logo.png" alt="Logo" />
+            <h1>My Store</h1>
+          </Link>
         </div>
       ) : (
         <div className="header-logged">
-          <img className="logo" src="Logo.png" alt="Logo" />
-          <h1>My Store</h1>
+          <Link to="/" className="logo-link">
+            <img className="logo" src="Logo.png" alt="Logo" />
+            <h1>My Store</h1>
+          </Link>
           <p>Bienvenido, {user.name}</p>
         </div>
       )}

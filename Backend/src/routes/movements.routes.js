@@ -7,8 +7,10 @@ import { isAdmin } from '../middleware/admin.middleware.js'
 
 const router = express.Router()
 
-router.get('/', authMiddleware, MovementController.getAll);
+router.get('/',authMiddleware , isAdmin, MovementController.getAll);
 router.get('/:id', authMiddleware, MovementController.getById);
-router.post('/', authMiddleware, validate(movementSchema.create), MovementController.create);
+
+// Solo para testeo, en producción el checkout se encarga de crear los movimientos
+// router.post('/', authMiddleware, isAdmin, validate(movementSchema.create), MovementController.create);
 
 export default router
